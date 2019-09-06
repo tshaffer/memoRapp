@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "node node_modules/webpack/bin/webpack --config ./webpack.config.js",
+    "buildW": "node node_modules/webpack/bin/webpack --config ./webpack.config.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsLint": "tslint -c tslint.json 'lib/**/*.ts' 'tests/**/*.ts'"
   },
