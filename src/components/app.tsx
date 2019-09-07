@@ -6,6 +6,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Slider from 'material-ui/Slider';
 
 class App extends React.Component<any, object> {
 
@@ -17,6 +18,7 @@ class App extends React.Component<any, object> {
     ],
     currentRestaurantIndex: 0,
     newRestaurantCategory: 1,
+    restaurantRating: 5,
   };
 
   style = {
@@ -30,6 +32,7 @@ class App extends React.Component<any, object> {
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
     this.handleAddRestaurant = this.handleAddRestaurant.bind(this);
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
+    this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
@@ -118,10 +121,30 @@ class App extends React.Component<any, object> {
     );
   }
 
+  handleRestaurantRatingChange(event: any, restaurantRating: any) {
+    console.log('restaurantRating: ' + restaurantRating);
+    this.setState(
+      {
+        restaurantRating,
+      }
+    );
+  }
+
   renderRestaurantRating() {
     return (
       <div>
-
+        <Slider
+          min={0}
+          max={10}
+          step={0.1}
+          value={this.state.restaurantRating}
+          onChange={this.handleRestaurantRatingChange}>
+        </Slider>
+        <p>
+          <span>{'Restaurant rating: '}</span>
+          <span>{this.state.restaurantRating}</span>
+          <span>{' on a scale of 0 to 10'}</span>
+        </p>
       </div>
     );
   }
@@ -148,6 +171,7 @@ class App extends React.Component<any, object> {
         {this.renderRestaurantName()}
         {this.renderRestaurantAddress()}
         {this.renderRestaurantCategory()}
+        {this.renderRestaurantRating()}
       </div>
     );
   }
