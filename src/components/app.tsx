@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 class App extends React.Component<any, object> {
 
@@ -14,6 +16,11 @@ class App extends React.Component<any, object> {
       'Pizza Chicago'
     ],
     currentRestaurantIndex: 0,
+    newRestaurantCategory: 1,
+  };
+
+  style = {
+    margin: 12,
   };
 
   constructor(props: any) {
@@ -21,6 +28,7 @@ class App extends React.Component<any, object> {
 
     this.handleMRCategoryChange = this.handleMRCategoryChange.bind(this);
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
+    this.handleAddRestaurant = this.handleAddRestaurant.bind(this);
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
@@ -63,6 +71,90 @@ class App extends React.Component<any, object> {
     );
   }
 
+  renderRestaurantName() {
+    return (
+      <div>
+        <TextField
+          id='newRestaurantName'
+          hintText='Name'
+        /> <br />
+      </div>
+    );
+  }
+
+  renderRestaurantAddress() {
+    return (
+      <div>
+        <TextField
+          id='newRestaurantAddress'
+          hintText='Address'
+        /><br />
+      </div>
+    );
+  }
+
+  handleRestaurantCategoryChange(event: any, index: any, newRestaurantCategory: any) {
+    this.setState(
+      {
+        newRestaurantCategory,
+      }
+    );
+  }
+
+  renderRestaurantCategory() {
+    return (
+      <div>
+        <SelectField
+          floatingLabelText='Restaurant Category'
+          value={this.state.newRestaurantCategory}
+          onChange={this.handleRestaurantCategoryChange}
+        >
+          <MenuItem key={1} value={1} primaryText='Pizza' />
+          <MenuItem key={2} value={2} primaryText='Burritos' />
+          <MenuItem key={3} value={3} primaryText='Burgers' />
+        </SelectField>
+      </div>
+    );
+  }
+
+  renderRestaurantRating() {
+    return (
+      <div>
+
+      </div>
+    );
+  }
+
+  renderRestaurantComments() {
+    return (
+      <div>
+
+      </div>
+    );
+  }
+
+  renderRestaurantWouldVisitAgain() {
+    return (
+      <div>
+
+      </div>
+    );
+  }
+
+  renderNewRestaurantForm() {
+    return (
+      <div>
+        {this.renderRestaurantName()}
+        {this.renderRestaurantAddress()}
+        {this.renderRestaurantCategory()}
+      </div>
+    );
+  }
+
+  handleAddRestaurant() {
+    console.log('handleAddRestaurant invoked');
+  }
+
   renderRestaurants() {
     return (
       <div>
@@ -73,6 +165,13 @@ class App extends React.Component<any, object> {
         >
           {this.getRestaurants()}
         </SelectField>
+        <br />
+        <RaisedButton
+          label='New Restaurant'
+          onClick={this.handleAddRestaurant}
+          style={{ display: 'inline-block' }}
+        />
+        {this.renderNewRestaurantForm()}
       </div>
     );
   }
