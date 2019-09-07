@@ -29,6 +29,7 @@ class App extends React.Component<any, object> {
     this.handleMRCategoryChange = this.handleMRCategoryChange.bind(this);
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
     this.handleAddRestaurant = this.handleAddRestaurant.bind(this);
+    this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
