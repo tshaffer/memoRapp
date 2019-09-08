@@ -24,6 +24,8 @@ class App extends React.Component<any, object> {
     restaurantServiceRating: 5,
     restaurantAmbienceRating: 5,
     restaurantOutdoorSeating: false,
+    restaurantComments: '',
+    restaurantWouldVisitAgain: false,
   };
 
   style = {
@@ -39,11 +41,13 @@ class App extends React.Component<any, object> {
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
     this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
     this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
+    this.handleSubmitAddNewRestaurant = this.handleSubmitAddNewRestaurant.bind(this);
 
     this.handleRestaurantServiceRatingChange = this.handleRestaurantServiceRatingChange.bind(this);
     this.handleRestaurantAmbienceRatingChange = this.handleRestaurantAmbienceRatingChange.bind(this);
     this.handleRestaurantOutdoorSeatingChange = this.handleRestaurantOutdoorSeatingChange.bind(this);
-
+    this.handleRestaurantCommentsChange = this.handleRestaurantCommentsChange.bind(this);
+    this.handleRestaurantWouldVisitAgainChange = this.handleRestaurantWouldVisitAgainChange.bind(this);
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
@@ -278,6 +282,14 @@ class App extends React.Component<any, object> {
     );
   }
 
+  handleRestaurantCommentsChange(event: any) {
+    this.setState(
+      {
+        restaurantComments: event.target.value
+      }
+    );
+  }
+
   renderRestaurantComments() {
     return (
       <div>
@@ -289,19 +301,49 @@ class App extends React.Component<any, object> {
           multiLine={true}
           rows={4}
           rowsMax={4}
+          value={this.state.restaurantComments}
+          onChange={this.handleRestaurantCommentsChange}
         /><br />
       </div>
     );
   }
 
-  renderRestaurantWouldVisitAgain() {
+  handleRestaurantWouldVisitAgainChange() {
+    console.log('restaurantWouldVisitAgainRating');
+    this.setState(
+      {
+        restaurantWouldVisitAgain: !this.state.restaurantWouldVisitAgain,
+      }
+    );
+  }
+
+  renderWouldVisitAgain() {
     return (
       <div>
-
+        <Checkbox
+          label='Would visit again?'
+          checked={this.state.restaurantWouldVisitAgain}
+          onCheck={this.handleRestaurantWouldVisitAgainChange.bind(this)}
+        />
       </div>
     );
   }
 
+  handleSubmitAddNewRestaurant() {
+    console.log('handleSubmitAddNewRestaurant');
+  }
+
+  renderSubmitAddNewRestaurant() {
+    return (
+      <div>
+        <RaisedButton
+          label='Submit'
+          onClick={this.handleSubmitAddNewRestaurant}
+        />
+      </div>
+    )
+
+  }
   renderNewRestaurantForm() {
     return (
       <div>
@@ -310,6 +352,8 @@ class App extends React.Component<any, object> {
         {this.renderRestaurantCategory()}
         {this.renderRestaurantRatings()}
         {this.renderRestaurantComments()}
+        {this.renderWouldVisitAgain()}
+        {this.renderSubmitAddNewRestaurant()}
       </div>
     );
   }
