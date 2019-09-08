@@ -14,6 +14,12 @@ module.exports = {
 
   target: 'web',
 
+  plugins: [
+    new CopyWebpackPlugin([
+        {from:'./build/bundle.js', to:'../public/build'}
+    ]),
+  ],
+
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"]
