@@ -7,6 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
+import Checkbox from 'material-ui/Checkbox';
 
 class App extends React.Component<any, object> {
 
@@ -18,7 +19,11 @@ class App extends React.Component<any, object> {
     ],
     currentRestaurantIndex: 0,
     newRestaurantCategory: 1,
-    restaurantRating: 5,
+    overallRestaurantRating: 5,
+    restaurantFoodRating: 5,
+    restaurantServiceRating: 5,
+    restaurantAmbienceRating: 5,
+    restaurantOutdoorSeating: false,
   };
 
   style = {
@@ -33,6 +38,12 @@ class App extends React.Component<any, object> {
     this.handleAddRestaurant = this.handleAddRestaurant.bind(this);
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
     this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
+    this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
+
+    this.handleRestaurantServiceRatingChange = this.handleRestaurantServiceRatingChange.bind(this);
+    this.handleRestaurantAmbienceRatingChange = this.handleRestaurantAmbienceRatingChange.bind(this);
+    this.handleRestaurantOutdoorSeatingChange = this.handleRestaurantOutdoorSeatingChange.bind(this);
+
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
@@ -130,25 +141,142 @@ class App extends React.Component<any, object> {
     );
   }
 
-  renderRestaurantRating() {
+  renderOverallRestaurantRating() {
     return (
       <div>
+        <p>
+          <span>{'Overall rating: '}</span>
+          <span>{this.state.overallRestaurantRating}</span>
+          <span>{' on a scale of 0 to 10'}</span>
+        </p>
         <Slider
           min={0}
           max={10}
           step={0.1}
-          value={this.state.restaurantRating}
+          value={this.state.overallRestaurantRating}
           onChange={this.handleRestaurantRatingChange}>
         </Slider>
-        <p>
-          <span>{'Restaurant rating: '}</span>
-          <span>{this.state.restaurantRating}</span>
-          <span>{' on a scale of 0 to 10'}</span>
-        </p>
       </div>
     );
   }
 
+  handleRestaurantFoodRatingChange(event: any, restaurantFoodRating: any) {
+    console.log('restaurantFoodRating: ' + restaurantFoodRating);
+    this.setState(
+      {
+        restaurantFoodRating,
+      }
+    );
+  }
+
+  renderFoodRating() {
+    return (
+      <div>
+        <p>
+          <span>{'Food rating: '}</span>
+          <span>{this.state.restaurantFoodRating}</span>
+          <span>{' on a scale of 0 to 10'}</span>
+        </p>
+        <Slider
+          min={0}
+          max={10}
+          step={0.1}
+          value={this.state.restaurantFoodRating}
+          onChange={this.handleRestaurantFoodRatingChange}>
+        </Slider>
+      </div>
+    );
+  }
+
+  handleRestaurantServiceRatingChange(event: any, restaurantServiceRating: any) {
+    console.log('restaurantRating: ' + restaurantServiceRating);
+    this.setState(
+      {
+        restaurantServiceRating,
+      }
+    );
+  }
+
+  renderServiceRating() {
+    return (
+      <div>
+        <p>
+          <span>{'Service rating: '}</span>
+          <span>{this.state.restaurantServiceRating}</span>
+          <span>{' on a scale of 0 to 10'}</span>
+        </p>
+        <Slider
+          min={0}
+          max={10}
+          step={0.1}
+          value={this.state.restaurantServiceRating}
+          onChange={this.handleRestaurantServiceRatingChange}>
+        </Slider>
+      </div>
+    );
+  }
+
+  handleRestaurantAmbienceRatingChange(event: any, restaurantAmbienceRating: any) {
+    console.log('restaurantAmbienceRating: ' + restaurantAmbienceRating);
+    this.setState(
+      {
+        restaurantAmbienceRating,
+      }
+    );
+  }
+
+  renderAmbienceRating() {
+    return (
+      <div>
+        <p>
+          <span>{'Ambience rating: '}</span>
+          <span>{this.state.restaurantAmbienceRating}</span>
+          <span>{' on a scale of 0 to 10'}</span>
+        </p>
+        <Slider
+          min={0}
+          max={10}
+          step={0.1}
+          value={this.state.restaurantAmbienceRating}
+          onChange={this.handleRestaurantAmbienceRatingChange}>
+        </Slider>
+      </div>
+    );
+  }
+
+  handleRestaurantOutdoorSeatingChange() {
+    console.log('restaurantOutdoorSeatingRating');
+    this.setState(
+      {
+        restaurantOutdoorSeating: !this.state.restaurantOutdoorSeating,
+      }
+    );
+  }
+
+  renderOutdoorSeating() {
+    return (
+      <div>
+        <Checkbox
+          label='Outdoor seating?'
+          checked={this.state.restaurantOutdoorSeating}
+          onCheck={this.handleRestaurantOutdoorSeatingChange.bind(this)}
+        />
+      </div>
+    );
+  }
+
+  renderRestaurantRatings() {
+    return (
+      <div>
+        Restaurant Ratings:
+        {this.renderOverallRestaurantRating()}
+        {this.renderFoodRating()}
+        {this.renderServiceRating()}
+        {this.renderAmbienceRating()}
+        {this.renderOutdoorSeating()}
+      </div>
+    )
+  }
   renderRestaurantComments() {
     return (
       <div>
@@ -171,7 +299,7 @@ class App extends React.Component<any, object> {
         {this.renderRestaurantName()}
         {this.renderRestaurantAddress()}
         {this.renderRestaurantCategory()}
-        {this.renderRestaurantRating()}
+        {this.renderRestaurantRatings()}
       </div>
     );
   }
