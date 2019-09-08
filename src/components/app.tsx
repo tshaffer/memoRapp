@@ -275,12 +275,21 @@ class App extends React.Component<any, object> {
         {this.renderAmbienceRating()}
         {this.renderOutdoorSeating()}
       </div>
-    )
+    );
   }
+
   renderRestaurantComments() {
     return (
       <div>
-
+        Comments:
+        <br />
+        <TextField
+          id='restaurantComments'
+          hintText='Enter comments here....'
+          multiLine={true}
+          rows={4}
+          rowsMax={4}
+        /><br />
       </div>
     );
   }
@@ -300,6 +309,7 @@ class App extends React.Component<any, object> {
         {this.renderRestaurantAddress()}
         {this.renderRestaurantCategory()}
         {this.renderRestaurantRatings()}
+        {this.renderRestaurantComments()}
       </div>
     );
   }
