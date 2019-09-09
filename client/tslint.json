@@ -20,7 +20,8 @@
     "trailing-comma": false,
     "ordered-imports": false,
     "ban-types": false,
-    "no-trailing-whitespace": false
+    "no-trailing-whitespace": false,
+    "no-consecutive-blank-lines": false
   },
   "jsRules": {
     "indent": [true, "spaces", 2],
