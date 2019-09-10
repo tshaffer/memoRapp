@@ -16,7 +16,7 @@ module.exports = {
 
   plugins: [
     new CopyWebpackPlugin([
-        {from:'./build/bundle.js', to:'../public/build'}
+        {from:'./build/bundle.js', to:'../../server/public/build'}
     ]),
   ],
 

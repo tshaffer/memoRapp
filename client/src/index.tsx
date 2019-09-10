@@ -7,20 +7,21 @@ import { Provider } from 'react-redux';
 
 import { createStore, applyMiddleware } from 'redux';
 
-import reducers from './store/reducers';
+// import reducers from './store/reducers';
+import { rootReducer } from './model';
 
 import App from './components/app';
 
 const store = createStore(
-    reducers,
-    applyMiddleware(
-        thunkMiddleware,
-    ),
+  rootReducer,
+  applyMiddleware(
+    thunkMiddleware,
+  ),
 );
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('content') as HTMLElement,
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('content') as HTMLElement,
 );
