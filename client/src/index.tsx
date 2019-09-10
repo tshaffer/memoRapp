@@ -5,19 +5,18 @@ import * as ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 
 // import reducers from './store/reducers';
 import { rootReducer } from './model';
 
 import App from './components/app';
 
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  rootReducer,
-  applyMiddleware(
-    thunkMiddleware,
-  ),
-);
+  rootReducer, /* preloadedState, */ composeEnhancers(
+    applyMiddleware(thunkMiddleware)
+  ));
 
 ReactDOM.render(
   <Provider store={store}>
