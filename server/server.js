@@ -33,6 +33,10 @@ app.get('/index.html', function (req, res) {
   res.sendFile(pathToIndex);
 });
 
+app.get('/', function (req, res) {
+  res.sendFile(pathToIndex);
+});
+
 app.get('/css/app.css', function (req, res) {
   res.sendFile(pathToCSS);
 });
