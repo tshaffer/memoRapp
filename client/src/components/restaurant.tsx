@@ -22,6 +22,7 @@ interface RestaurantProps {
 }
 
 interface RestaurantComponentState {
+  restaurantName: string;
   newRestaurantCategory: number;
   overallRestaurantRating: number;
   restaurantFoodRating: number;
@@ -35,6 +36,7 @@ interface RestaurantComponentState {
 class RestaurantComponent extends React.Component<RestaurantProps> {
 
   state: RestaurantComponentState = {
+    restaurantName: '',
     newRestaurantCategory: 1,
     overallRestaurantRating: 5,
     restaurantFoodRating: 5,
@@ -54,6 +56,7 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
     this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
     this.handleAddNewRestaurant = this.handleAddNewRestaurant.bind(this);
 
+    this.handleRestaurantNameChange = this.handleRestaurantNameChange.bind(this);
     this.handleRestaurantServiceRatingChange = this.handleRestaurantServiceRatingChange.bind(this);
     this.handleRestaurantAmbienceRatingChange = this.handleRestaurantAmbienceRatingChange.bind(this);
     this.handleRestaurantOutdoorSeatingChange = this.handleRestaurantOutdoorSeatingChange.bind(this);
@@ -62,9 +65,12 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
   }
 
   handleRestaurantNameChange(event: any) {
-    if (isFunction(this.props.onUpdateName)) {
-      this.props.onUpdateName(this.props.restaurant.name, event.target.value);
-    }
+    this.setState(
+      {
+        restaurantName: event.target.value,
+      }
+    );
+
   }
 
   renderRestaurantName() {
@@ -73,18 +79,9 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
         <TextField
           id='newRestaurantName'
           hintText='Name'
+          value={this.state.restaurantName}
+          onChange={this.handleRestaurantNameChange}
         /> <br />
-      </div>
-    );
-  }
-
-  renderRestaurantAddress() {
-    return (
-      <div>
-        <TextField
-          id='newRestaurantAddress'
-          hintText='Address'
-        /><br />
       </div>
     );
   }
@@ -336,7 +333,6 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
     return (
       <div>
         {this.renderRestaurantName()}
-        {this.renderRestaurantAddress()}
         {this.renderRestaurantCategory()}
         {this.renderRestaurantRatings()}
         {this.renderRestaurantComments()}
