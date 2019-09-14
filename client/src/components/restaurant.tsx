@@ -305,16 +305,17 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
 
   handleAddNewRestaurant() {
     if (isFunction(this.props.onAddNewRestaurant)) {
-      console.log('****handleAddNewRestaurant');
-      console.log(this.state.newRestaurantCategory);
-      console.log(this.state.overallRestaurantRating);
-      console.log(this.state.restaurantFoodRating);
-      console.log(this.state.restaurantServiceRating);
-      console.log(this.state.restaurantAmbienceRating);
-      console.log(this.state.restaurantOutdoorSeating);
-      console.log(this.state.restaurantComments);
-      console.log(this.state.restaurantWouldVisitAgain);
-      this.props.onAddNewRestaurant(this.props.restaurant);
+      this.props.onAddNewRestaurant({
+        name: this.state.restaurantName,
+        category: this.state.newRestaurantCategory,
+        overallRating: this.state.overallRestaurantRating,
+        foodRating: this.state.restaurantFoodRating,
+        serviceRating: this.state.restaurantServiceRating,
+        ambienceRating: this.state.restaurantAmbienceRating,
+        outdoorSeating: this.state.restaurantOutdoorSeating,
+        comments: this.state.restaurantComments,
+        wouldVisitAgain: this.state.restaurantWouldVisitAgain,
+      });
     }
   }
 
@@ -355,7 +356,7 @@ const mapDispatchToProps = (dispatch: any) => {
     onUpdateName: updateName,
   }, dispatch);
 };
-  
+
 
 // export default connect(mapStateToProps)(Restaurant);
 export const Restaurant = connect(
