@@ -10,8 +10,6 @@ module.exports = {
     path: __dirname + "/build"
   },
 
-  devtool: "source-map",
-
   target: 'web',
 
   plugins: [

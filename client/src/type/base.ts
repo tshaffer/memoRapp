@@ -8,6 +8,8 @@ export interface MemoRappState {
 /** @internal */
 /** @private */
 export interface RestaurantState {
+  name: string;
+  address: string;
   category: number;
   overallRating: number;
   foodRating: number;

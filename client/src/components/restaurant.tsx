@@ -8,9 +8,33 @@ import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 
-class Restaurant extends React.Component<any, object> {
+import {
+  addNewRestaurant, updateName
+} from '../controller';
+import { RestaurantState } from '../type';
+import { isFunction } from 'lodash';
+import { bindActionCreators } from 'redux';
 
-  state: any = {
+interface RestaurantProps {
+  restaurant: RestaurantState;
+  onAddNewRestaurant: (restaurant: RestaurantState) => any;
+  onUpdateName: (restaurantId: string, name: string) => any;
+}
+
+interface RestaurantComponentState {
+  newRestaurantCategory: number;
+  overallRestaurantRating: number;
+  restaurantFoodRating: number;
+  restaurantServiceRating: number;
+  restaurantAmbienceRating: number;
+  restaurantOutdoorSeating: boolean;
+  restaurantComments: string;
+  restaurantWouldVisitAgain: boolean;
+}
+
+class RestaurantComponent extends React.Component<RestaurantProps> {
+
+  state: RestaurantComponentState = {
     newRestaurantCategory: 1,
     overallRestaurantRating: 5,
     restaurantFoodRating: 5,
@@ -21,19 +45,26 @@ class Restaurant extends React.Component<any, object> {
     restaurantWouldVisitAgain: false,
   };
 
-  constructor(props: any) {
+  constructor(props: RestaurantProps) {
     super(props);
 
+    this.handleRestaurantNameChange = this.handleRestaurantNameChange.bind(this);
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
     this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
     this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
-    this.handleSubmitAddNewRestaurant = this.handleSubmitAddNewRestaurant.bind(this);
+    this.handleAddNewRestaurant = this.handleAddNewRestaurant.bind(this);
 
     this.handleRestaurantServiceRatingChange = this.handleRestaurantServiceRatingChange.bind(this);
     this.handleRestaurantAmbienceRatingChange = this.handleRestaurantAmbienceRatingChange.bind(this);
     this.handleRestaurantOutdoorSeatingChange = this.handleRestaurantOutdoorSeatingChange.bind(this);
     this.handleRestaurantCommentsChange = this.handleRestaurantCommentsChange.bind(this);
     this.handleRestaurantWouldVisitAgainChange = this.handleRestaurantWouldVisitAgainChange.bind(this);
+  }
+
+  handleRestaurantNameChange(event: any) {
+    if (isFunction(this.props.onUpdateName)) {
+      this.props.onUpdateName(this.props.restaurant.name, event.target.value);
+    }
   }
 
   renderRestaurantName() {
@@ -86,7 +117,7 @@ class Restaurant extends React.Component<any, object> {
     console.log('restaurantRating: ' + restaurantRating);
     this.setState(
       {
-        restaurantRating,
+        overallRestaurantRating: restaurantRating,
       }
     );
   }
@@ -275,8 +306,19 @@ class Restaurant extends React.Component<any, object> {
     );
   }
 
-  handleSubmitAddNewRestaurant() {
-    console.log('handleSubmitAddNewRestaurant');
+  handleAddNewRestaurant() {
+    if (isFunction(this.props.onAddNewRestaurant)) {
+      console.log('****handleAddNewRestaurant');
+      console.log(this.state.newRestaurantCategory);
+      console.log(this.state.overallRestaurantRating);
+      console.log(this.state.restaurantFoodRating);
+      console.log(this.state.restaurantServiceRating);
+      console.log(this.state.restaurantAmbienceRating);
+      console.log(this.state.restaurantOutdoorSeating);
+      console.log(this.state.restaurantComments);
+      console.log(this.state.restaurantWouldVisitAgain);
+      this.props.onAddNewRestaurant(this.props.restaurant);
+    }
   }
 
   renderSubmitAddNewRestaurant() {
@@ -284,13 +326,12 @@ class Restaurant extends React.Component<any, object> {
       <div>
         <RaisedButton
           label='Submit'
-          onClick={this.handleSubmitAddNewRestaurant}
+          onClick={this.handleAddNewRestaurant}
         />
       </div>
-    )
-
+    );
   }
-  
+
   render() {
     return (
       <div>
@@ -308,7 +349,20 @@ class Restaurant extends React.Component<any, object> {
 
 function mapStateToProps(state: any) {
   return {
+    // restaurant
   };
 }
 
-export default connect(mapStateToProps)(Restaurant);
+const mapDispatchToProps = (dispatch: any) => {
+  return bindActionCreators({
+    onAddNewRestaurant: addNewRestaurant,
+    onUpdateName: updateName,
+  }, dispatch);
+};
+  
+
+// export default connect(mapStateToProps)(Restaurant);
+export const Restaurant = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RestaurantComponent);
