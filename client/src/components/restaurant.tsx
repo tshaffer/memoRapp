@@ -11,12 +11,14 @@ import Checkbox from 'material-ui/Checkbox';
 import {
   addNewRestaurant, updateName
 } from '../controller';
-import { RestaurantDescription } from '../type';
+import { RestaurantDescription, RestaurantDataState } from '../type';
 import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
+import { getRestaurantById } from '../selector';
 
 interface RestaurantProps {
-  restaurant: RestaurantDescription;
+  id: string;
+  restaurant: RestaurantDataState;
   onAddNewRestaurant: (restaurant: RestaurantDescription) => any;
   onUpdateName: (restaurantId: string, name: string) => any;
 }
@@ -46,9 +48,12 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
     restaurantComments: '',
     restaurantWouldVisitAgain: false,
   };
+  initialState: RestaurantComponentState;
 
   constructor(props: RestaurantProps) {
     super(props);
+
+    this.initialState = Object.assign({}, this.state);
 
     this.handleRestaurantNameChange = this.handleRestaurantNameChange.bind(this);
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
@@ -64,13 +69,44 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
     this.handleRestaurantWouldVisitAgainChange = this.handleRestaurantWouldVisitAgainChange.bind(this);
   }
 
+  componentDidMount() {
+    this.resetState();
+  }
+
+  componentDidUpdate(prevProps: RestaurantProps, prevState: any) {
+    if (this.props.id !== prevProps.id) {
+      this.resetState();
+    }
+  }
+  
+  resetState() {
+    if (this.props.id !== '-1') {
+      const restaurant: RestaurantDescription = this.props.restaurant.restaurant as RestaurantDescription;
+      this.setState(
+        {
+          restaurantName: restaurant.name,
+          newRestaurantCategory: restaurant.category,
+          overallRestaurantRating: restaurant.overallRating,
+          restaurantFoodRating: restaurant.foodRating,
+          restaurantServiceRating: restaurant.serviceRating,
+          restaurantAmbienceRating: restaurant.ambienceRating,
+          restaurantOutdoorSeating: restaurant.outdoorSeating,
+          restaurantComments: restaurant.comments,
+          restaurantWouldVisitAgain: restaurant.wouldVisitAgain,
+        }
+      );
+    }
+    else {
+      this.setState(this.initialState);
+    }
+  }
+
   handleRestaurantNameChange(event: any) {
     this.setState(
       {
         restaurantName: event.target.value,
       }
     );
-
   }
 
   renderRestaurantName() {
@@ -344,9 +380,10 @@ class RestaurantComponent extends React.Component<RestaurantProps> {
   }
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: any, ownProps?: any) {
+  const { id } = ownProps;
   return {
-    // restaurant
+    restaurant: getRestaurantById(state, id)
   };
 }
 

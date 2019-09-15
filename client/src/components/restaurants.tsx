@@ -14,13 +14,13 @@ interface RestaurantsProps {
 }
 
 interface RestaurantsReactState {
-  currentRestaurantIndex: number;
-};
+  currentRestaurantId: string;
+}
 
 class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
   state: RestaurantsReactState = {
-    currentRestaurantIndex: 0,
+    currentRestaurantId: '-1',
   };
 
   constructor(props: any) {
@@ -30,31 +30,41 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
   }
 
-  handleRestaurantChange(event: any, index: any, currentRestaurantIndex: any) {
+  handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
     this.setState(
       {
-        currentRestaurantIndex,
+        currentRestaurantId,
       }
     );
   }
 
+  getPlaceHolderRestaurant(): any {
+    return (
+      <MenuItem key={-1} value={'-1'} primaryText={'----'} />
+    );
+  }
   getRestaurants(): any {
 
     const restaurantsState: RestaurantsState = this.props.restaurants;
 
     const restaurantDescriptions: RestaurantDescription[] = [];
+    const restaurantIds: string[] = [];
     for (const restaurantId of Object.keys(restaurantsState)) {
       if (restaurantsState.hasOwnProperty(restaurantId)) {
         const restaurantDataState = restaurantsState[restaurantId];
         restaurantDescriptions.push(restaurantDataState.restaurant as RestaurantDescription);
+        restaurantIds.push(restaurantId);
       }
     }
 
     const restaurants = restaurantDescriptions.map((restaurantDescription: RestaurantDescription, index: number) => {
       return (
-        <MenuItem key={index} value={index} primaryText={restaurantDescription.name} />
+        <MenuItem key={index} value={restaurantIds[index]} primaryText={restaurantDescription.name} />
       );
     });
+
+    restaurants.unshift(this.getPlaceHolderRestaurant());
+
     return restaurants;
   }
 
@@ -67,7 +77,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
       <div>
         <SelectField
           floatingLabelText='Restaurant'
-          value={this.state.currentRestaurantIndex}
+          value={this.state.currentRestaurantId}
           onChange={this.handleRestaurantChange}
         >
           {this.getRestaurants()}
@@ -78,7 +88,9 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
           onClick={this.handleAddRestaurant}
           style={{ display: 'inline-block' }}
         />
-        <Restaurant/>
+        <Restaurant
+          id={this.state.currentRestaurantId}
+        />
       </div>
     );
   }
