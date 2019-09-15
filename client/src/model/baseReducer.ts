@@ -1,14 +1,10 @@
 /** @module Model:base */
 
 import {
-  Reducer,
   combineReducers
 } from 'redux';
 import {
   MemoRappModelState,
-  RestaurantDescription,
-  MemoRappBaseAction,
-  RestaurantAction,
 } from '../type';
 
 import {
@@ -18,8 +14,11 @@ import {
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
-export const rootReducer = combineReducers({
+export const rootReducer = combineReducers<MemoRappModelState>({
   restaurants: restaurantReducer,
 });
 
-// export default rootReducer;
+// -----------------------------------------------------------------------
+// Validators
+// -----------------------------------------------------------------------
+

@@ -1,5 +1,5 @@
-import { RestaurantDescription, RestaurantMap } from '../type';
-import { ActionWithPayload } from './baseAction';
+import { RestaurantDescription, RestaurantsState, RestaurantDataState } from '../type';
+import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 
 // ------------------------------------
 // Constants
@@ -10,48 +10,90 @@ export const UPDATE_RESTAURANT_NAME = 'UPDATE_RESTAURANT_NAME';
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function addRestaurant(restaurantId: string, restaurant: RestaurantDescription) {
-  
+
+/** @internal */
+/** @private */
+// export type UpdateRestaurantPropertyAction = MemoRappModelBaseAction<Partial<RestaurantDataState>>;
+
+export interface AddRestaurantPayload {
+  id: string;
+  restaurant: RestaurantDescription;
+}
+
+export interface UpdateRestaurantPayload {
+  id: string;
+  data: Partial<RestaurantDescription>;
+}
+
+// export interface UpdateRestaurantPayload {
+//   id: string;
+//   restaurant: RestaurantDescription;
+// }
+
+export type PartialRestaurantDescription = Partial<RestaurantDescription>;
+
+export const addRestaurant = (
+  id: string,
+  restaurant: RestaurantDescription
+): RestaurantAction<AddRestaurantPayload> => {
+
   return {
     type: ADD_RESTAURANT,
     payload: {
-      restaurantId,
+      id,
       restaurant,
     },
   };
-}
+};
 
-export function updateRestaurantName(restaurantId: string, restaurantName: string) {
-  
+export const updateRestaurantProperty = (
+  id: string,
+  data: Partial<RestaurantDescription>
+): RestaurantAction<UpdateRestaurantPayload> => {
   return {
     type: UPDATE_RESTAURANT_NAME,
     payload: {
-      restaurantId,
-      restaurantName,
+      id,
+      data,
     },
   };
-}
+};
+
+// export const updateRestaurantName = (
+//   restaurantId: string,
+//   restaurantName: string
+// ): RestaurantAction<any> => {
+
+//   return {
+//     type: UPDATE_RESTAURANT_NAME,
+//     payload: {
+//       restaurantId,
+//       restaurantName,
+//     },
+//   };
+// }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 
-const initialState: RestaurantMap = {};
+const initialState: RestaurantsState = {};
 
 export const restaurantReducer = (
-  state: RestaurantMap = initialState,
-  action: ActionWithPayload) : RestaurantMap => {
+  state: RestaurantsState = initialState,
+  action: MemoRappModelBaseAction<PartialRestaurantDescription & AddRestaurantPayload>
+): RestaurantsState => {
   switch (action.type) {
     case ADD_RESTAURANT: {
-      const newState: RestaurantMap = Object.assign({}, state);
-      const { restaurantId, restaurant } = action.payload;
-      newState[restaurantId] = restaurant;
+      const newState: RestaurantsState = Object.assign({}, state);
+      const { id, restaurant } = action.payload;
+      newState[id].restaurant = restaurant;
       return newState;
     }
     case UPDATE_RESTAURANT_NAME: {
-      const newState: RestaurantMap = Object.assign({}, state);
-      const { restaurantId, restaurantName } = action.payload;
-      newState[restaurantId].name = restaurantName;
+      const newState: RestaurantsState = Object.assign({}, state);
+      const { id, name } = action.payload;
+      newState[id].restaurant.name = name;
       return newState;
     }
     default:

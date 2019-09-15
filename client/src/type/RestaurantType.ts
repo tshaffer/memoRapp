@@ -1,7 +1,7 @@
 /** @internal */
 /** @private */
 export interface RestaurantsState { // BaPeUiLiveTextDataFeedsState
-  [restaurantStateId: string]: RestaurantDataState;
+  [id: string]: RestaurantDataState;
 }
 
 /** @internal */
@@ -15,7 +15,6 @@ export interface RestaurantDataState { // BaPeUiLiveTextDataFeedsDataState
 /** @internal */
 /** @private */
 export interface RestaurantDescription {
-  id: string;
   name: string;
   category: number; // change to string?
   overallRating: number;

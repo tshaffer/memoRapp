@@ -9,14 +9,3 @@ export interface MemoRappModelState {
   mtbTrails: any;
 }
 
-export type MemoRappDispatch = Dispatch<MemoRappModelState>;
-
-export interface MemoRappBaseAction extends Action {
-  type: string;
-  payload: {} | null;
-}
-
-export interface RestaurantAction<T> extends MemoRappBaseAction {
-  payload: T;
-}
-
