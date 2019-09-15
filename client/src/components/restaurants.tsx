@@ -17,7 +17,7 @@ interface RestaurantsReactState {
   currentRestaurantId: string;
 }
 
-class RestaurantsComponent extends React.Component<RestaurantsProps> {
+class RestaurantsComponent extends React.Component<RestaurantsProps, RestaurantsReactState> {
 
   state: RestaurantsReactState = {
     currentRestaurantId: '-1',

@@ -35,7 +35,7 @@ interface RestaurantComponentState {
   restaurantWouldVisitAgain: boolean;
 }
 
-class RestaurantComponent extends React.Component<RestaurantProps> {
+class RestaurantComponent extends React.Component<RestaurantProps, RestaurantComponentState> {
 
   state: RestaurantComponentState = {
     restaurantName: '',
