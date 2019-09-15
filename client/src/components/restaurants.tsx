@@ -13,15 +13,14 @@ interface RestaurantsProps {
   restaurants: RestaurantsState;
 }
 
+interface RestaurantsReactState {
+  currentRestaurantIndex: number;
+};
 
 class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
-  state: any = {
+  state: RestaurantsReactState = {
     currentRestaurantIndex: 0,
-    restaurants: [
-      'La Costena',
-      'Pizza Chicago'
-    ],
   };
 
   constructor(props: any) {
