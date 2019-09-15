@@ -1,14 +1,19 @@
 import {
   addRestaurant,
-  updateRestaurantName
+  updateRestaurantProperty,
 } from '../model';
-import { RestaurantDescription } from '../type';
+import { RestaurantDescription, RestaurantDataState } from '../type';
 
 /** @internal */
 /** @private */
 export const addNewRestaurant = (restaurant: RestaurantDescription) => {
   return (dispatch: any, getState: any): any => {
-    dispatch(addRestaurant(restaurant.name, restaurant)); 
+    const restaurantData: RestaurantDataState = {
+      restaurant,
+      visits: {},
+      menuItems: {},
+    }
+    dispatch(addRestaurant(restaurant.name, restaurantData)); 
   };
 };
 
@@ -16,6 +21,6 @@ export const addNewRestaurant = (restaurant: RestaurantDescription) => {
 /** @private */
 export const updateName = (restaurantId: string, restaurantName: string) => {
   return (dispatch: any, getState: any): any => {
-    dispatch(updateRestaurantName(restaurantId, restaurantName)); 
+    dispatch(updateRestaurantProperty(restaurantId, { name: restaurantName }));
   };
 };

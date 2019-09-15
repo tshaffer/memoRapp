@@ -5,7 +5,7 @@ import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './
 // Constants
 // ------------------------------------
 export const ADD_RESTAURANT = 'ADD_RESTAURANT';
-export const UPDATE_RESTAURANT_NAME = 'UPDATE_RESTAURANT_NAME';
+export const UPDATE_RESTAURANT_PROPERTY = 'UPDATE_RESTAURANT_PROPERTY';
 
 // ------------------------------------
 // Actions
@@ -13,35 +13,29 @@ export const UPDATE_RESTAURANT_NAME = 'UPDATE_RESTAURANT_NAME';
 
 /** @internal */
 /** @private */
-// export type UpdateRestaurantPropertyAction = MemoRappModelBaseAction<Partial<RestaurantDataState>>;
-
-export interface AddRestaurantPayload {
-  id: string;
-  restaurant: RestaurantDescription;
-}
-
-export interface UpdateRestaurantPayload {
-  id: string;
-  data: Partial<RestaurantDescription>;
-}
-
-// export interface UpdateRestaurantPayload {
-//   id: string;
-//   restaurant: RestaurantDescription;
-// }
 
 export type PartialRestaurantDescription = Partial<RestaurantDescription>;
 
+export interface AddRestaurantPayload {
+  id: string;
+  restaurantData: RestaurantDataState;
+}
+
+export interface UpdateRestaurantPropertyPayload {
+  id: string;
+  data: PartialRestaurantDescription;
+}
+
 export const addRestaurant = (
   id: string,
-  restaurant: RestaurantDescription
+  restaurantData: RestaurantDataState
 ): RestaurantAction<AddRestaurantPayload> => {
 
   return {
     type: ADD_RESTAURANT,
     payload: {
       id,
-      restaurant,
+      restaurantData,
     },
   };
 };
@@ -49,29 +43,15 @@ export const addRestaurant = (
 export const updateRestaurantProperty = (
   id: string,
   data: Partial<RestaurantDescription>
-): RestaurantAction<UpdateRestaurantPayload> => {
+): RestaurantAction<UpdateRestaurantPropertyPayload> => {
   return {
-    type: UPDATE_RESTAURANT_NAME,
+    type: UPDATE_RESTAURANT_PROPERTY,
     payload: {
       id,
       data,
     },
   };
 };
-
-// export const updateRestaurantName = (
-//   restaurantId: string,
-//   restaurantName: string
-// ): RestaurantAction<any> => {
-
-//   return {
-//     type: UPDATE_RESTAURANT_NAME,
-//     payload: {
-//       restaurantId,
-//       restaurantName,
-//     },
-//   };
-// }
 
 // ------------------------------------
 // Reducer
@@ -86,20 +66,26 @@ export const restaurantReducer = (
   switch (action.type) {
     case ADD_RESTAURANT: {
       const newState: RestaurantsState = Object.assign({}, state);
-      const { id, restaurant } = action.payload;
-      newState[id].restaurant = restaurant;
+      const { id, restaurantData } = action.payload;
+      newState[id] = {
+        restaurant: {},
+        visits: {},
+        menuItems: {},
+      };
+      newState[id].restaurant = restaurantData.restaurant;
+      newState[id].visits = restaurantData.visits;
+      newState[id].menuItems = restaurantData.menuItems;
       return newState;
     }
-    case UPDATE_RESTAURANT_NAME: {
+    case UPDATE_RESTAURANT_PROPERTY: {
       const newState: RestaurantsState = Object.assign({}, state);
-      const { id, name } = action.payload;
-      newState[id].restaurant.name = name;
+      debugger;
+      // const { id, name } = action.payload;
+      // newState[id].restaurant.name = name;
       return newState;
     }
     default:
       return state;
   }
 };
-
-
 

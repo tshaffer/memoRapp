@@ -7,9 +7,9 @@ export interface RestaurantsState { // BaPeUiLiveTextDataFeedsState
 /** @internal */
 /** @private */
 export interface RestaurantDataState { // BaPeUiLiveTextDataFeedsDataState
-  restaurant: RestaurantDescription;
+  restaurant: RestaurantDescription | {};
   visits: RestaurantVisitMap;
-  menuItems: RestaurantMenuItem;
+  menuItems: RestaurantMenuItemMap;
 }
 
 /** @internal */
