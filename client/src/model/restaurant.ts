@@ -1,4 +1,4 @@
-import { RestaurantState, RestaurantMap } from '../type';
+import { RestaurantDescription, RestaurantMap } from '../type';
 import { ActionWithPayload } from './baseAction';
 
 // ------------------------------------
@@ -10,7 +10,7 @@ export const UPDATE_RESTAURANT_NAME = 'UPDATE_RESTAURANT_NAME';
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function addRestaurant(restaurantId: string, restaurant: RestaurantState) {
+export function addRestaurant(restaurantId: string, restaurant: RestaurantDescription) {
   
   return {
     type: ADD_RESTAURANT,
@@ -40,7 +40,7 @@ const initialState: RestaurantMap = {};
 
 export const restaurantReducer = (
   state: RestaurantMap = initialState,
-  action: ActionWithPayload) => {
+  action: ActionWithPayload) : RestaurantMap => {
   switch (action.type) {
     case ADD_RESTAURANT: {
       const newState: RestaurantMap = Object.assign({}, state);

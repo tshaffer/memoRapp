@@ -11,13 +11,13 @@ import Checkbox from 'material-ui/Checkbox';
 import {
   addNewRestaurant, updateName
 } from '../controller';
-import { RestaurantState } from '../type';
+import { RestaurantDescription } from '../type';
 import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
 
 interface RestaurantProps {
-  restaurant: RestaurantState;
-  onAddNewRestaurant: (restaurant: RestaurantState) => any;
+  restaurant: RestaurantDescription;
+  onAddNewRestaurant: (restaurant: RestaurantDescription) => any;
   onUpdateName: (restaurantId: string, name: string) => any;
 }
 

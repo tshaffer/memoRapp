@@ -2,11 +2,11 @@ import {
   addRestaurant,
   updateRestaurantName
 } from '../model';
-import { RestaurantState } from '../type';
+import { RestaurantDescription } from '../type';
 
 /** @internal */
 /** @private */
-export const addNewRestaurant = (restaurant: RestaurantState) => {
+export const addNewRestaurant = (restaurant: RestaurantDescription) => {
   return (dispatch: any, getState: any): any => {
     dispatch(addRestaurant(restaurant.name, restaurant)); 
   };

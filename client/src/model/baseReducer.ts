@@ -5,8 +5,8 @@ import {
   combineReducers
 } from 'redux';
 import {
-  MemoRappState,
-  RestaurantState,
+  MemoRappModelState,
+  RestaurantDescription,
   MemoRappBaseAction,
   RestaurantAction,
 } from '../type';

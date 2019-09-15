@@ -1,31 +1,15 @@
+/** @module Types:base */
+
 import { Dispatch } from 'redux';
 import { Action } from 'redux';
+import { RestaurantsState } from './RestaurantType';
 
-export interface MemoRappState {
-  restaurants: RestaurantMap;
+export interface MemoRappModelState {
+  restaurants: RestaurantsState;
+  mtbTrails: any;
 }
 
-/** @internal */
-/** @private */
-export interface RestaurantState {
-  name: string;
-  category: number;
-  overallRating: number;
-  foodRating: number;
-  serviceRating: number;
-  ambienceRating: number;
-  outdoorSeating: boolean;
-  comments: string;
-  wouldVisitAgain: boolean;
-}
-
-export interface RestaurantMap {
-  [restaurantId: string]: RestaurantState;
-}
-
-
-
-export type MemoRappDispatch = Dispatch<MemoRappState>;
+export type MemoRappDispatch = Dispatch<MemoRappModelState>;
 
 export interface MemoRappBaseAction extends Action {
   type: string;
