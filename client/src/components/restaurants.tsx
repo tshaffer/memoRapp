@@ -14,19 +14,22 @@ interface RestaurantsProps {
 }
 
 interface RestaurantsReactState {
+  viewingRestaurantForm: boolean;
   currentRestaurantId: string;
 }
 
 class RestaurantsComponent extends React.Component<RestaurantsProps, RestaurantsReactState> {
 
   state: RestaurantsReactState = {
+    viewingRestaurantForm: false,
     currentRestaurantId: '-1',
   };
 
   constructor(props: any) {
     super(props);
 
-    this.handleAddRestaurant = this.handleAddRestaurant.bind(this);
+    this.handleNewRestaurant = this.handleNewRestaurant.bind(this);
+    this.handleDismissEditRestaurantForm = this.handleDismissEditRestaurantForm.bind(this);
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
   }
 
@@ -34,13 +37,14 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     this.setState(
       {
         currentRestaurantId,
+        viewingRestaurantForm: true,
       }
     );
   }
 
   getPlaceHolderRestaurant(): any {
     return (
-      <MenuItem key={-1} value={'-1'} primaryText={'----'} />
+      <MenuItem key={-1} value={'-1'} primaryText={'------------'} />
     );
   }
   getRestaurants(): any {
@@ -68,29 +72,66 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     return restaurants;
   }
 
-  handleAddRestaurant() {
-    console.log('handleAddRestaurant invoked');
+  handleNewRestaurant() {
+    console.log('handleNewRestaurant invoked');
+    this.setState({
+      viewingRestaurantForm: true,
+    });
+  }
+
+  getRestaurantAddEditRestaurantForm() {
+    if (!this.state.viewingRestaurantForm) {
+      return (
+        <div>
+          <p>Add a new restaurant or edit an existing restaurant</p>
+          <RaisedButton
+            label='New Restaurant'
+            onClick={this.handleNewRestaurant}
+            style={{ display: 'inline-block' }}
+          />
+          <br/>
+          <SelectField
+            floatingLabelText='Restaurants'
+            value={this.state.currentRestaurantId}
+            onChange={this.handleRestaurantChange}
+          >
+            {this.getRestaurants()}
+          </SelectField>
+        </div>
+      );
+    }
+    else {
+      return null;
+    }
+  }
+
+  handleDismissEditRestaurantForm() {
+    this.setState({
+      viewingRestaurantForm: false,
+    });
+  }
+
+  getRestaurantForm() {
+    if (this.state.viewingRestaurantForm) {
+      return (
+        <div>
+          <Restaurant
+            id={this.state.currentRestaurantId}
+            onDismissEditRestaurantForm={this.handleDismissEditRestaurantForm}
+          />
+        </div>
+      );
+    }
+    else {
+      return null;
+    }
   }
 
   renderRestaurants() {
     return (
       <div>
-        <SelectField
-          floatingLabelText='Restaurant'
-          value={this.state.currentRestaurantId}
-          onChange={this.handleRestaurantChange}
-        >
-          {this.getRestaurants()}
-        </SelectField>
-        <br />
-        <RaisedButton
-          label='New Restaurant'
-          onClick={this.handleAddRestaurant}
-          style={{ display: 'inline-block' }}
-        />
-        <Restaurant
-          id={this.state.currentRestaurantId}
-        />
+        {this.getRestaurantAddEditRestaurantForm()}
+        {this.getRestaurantForm()}
       </div>
     );
   }

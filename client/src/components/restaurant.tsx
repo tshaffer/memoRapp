@@ -21,6 +21,7 @@ interface RestaurantProps {
   restaurant: RestaurantDataState;
   onAddNewRestaurant: (restaurant: RestaurantDescription) => any;
   onUpdateName: (restaurantId: string, name: string) => any;
+  onDismissEditRestaurantForm: () => void;
 }
 
 interface RestaurantComponentState {
@@ -59,7 +60,8 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
     this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
     this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
-    this.handleAddNewRestaurant = this.handleAddNewRestaurant.bind(this);
+    this.handleSaveRestaurant = this.handleSaveRestaurant.bind(this);
+    this.handleCancelRestaurant = this.handleCancelRestaurant.bind(this);
 
     this.handleRestaurantNameChange = this.handleRestaurantNameChange.bind(this);
     this.handleRestaurantServiceRatingChange = this.handleRestaurantServiceRatingChange.bind(this);
@@ -78,7 +80,7 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
       this.resetState();
     }
   }
-  
+
   resetState() {
     if (this.props.id !== '-1') {
       const restaurant: RestaurantDescription = this.props.restaurant.restaurant as RestaurantDescription;
@@ -339,7 +341,8 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
     );
   }
 
-  handleAddNewRestaurant() {
+  handleSaveRestaurant() {
+
     if (isFunction(this.props.onAddNewRestaurant)) {
       this.props.onAddNewRestaurant({
         name: this.state.restaurantName,
@@ -353,14 +356,29 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
         wouldVisitAgain: this.state.restaurantWouldVisitAgain,
       });
     }
+
+    if (isFunction(this.props.onDismissEditRestaurantForm)) {
+      this.props.onDismissEditRestaurantForm();
+    }
+
   }
 
-  renderSubmitAddNewRestaurant() {
+  handleCancelRestaurant() {
+    if (isFunction(this.props.onDismissEditRestaurantForm)) {
+      this.props.onDismissEditRestaurantForm();
+    }
+  }
+
+  renderEditingCompleteButtons() {
     return (
       <div>
         <RaisedButton
           label='Submit'
-          onClick={this.handleAddNewRestaurant}
+          onClick={this.handleSaveRestaurant}
+        />
+        <RaisedButton
+          label='Cancel'
+          onClick={this.handleCancelRestaurant}
         />
       </div>
     );
@@ -374,7 +392,7 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
         {this.renderRestaurantRatings()}
         {this.renderRestaurantComments()}
         {this.renderWouldVisitAgain()}
-        {this.renderSubmitAddNewRestaurant()}
+        {this.renderEditingCompleteButtons()}
       </div>
     );
   }
@@ -395,7 +413,6 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 
-// export default connect(mapStateToProps)(Restaurant);
 export const Restaurant = connect(
   mapStateToProps,
   mapDispatchToProps,
