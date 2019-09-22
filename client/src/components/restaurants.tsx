@@ -44,7 +44,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   getPlaceHolderRestaurant(): any {
     return (
-      <MenuItem key={-1} value={'-1'} primaryText={'------------'} />
+      <MenuItem key={-1} value={'-1'} primaryText={'----------------------------------'} />
     );
   }
   getRestaurants(): any {
@@ -79,21 +79,29 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     });
   }
 
+  // style={{ display: 'inline-block' }}
+
   getRestaurantAddEditRestaurantForm() {
     if (!this.state.viewingRestaurantForm) {
       return (
         <div>
-          <p>Add a new restaurant or edit an existing restaurant</p>
+          <h4>Add a new restaurant or edit an existing restaurant</h4>
           <RaisedButton
             label='New Restaurant'
             onClick={this.handleNewRestaurant}
-            style={{ display: 'inline-block' }}
+            style={{
+              verticalAlign: 'top',
+              marginTop: '18'
+            }}
           />
-          <br/>
           <SelectField
             floatingLabelText='Restaurants'
             value={this.state.currentRestaurantId}
             onChange={this.handleRestaurantChange}
+            style={{ 
+              verticalAlign: 'top',
+              marginLeft: '32px'
+             }}
           >
             {this.getRestaurants()}
           </SelectField>
