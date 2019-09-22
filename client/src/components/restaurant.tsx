@@ -16,7 +16,7 @@ import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { getRestaurantById } from '../selector';
 
-interface RestaurantProps {
+export interface RestaurantEditProps {
   id: string;
   restaurant: RestaurantDataState;
   onAddNewRestaurant: (restaurant: RestaurantDescription) => any;
@@ -37,7 +37,7 @@ interface RestaurantComponentState {
   restaurantWouldVisitAgain: boolean;
 }
 
-class RestaurantComponent extends React.Component<RestaurantProps, RestaurantComponentState> {
+export class RestaurantComponent extends React.Component<RestaurantEditProps, RestaurantComponentState> {
 
   state: RestaurantComponentState = {
     restaurantName: '',
@@ -52,7 +52,7 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
   };
   initialState: RestaurantComponentState;
 
-  constructor(props: RestaurantProps) {
+  constructor(props: RestaurantEditProps) {
     super(props);
 
     this.initialState = Object.assign({}, this.state);
@@ -76,7 +76,7 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
     this.resetState();
   }
 
-  componentDidUpdate(prevProps: RestaurantProps, prevState: any) {
+  componentDidUpdate(prevProps: RestaurantEditProps, prevState: any) {
     if (this.props.id !== prevProps.id) {
       this.resetState();
     }
@@ -411,7 +411,6 @@ const mapDispatchToProps = (dispatch: any) => {
     onUpdateName: updateName,
   }, dispatch);
 };
-
 
 export const Restaurant = connect(
   mapStateToProps,

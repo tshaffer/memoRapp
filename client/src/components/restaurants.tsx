@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 
 import { Restaurant } from './restaurant';
+import { RestaurantVisit } from './restaurantVisit';
+
 import { MemoRappModelState, RestaurantDataState } from '../type';
 import { RestaurantDescription, RestaurantsState } from '../type';
 
@@ -147,7 +149,10 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     else if (this.state.viewingRestaurantVisitForm) {
       return (
         <div>
-          Best Pizza Ever
+          <RestaurantVisit
+            restaurantId={this.state.currentRestaurantId}
+            restaurantVisitId={'-1'}
+          />
         </div>
       );
     } else {
