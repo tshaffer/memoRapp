@@ -9,6 +9,7 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 
 export interface RestaurantFormProps {
+  id: string;
   restaurantName: string;
   newRestaurantCategory: number;
   overallRestaurantRating: number;
@@ -19,6 +20,7 @@ export interface RestaurantFormProps {
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
   onSave: (
+    id: string,
     restaurantName: string,
     newRestaurantCategory: number,
     overallRestaurantRating: number,
@@ -33,6 +35,7 @@ export interface RestaurantFormProps {
 }
 
 interface RestaurantFormComponentState {
+  id: string;
   restaurantName: string;
   newRestaurantCategory: number;
   overallRestaurantRating: number;
@@ -46,6 +49,7 @@ interface RestaurantFormComponentState {
 
 export class RestaurantFormComponent extends React.Component<RestaurantFormProps, RestaurantFormComponentState> {
   state: RestaurantFormComponentState = {
+    id: '-1',
     restaurantName: '',
     newRestaurantCategory: 1,
     overallRestaurantRating: 5,
@@ -77,6 +81,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   componentDidMount() {
     this.setState(
       {
+        id: this.props.id,
         restaurantName: this.props.restaurantName,
         newRestaurantCategory: this.props.newRestaurantCategory,
         overallRestaurantRating: this.props.overallRestaurantRating,
@@ -330,6 +335,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleSave() {
     this.props.onSave(
+      this.state.id,
       this.state.restaurantName,
       this.state.newRestaurantCategory,
       this.state.overallRestaurantRating,

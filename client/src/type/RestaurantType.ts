@@ -15,6 +15,7 @@ export interface RestaurantDataState { // BaPeUiLiveTextDataFeedsDataState
 /** @internal */
 /** @private */
 export interface RestaurantDescription {
+  id: string;
   name: string;
   category: number; // change to string?
   overallRating: number;

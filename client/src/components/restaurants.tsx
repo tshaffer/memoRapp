@@ -136,6 +136,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   }
 
   handleOnSaveRestaurantEdits(
+    id: string,
     restaurantName: string,
     newRestaurantCategory: number,
     overallRestaurantRating: number,
@@ -148,6 +149,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   ) {
     if (isFunction(this.props.onSaveRestaurant)) {
       this.props.onSaveRestaurant({
+        id,
         name: restaurantName,
         category: newRestaurantCategory,
         overallRating: overallRestaurantRating,
@@ -173,6 +175,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
         <div>
           <h4>Restaurant Details</h4>
           <RestaurantForm
+            id={'-1'}
             restaurantName={''}
             newRestaurantCategory={1}
             overallRestaurantRating={5}

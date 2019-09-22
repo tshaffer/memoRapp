@@ -16,10 +16,11 @@ export const addNewRestaurant = (restaurant: RestaurantDescription) => {
     };
     // dispatch(addRestaurant(restaurant.name, restaurantData));
 
-    const path = 'http://localhost:8000/addRestaurant?pizza=great';
-    const data: any = { name: 'pizzaJoint' };
-    const promise = axios.post(path, data);
-    promise
+    // const path = 'http://localhost:8000/addRestaurant?pizza=great';
+    // const data: any = { name: 'pizzaJoint' };
+    
+    const path = 'http://localhost:8000/addRestaurant';
+    axios.post(path, restaurant)
       .then( (response) => {
         console.log('return from post');
         console.log(response);
