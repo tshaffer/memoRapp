@@ -12,7 +12,7 @@ export const addNewRestaurant = (restaurant: RestaurantDescription) => {
       restaurant,
       visits: {},
       menuItems: {},
-    }
+    };
     dispatch(addRestaurant(restaurant.name, restaurantData)); 
   };
 };

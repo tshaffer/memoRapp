@@ -106,7 +106,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
             onClick={this.handleNewRestaurant}
             style={{
               verticalAlign: 'top',
-              marginTop: '18'
+              marginTop: '18px'
             }}
           />
           <SelectField
@@ -161,6 +161,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     }
 
     this.setState({
+      currentRestaurantId: restaurantName,
       viewingRestaurantForm: false,
       viewingRestaurantVisitForm: true,
     });

@@ -1,18 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import DatePicker from 'material-ui/DatePicker';
+import TextField from 'material-ui/TextField';
+
 interface RestaurantVisitProps {
   restaurantId: string;
   restaurantVisitId: string;
 }
 
 interface RestaurantVisitComponentState {
+  visitDate: Date;
   comments: string;
 }
 
 class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, RestaurantVisitComponentState> {
 
   state: RestaurantVisitComponentState = {
+    visitDate: null,
     comments: '',
   };
   initialState: RestaurantVisitComponentState;
@@ -21,10 +26,53 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
     super(props);
   }
 
+  componentDidMount() {
+    this.setState({
+      visitDate: new Date(),
+    });
+  }
+
+  handleSetVisitDate = (event: any, date: Date) => {
+    this.setState({
+      visitDate: date,
+    });
+  }
+
+  renderVisitDate() {
+    return (
+      <div>
+        Visit Date
+        <DatePicker
+          value={this.state.visitDate}
+          onChange={this.handleSetVisitDate}
+        />
+      </div>
+    );
+  }
+
+  renderVisitComments() {
+    return (
+      <div>
+        Comments:
+        <br/>
+        <TextField
+          multiLine={true}
+          rows={4}
+          rowsMax={4}
+        />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
-        Enter information about this restaurant visit
+        Enter information about this restaurant visit to {this.props.restaurantId}
+        <br />
+        <br />
+        {this.renderVisitDate()}
+        <br/>
+        {this.renderVisitComments()}
       </div>
     );
   }
