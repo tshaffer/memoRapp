@@ -22,6 +22,7 @@ interface RestaurantProps {
   onAddNewRestaurant: (restaurant: RestaurantDescription) => any;
   onUpdateName: (restaurantId: string, name: string) => any;
   onDismissEditRestaurantForm: () => void;
+  onSaveRestaurantEdits: () => void;
 }
 
 interface RestaurantComponentState {
@@ -357,10 +358,9 @@ class RestaurantComponent extends React.Component<RestaurantProps, RestaurantCom
       });
     }
 
-    if (isFunction(this.props.onDismissEditRestaurantForm)) {
-      this.props.onDismissEditRestaurantForm();
+    if (isFunction(this.props.onSaveRestaurantEdits)) {
+      this.props.onSaveRestaurantEdits();
     }
-
   }
 
   handleCancelRestaurant() {

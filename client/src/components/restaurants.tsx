@@ -15,6 +15,7 @@ interface RestaurantsProps {
 
 interface RestaurantsReactState {
   viewingRestaurantForm: boolean;
+  viewingRestaurantVisitForm: boolean;
   currentRestaurantId: string;
 }
 
@@ -22,6 +23,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   state: RestaurantsReactState = {
     viewingRestaurantForm: false,
+    viewingRestaurantVisitForm: false,
     currentRestaurantId: '-1',
   };
 
@@ -29,17 +31,9 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     super(props);
 
     this.handleNewRestaurant = this.handleNewRestaurant.bind(this);
+    this.handleOnSaveRestaurantEdits = this.handleOnSaveRestaurantEdits.bind(this);
     this.handleDismissEditRestaurantForm = this.handleDismissEditRestaurantForm.bind(this);
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
-  }
-
-  handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
-    this.setState(
-      {
-        currentRestaurantId,
-        viewingRestaurantForm: true,
-      }
-    );
   }
 
   getPlaceHolderRestaurant(): any {
@@ -75,14 +69,24 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   handleNewRestaurant() {
     console.log('handleNewRestaurant invoked');
     this.setState({
+      currentRestaurantId: '-1',
       viewingRestaurantForm: true,
+      viewingRestaurantVisitForm: false,
     });
   }
 
-  // style={{ display: 'inline-block' }}
+  handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
+    this.setState(
+      {
+        currentRestaurantId,
+        viewingRestaurantForm: true,
+        viewingRestaurantVisitForm: false
+      }
+    );
+  }
 
   getRestaurantAddEditRestaurantForm() {
-    if (!this.state.viewingRestaurantForm) {
+    if (!this.state.viewingRestaurantForm && !this.state.viewingRestaurantVisitForm) {
       return (
         <div>
           <h4>Add a new restaurant or edit an existing restaurant</h4>
@@ -116,22 +120,37 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   handleDismissEditRestaurantForm() {
     this.setState({
       viewingRestaurantForm: false,
+      viewingRestaurantVisitForm: false,
+    });
+  }
+
+  handleOnSaveRestaurantEdits() {
+    this.setState({
+      viewingRestaurantForm: false,
+      viewingRestaurantVisitForm: true,
     });
   }
 
   getRestaurantForm() {
-    if (this.state.viewingRestaurantForm) {
+    if (this.state.viewingRestaurantForm && !this.state.viewingRestaurantVisitForm) {
       return (
         <div>
           <h4>Restaurant Details</h4>
           <Restaurant
             id={this.state.currentRestaurantId}
             onDismissEditRestaurantForm={this.handleDismissEditRestaurantForm}
+            onSaveRestaurantEdits={this.handleOnSaveRestaurantEdits}
           />
         </div>
       );
     }
-    else {
+    else if (this.state.viewingRestaurantVisitForm) {
+      return (
+        <div>
+          Best Pizza Ever
+        </div>
+      );
+    } else {
       return null;
     }
   }
