@@ -123,6 +123,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     if (this.state.viewingRestaurantForm) {
       return (
         <div>
+          <h4>Restaurant Details</h4>
           <Restaurant
             id={this.state.currentRestaurantId}
             onDismissEditRestaurantForm={this.handleDismissEditRestaurantForm}
@@ -148,6 +149,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     return (
       <MuiThemeProvider>
         <div>
+          <h3>Restaurants</h3>
           {this.renderRestaurants()}
         </div>
       </MuiThemeProvider>

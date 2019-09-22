@@ -50,7 +50,7 @@ class App extends React.Component<any, object> {
     return (
       <MuiThemeProvider>
         <div>
-          <h3>MemoRapp</h3>
+          <h2>MemoRapp</h2>
           {this.renderMRCategory()}
           <Restaurants/>
         </div>
