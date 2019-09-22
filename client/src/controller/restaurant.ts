@@ -16,7 +16,7 @@ export const addNewRestaurant = (restaurant: RestaurantDescription) => {
     };
     // dispatch(addRestaurant(restaurant.name, restaurantData));
 
-    const path = 'http://localhost:8000/addRestaurant';
+    const path = 'http://localhost:8000/addRestaurant?pizza=great';
     const data: any = { name: 'pizzaJoint' };
     const promise = axios.post(path, data);
     promise
