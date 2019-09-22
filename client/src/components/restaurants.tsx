@@ -5,15 +5,23 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 
-import { Restaurant } from './restaurant';
 import { RestaurantForm } from './restaurantForm';
 import { RestaurantVisit } from './restaurantVisit';
 
 import { MemoRappModelState, RestaurantDataState } from '../type';
 import { RestaurantDescription, RestaurantsState } from '../type';
 
-interface RestaurantsProps {
+import {
+  addNewRestaurant
+} from '../controller';
+
+import { isFunction } from 'lodash';
+import { bindActionCreators } from 'redux';
+
+export interface RestaurantsProps {
   restaurants: RestaurantsState;
+  onSaveRestaurant: (restaurant: RestaurantDescription) => any;
+  onAddRestaurant: () => any;
 }
 
 interface RestaurantsReactState {
@@ -127,7 +135,31 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     });
   }
 
-  handleOnSaveRestaurantEdits() {
+  handleOnSaveRestaurantEdits(
+    restaurantName: string,
+    newRestaurantCategory: number,
+    overallRestaurantRating: number,
+    restaurantFoodRating: number,
+    restaurantServiceRating: number,
+    restaurantAmbienceRating: number,
+    restaurantOutdoorSeating: boolean,
+    restaurantComments: string,
+    restaurantWouldVisitAgain: boolean,
+  ) {
+    if (isFunction(this.props.onSaveRestaurant)) {
+      this.props.onSaveRestaurant({
+        name: restaurantName,
+        category: newRestaurantCategory,
+        overallRating: overallRestaurantRating,
+        foodRating: restaurantFoodRating,
+        serviceRating: restaurantServiceRating,
+        ambienceRating: restaurantAmbienceRating,
+        outdoorSeating: restaurantOutdoorSeating,
+        comments: restaurantComments,
+        wouldVisitAgain: restaurantWouldVisitAgain,
+      });
+    }
+
     this.setState({
       viewingRestaurantForm: false,
       viewingRestaurantVisitForm: true,
@@ -149,7 +181,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
             restaurantOutdoorSeating={false}
             restaurantComments={''}
             restaurantWouldVisitAgain={false}
-            onSave={null}
+            onSave={this.handleOnSaveRestaurantEdits}
             onCancel={null}
           />
         </div>
@@ -196,6 +228,13 @@ function mapStateToProps(state: MemoRappModelState) {
   };
 }
 
+const mapDispatchToProps = (dispatch: any) => {
+  return bindActionCreators({
+    onSaveRestaurant: addNewRestaurant,
+  }, dispatch);
+};
+
 export const Restaurants = connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(RestaurantsComponent);

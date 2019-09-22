@@ -60,6 +60,16 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   constructor(props: RestaurantFormProps) {
     super(props);
 
+    this.handleRestaurantNameChange = this.handleRestaurantNameChange.bind(this);
+    this.handleRestaurantServiceRatingChange = this.handleRestaurantServiceRatingChange.bind(this);
+    this.handleRestaurantAmbienceRatingChange = this.handleRestaurantAmbienceRatingChange.bind(this);
+    this.handleRestaurantOutdoorSeatingChange = this.handleRestaurantOutdoorSeatingChange.bind(this);
+    this.handleRestaurantCommentsChange = this.handleRestaurantCommentsChange.bind(this);
+    this.handleRestaurantWouldVisitAgainChange = this.handleRestaurantWouldVisitAgainChange.bind(this);
+    this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
+    this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
+    this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
+
     this.handleSave = this.handleSave.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
