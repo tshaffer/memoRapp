@@ -9,6 +9,15 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 
 export interface RestaurantFormProps {
+  restaurantName: string;
+  newRestaurantCategory: number;
+  overallRestaurantRating: number;
+  restaurantFoodRating: number;
+  restaurantServiceRating: number;
+  restaurantAmbienceRating: number;
+  restaurantOutdoorSeating: boolean;
+  restaurantComments: string;
+  restaurantWouldVisitAgain: boolean;
   onSave: (
     restaurantName: string,
     newRestaurantCategory: number,
@@ -19,9 +28,8 @@ export interface RestaurantFormProps {
     restaurantOutdoorSeating: boolean,
     restaurantComments: string,
     restaurantWouldVisitAgain: boolean,
-    ) => void;
+  ) => void;
   onCancel: () => void;
-
 }
 
 interface RestaurantFormComponentState {
@@ -54,7 +62,22 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
     this.handleSave = this.handleSave.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+  }
 
+  componentDidMount() {
+    this.setState(
+      {
+        restaurantName: this.props.restaurantName,
+        newRestaurantCategory: this.props.newRestaurantCategory,
+        overallRestaurantRating: this.props.overallRestaurantRating,
+        restaurantFoodRating: this.props.restaurantFoodRating,
+        restaurantServiceRating: this.props.restaurantServiceRating,
+        restaurantAmbienceRating: this.props.restaurantAmbienceRating,
+        restaurantOutdoorSeating: this.props.restaurantOutdoorSeating,
+        restaurantComments: this.props.restaurantComments,
+        restaurantWouldVisitAgain: this.props.restaurantWouldVisitAgain,
+      }
+    );
   }
 
   handleRestaurantNameChange(event: any) {
@@ -296,12 +319,23 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   handleSave() {
+    this.props.onSave(
+      this.state.restaurantName,
+      this.state.newRestaurantCategory,
+      this.state.overallRestaurantRating,
+      this.state.restaurantFoodRating,
+      this.state.restaurantServiceRating,
+      this.state.restaurantAmbienceRating,
+      this.state.restaurantOutdoorSeating,
+      this.state.restaurantComments,
+      this.state.restaurantWouldVisitAgain,
+    );
   }
 
   handleCancel() {
-
+    this.props.onCancel();
   }
-  
+
   renderEditingCompleteButtons() {
     return (
       <div>

@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 
 import { Restaurant } from './restaurant';
+import { RestaurantForm } from './restaurantForm';
 import { RestaurantVisit } from './restaurantVisit';
 
 import { MemoRappModelState, RestaurantDataState } from '../type';
@@ -104,10 +105,10 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
             floatingLabelText='Restaurants'
             value={this.state.currentRestaurantId}
             onChange={this.handleRestaurantChange}
-            style={{ 
+            style={{
               verticalAlign: 'top',
               marginLeft: '32px'
-             }}
+            }}
           >
             {this.getRestaurants()}
           </SelectField>
@@ -138,10 +139,18 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
       return (
         <div>
           <h4>Restaurant Details</h4>
-          <Restaurant
-            id={this.state.currentRestaurantId}
-            onDismissEditRestaurantForm={this.handleDismissEditRestaurantForm}
-            onSaveRestaurantEdits={this.handleOnSaveRestaurantEdits}
+          <RestaurantForm
+            restaurantName={''}
+            newRestaurantCategory={1}
+            overallRestaurantRating={5}
+            restaurantFoodRating={5}
+            restaurantServiceRating={5}
+            restaurantAmbienceRating={5}
+            restaurantOutdoorSeating={false}
+            restaurantComments={''}
+            restaurantWouldVisitAgain={false}
+            onSave={null}
+            onCancel={null}
           />
         </div>
       );
