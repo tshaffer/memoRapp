@@ -17,6 +17,7 @@ import {
 
 import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
+import { guid } from '../utilities/utils';
 
 export interface RestaurantsProps {
   restaurants: RestaurantsState;
@@ -175,7 +176,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
         <div>
           <h4>Restaurant Details</h4>
           <RestaurantForm
-            id={'-1'}
+            id={guid()}
             restaurantName={''}
             newRestaurantCategory={1}
             overallRestaurantRating={5}

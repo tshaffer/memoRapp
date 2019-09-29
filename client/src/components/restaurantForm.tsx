@@ -35,7 +35,7 @@ export interface RestaurantFormProps {
 }
 
 interface RestaurantFormComponentState {
-  id: string;
+  restaurantId: string;
   restaurantName: string;
   newRestaurantCategory: number;
   overallRestaurantRating: number;
@@ -49,7 +49,7 @@ interface RestaurantFormComponentState {
 
 export class RestaurantFormComponent extends React.Component<RestaurantFormProps, RestaurantFormComponentState> {
   state: RestaurantFormComponentState = {
-    id: '-1',
+    restaurantId: '-1',
     restaurantName: '',
     newRestaurantCategory: 1,
     overallRestaurantRating: 5,
@@ -81,7 +81,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   componentDidMount() {
     this.setState(
       {
-        id: this.props.id,
+        restaurantId: this.props.id,
         restaurantName: this.props.restaurantName,
         newRestaurantCategory: this.props.newRestaurantCategory,
         overallRestaurantRating: this.props.overallRestaurantRating,
@@ -335,7 +335,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleSave() {
     this.props.onSave(
-      this.state.id,
+      this.state.restaurantId,
       this.state.restaurantName,
       this.state.newRestaurantCategory,
       this.state.overallRestaurantRating,
