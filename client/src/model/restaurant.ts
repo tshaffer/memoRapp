@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { RestaurantSummary, RestaurantsState, RestaurantState } from '../type';
 import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 
@@ -62,8 +63,7 @@ export const restaurantReducer = (
 ): RestaurantsState => {
   switch (action.type) {
     case ADD_RESTAURANT: {
-      debugger;
-      const newState: RestaurantsState = state;
+      const newState = cloneDeep(state);
       const { restaurantId, restaurantData } = action.payload;
       newState[restaurantId] = restaurantData;
       return newState;
