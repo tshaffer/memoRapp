@@ -183,6 +183,49 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     });
   }
 
+  getNewRestaurantForm() {
+    return (
+      <div>
+        <RestaurantForm
+          restaurantId={guid()}
+          restaurantName={''}
+          newRestaurantCategory={1}
+          overallRestaurantRating={5}
+          restaurantFoodRating={5}
+          restaurantServiceRating={5}
+          restaurantAmbienceRating={5}
+          restaurantOutdoorSeating={false}
+          restaurantComments={''}
+          restaurantWouldVisitAgain={false}
+          onSave={this.handleOnSaveRestaurantEdits}
+          onCancel={null}
+        />
+      </div>
+    );
+  }
+
+  getExistingRestaurantForm(restaurantSummary: RestaurantSummary) {
+    return (
+      <div>
+      <h4>Restaurant Details</h4>
+      <RestaurantForm
+        restaurantId={restaurantSummary.restaurantId}
+        restaurantName={restaurantSummary.name}
+        newRestaurantCategory={restaurantSummary.category}
+        overallRestaurantRating={restaurantSummary.overallRating}
+        restaurantFoodRating={restaurantSummary.foodRating}
+        restaurantServiceRating={restaurantSummary.serviceRating}
+        restaurantAmbienceRating={restaurantSummary.ambienceRating}
+        restaurantOutdoorSeating={restaurantSummary.outdoorSeating}
+        restaurantComments={restaurantSummary.comments}
+        restaurantWouldVisitAgain={restaurantSummary.wouldVisitAgain}
+        onSave={this.handleOnSaveRestaurantEdits}
+        onCancel={null}
+      />
+    </div>
+);
+  }
+
   getRestaurantForm() {
 
     console.log('getRestaurantForm');
@@ -193,20 +236,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
         return (
           <div>
             <h4>Restaurant Details</h4>
-            <RestaurantForm
-              restaurantId={guid()}
-              restaurantName={''}
-              newRestaurantCategory={1}
-              overallRestaurantRating={5}
-              restaurantFoodRating={5}
-              restaurantServiceRating={5}
-              restaurantAmbienceRating={5}
-              restaurantOutdoorSeating={false}
-              restaurantComments={''}
-              restaurantWouldVisitAgain={false}
-              onSave={this.handleOnSaveRestaurantEdits}
-              onCancel={null}
-            />
+            {this.getNewRestaurantForm()}
           </div>
         );
       }
@@ -217,29 +247,10 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
         if (this.props.restaurants.hasOwnProperty(this.state.currentRestaurantId)) {
           const restaurantState: RestaurantState = this.props.restaurants[this.state.currentRestaurantId];
           const restaurantSummary = restaurantState.restaurantSummary;
-
-          return (
-            <div>
-              <h4>Restaurant Details</h4>
-              <RestaurantForm
-                restaurantId={restaurantSummary.restaurantId}
-                restaurantName={restaurantSummary.name}
-                newRestaurantCategory={restaurantSummary.category}
-                overallRestaurantRating={restaurantSummary.overallRating}
-                restaurantFoodRating={restaurantSummary.foodRating}
-                restaurantServiceRating={restaurantSummary.serviceRating}
-                restaurantAmbienceRating={restaurantSummary.ambienceRating}
-                restaurantOutdoorSeating={restaurantSummary.outdoorSeating}
-                restaurantComments={restaurantSummary.comments}
-                restaurantWouldVisitAgain={restaurantSummary.wouldVisitAgain}
-                onSave={this.handleOnSaveRestaurantEdits}
-                onCancel={null}
-              />
-            </div>
-          );
+          return this.getExistingRestaurantForm(restaurantSummary);
         }
         else {
-          return null;
+          debugger;
         }
       }
     }
