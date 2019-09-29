@@ -11,11 +11,16 @@ import {
   restaurantReducer
 } from './restaurant';
 
+import {
+  mtbTrailReducer
+} from './mtbTrail';
+
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
 export const rootReducer = combineReducers<MemoRappModelState>({
   restaurants: restaurantReducer,
+  mtbTrails: mtbTrailReducer,
 });
 
 // -----------------------------------------------------------------------

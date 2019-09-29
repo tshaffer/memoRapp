@@ -9,10 +9,11 @@ import { RestaurantForm } from './restaurantForm';
 import { RestaurantVisit } from './restaurantVisit';
 
 import { MemoRappModelState } from '../type';
-import { RestaurantDescription, RestaurantsState } from '../type';
+import { RestaurantSummary, RestaurantsState } from '../type';
 
 import {
-  saveRestaurant
+  loadRestaurants,
+  saveRestaurant,
 } from '../controller';
 
 import { isFunction } from 'lodash';
@@ -21,7 +22,8 @@ import { guid } from '../utilities/utils';
 
 export interface RestaurantsProps {
   restaurants: RestaurantsState;
-  onSaveRestaurant: (restaurant: RestaurantDescription) => any;
+  loadRestaurants: () => void;
+  onSaveRestaurant: (restaurant: RestaurantSummary) => any;
   onAddRestaurant: () => any;
 }
 
@@ -36,7 +38,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   state: RestaurantsReactState = {
     viewingRestaurantForm: false,
     viewingRestaurantVisitForm: false,
-    currentRestaurantId: '',
+    currentRestaurantId: '-1',
   };
 
   constructor(props: any) {
@@ -46,6 +48,11 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     this.handleOnSaveRestaurantEdits = this.handleOnSaveRestaurantEdits.bind(this);
     this.handleDismissEditRestaurantForm = this.handleDismissEditRestaurantForm.bind(this);
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('get all restaurants');
+    this.props.loadRestaurants();
   }
 
   getPlaceHolderRestaurant(): any {
@@ -58,17 +65,17 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
     const restaurantsState: RestaurantsState = this.props.restaurants;
 
-    const restaurantDescriptions: RestaurantDescription[] = [];
+    const restaurantDescriptions: RestaurantSummary[] = [];
     const restaurantIds: string[] = [];
     for (const restaurantId of Object.keys(restaurantsState)) {
       if (restaurantsState.hasOwnProperty(restaurantId)) {
         const restaurantDataState = restaurantsState[restaurantId];
-        restaurantDescriptions.push(restaurantDataState.restaurant as RestaurantDescription);
+        restaurantDescriptions.push(restaurantDataState.restaurantSummary as RestaurantSummary);
         restaurantIds.push(restaurantId);
       }
     }
 
-    const restaurants = restaurantDescriptions.map((restaurantDescription: RestaurantDescription, index: number) => {
+    const restaurants = restaurantDescriptions.map((restaurantDescription: RestaurantSummary, index: number) => {
       return (
         <MenuItem key={index} value={restaurantIds[index]} primaryText={restaurantDescription.name} />
       );
@@ -236,6 +243,7 @@ function mapStateToProps(state: MemoRappModelState) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    loadRestaurants,
     onSaveRestaurant: saveRestaurant,
   }, dispatch);
 };

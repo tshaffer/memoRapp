@@ -1,4 +1,4 @@
-import { RestaurantDescription, RestaurantsState, RestaurantDataState } from '../type';
+import { RestaurantSummary, RestaurantsState, RestaurantState } from '../type';
 import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 
 // ------------------------------------
@@ -11,14 +11,11 @@ export const UPDATE_RESTAURANT_PROPERTY = 'UPDATE_RESTAURANT_PROPERTY';
 // Actions
 // ------------------------------------
 
-/** @internal */
-/** @private */
-
-export type PartialRestaurantDescription = Partial<RestaurantDescription>;
+export type PartialRestaurantDescription = Partial<RestaurantSummary>;
 
 export interface AddRestaurantPayload {
   id: string;
-  restaurantData: RestaurantDataState;
+  restaurantData: RestaurantState;
 }
 
 export interface UpdateRestaurantPropertyPayload {
@@ -28,7 +25,7 @@ export interface UpdateRestaurantPropertyPayload {
 
 export const addRestaurant = (
   id: string,
-  restaurantData: RestaurantDataState
+  restaurantData: RestaurantState
 ): RestaurantAction<AddRestaurantPayload> => {
 
   return {
@@ -42,7 +39,7 @@ export const addRestaurant = (
 
 export const updateRestaurantProperty = (
   id: string,
-  data: Partial<RestaurantDescription>
+  data: Partial<RestaurantSummary>
 ): RestaurantAction<UpdateRestaurantPropertyPayload> => {
   return {
     type: UPDATE_RESTAURANT_PROPERTY,
@@ -65,16 +62,36 @@ export const restaurantReducer = (
 ): RestaurantsState => {
   switch (action.type) {
     case ADD_RESTAURANT: {
-      const newState: RestaurantsState = Object.assign({}, state);
-      const { id, restaurantData } = action.payload;
-      newState[id] = {
-        restaurant: {},
-        visits: {},
-        menuItems: {},
-      };
-      newState[id].restaurant = restaurantData.restaurant;
-      newState[id].visits = restaurantData.visits;
-      newState[id].menuItems = restaurantData.menuItems;
+      // const newState: RestaurantsState = Object.assign({}, state);
+      // const { restaurantId: id, restaurantData } = action.payload;
+      // newState[id] = {
+      //   restaurant: {},
+      //   visits: {},
+      //   menuItems: {},
+      // };
+      // newState[id].restaurant = restaurantData.restaurant;
+      // newState[id].visits = restaurantData.visits;
+      // newState[id].menuItems = restaurantData.menuItems;
+      // return newState;
+
+      // const { restaurantId: id, restaurantData } = action.payload;
+      // const newState: RestaurantsState = {
+      //   ['77']: {
+      //     restaurantSummary: restaurantData,
+      //     visits: {},
+      //     menuItems: {}
+      //   }
+      // };
+
+      debugger;
+      const newState: RestaurantsState = state;
+      // const { restaurantId: id, restaurantData } = action.payload;
+      const id = action.payload.id;
+      const restaurantData = action.payload.restaurantData;
+      newState[id] = restaurantData;
+
+
+
       return newState;
     }
     case UPDATE_RESTAURANT_PROPERTY: {

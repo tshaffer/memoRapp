@@ -1,21 +1,21 @@
 /** @internal */
 /** @private */
 export interface RestaurantsState { // BaPeUiLiveTextDataFeedsState
-  [id: string]: RestaurantDataState;
+  [id: string]: RestaurantState;
 }
 
 /** @internal */
 /** @private */
-export interface RestaurantDataState { // BaPeUiLiveTextDataFeedsDataState
-  restaurant: RestaurantDescription | {};
+export interface RestaurantState { // BaPeUiLiveTextDataFeedsDataState
+  restaurantSummary: RestaurantSummary;
   visits: RestaurantVisitMap;
   menuItems: RestaurantMenuItemMap;
 }
 
 /** @internal */
 /** @private */
-export interface RestaurantDescription {
-  id: string;
+export interface RestaurantSummary {
+  restaurantId: string;
   name: string;
   category: number; // change to string?
   overallRating: number;
@@ -30,23 +30,23 @@ export interface RestaurantDescription {
 /** @internal */
 /** @private */
 export interface RestaurantVisit {
-  id: string;
+  restaurantVisitId: string;
   restaurantId: string;
   visitDate: Date;
 }
 
 export interface RestaurantVisitMap {
-  [id: string]: RestaurantVisit;
+  [restaurantVisitid: string]: RestaurantVisit;
 }
 
 /** @internal */
 /** @private */
 export interface RestaurantMenuItem {
-  id: string;
+  restaurantMenuItemId: string;
   rating: number;
 }
 
 export interface RestaurantMenuItemMap {
-  [id: string]: RestaurantMenuItem;
+  [restaurantMenuItemId: string]: RestaurantMenuItem;
 }
 
