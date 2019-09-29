@@ -14,7 +14,7 @@ export const UPDATE_RESTAURANT_PROPERTY = 'UPDATE_RESTAURANT_PROPERTY';
 export type PartialRestaurantDescription = Partial<RestaurantSummary>;
 
 export interface AddRestaurantPayload {
-  id: string;
+  restaurantId: string;
   restaurantData: RestaurantState;
 }
 
@@ -24,14 +24,14 @@ export interface UpdateRestaurantPropertyPayload {
 }
 
 export const addRestaurant = (
-  id: string,
+  restaurantId: string,
   restaurantData: RestaurantState
 ): RestaurantAction<AddRestaurantPayload> => {
 
   return {
     type: ADD_RESTAURANT,
     payload: {
-      id,
+      restaurantId,
       restaurantData,
     },
   };
@@ -62,36 +62,10 @@ export const restaurantReducer = (
 ): RestaurantsState => {
   switch (action.type) {
     case ADD_RESTAURANT: {
-      // const newState: RestaurantsState = Object.assign({}, state);
-      // const { restaurantId: id, restaurantData } = action.payload;
-      // newState[id] = {
-      //   restaurant: {},
-      //   visits: {},
-      //   menuItems: {},
-      // };
-      // newState[id].restaurant = restaurantData.restaurant;
-      // newState[id].visits = restaurantData.visits;
-      // newState[id].menuItems = restaurantData.menuItems;
-      // return newState;
-
-      // const { restaurantId: id, restaurantData } = action.payload;
-      // const newState: RestaurantsState = {
-      //   ['77']: {
-      //     restaurantSummary: restaurantData,
-      //     visits: {},
-      //     menuItems: {}
-      //   }
-      // };
-
       debugger;
       const newState: RestaurantsState = state;
-      // const { restaurantId: id, restaurantData } = action.payload;
-      const id = action.payload.id;
-      const restaurantData = action.payload.restaurantData;
-      newState[id] = restaurantData;
-
-
-
+      const { restaurantId, restaurantData } = action.payload;
+      newState[restaurantId] = restaurantData;
       return newState;
     }
     case UPDATE_RESTAURANT_PROPERTY: {
