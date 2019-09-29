@@ -7,19 +7,12 @@ import { RestaurantDescription, RestaurantDataState } from '../type';
 
 /** @internal */
 /** @private */
-export const addNewRestaurant = (restaurant: RestaurantDescription) => {
+export const saveRestaurant = (restaurant: RestaurantDescription) => {
   return (dispatch: any, getState: any): any => {
-    const restaurantData: RestaurantDataState = {
-      restaurant,
-      visits: {},
-      menuItems: {},
-    };
+
     // dispatch(addRestaurant(restaurant.name, restaurantData));
 
-    // const path = 'http://localhost:8000/addRestaurant?pizza=great';
-    // const data: any = { name: 'pizzaJoint' };
-    
-    const path = 'http://localhost:8000/addRestaurant';
+    const path = 'http://localhost:8000/restaurant';
     axios.post(path, restaurant)
       .then( (response) => {
         console.log('return from post');

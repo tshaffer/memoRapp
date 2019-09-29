@@ -14,7 +14,7 @@ module.exports = {
 
   plugins: [
     new CopyWebpackPlugin([
-        {from:'./build/bundle.js', to:'../../../memoRappServer/public/build'}
+        {from:'./build/bundle.js', to:'../../../mrs/public/build'}
     ]),
   ],
 

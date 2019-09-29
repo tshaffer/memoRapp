@@ -8,11 +8,11 @@ import SelectField from 'material-ui/SelectField';
 import { RestaurantForm } from './restaurantForm';
 import { RestaurantVisit } from './restaurantVisit';
 
-import { MemoRappModelState, RestaurantDataState } from '../type';
+import { MemoRappModelState } from '../type';
 import { RestaurantDescription, RestaurantsState } from '../type';
 
 import {
-  addNewRestaurant
+  saveRestaurant
 } from '../controller';
 
 import { isFunction } from 'lodash';
@@ -36,7 +36,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   state: RestaurantsReactState = {
     viewingRestaurantForm: false,
     viewingRestaurantVisitForm: false,
-    currentRestaurantId: '-1',
+    currentRestaurantId: '',
   };
 
   constructor(props: any) {
@@ -53,6 +53,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
       <MenuItem key={-1} value={'-1'} primaryText={'----------------------------------'} />
     );
   }
+
   getRestaurants(): any {
 
     const restaurantsState: RestaurantsState = this.props.restaurants;
@@ -81,7 +82,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   handleNewRestaurant() {
     console.log('handleNewRestaurant invoked');
     this.setState({
-      currentRestaurantId: '-1',
+      currentRestaurantId: '',
       viewingRestaurantForm: true,
       viewingRestaurantVisitForm: false,
     });
@@ -137,7 +138,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   }
 
   handleOnSaveRestaurantEdits(
-    id: string,
+    restaurantId: string,
     restaurantName: string,
     newRestaurantCategory: number,
     overallRestaurantRating: number,
@@ -150,7 +151,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   ) {
     if (isFunction(this.props.onSaveRestaurant)) {
       this.props.onSaveRestaurant({
-        id,
+        restaurantId,
         name: restaurantName,
         category: newRestaurantCategory,
         overallRating: overallRestaurantRating,
@@ -164,7 +165,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     }
 
     this.setState({
-      currentRestaurantId: restaurantName,
+      currentRestaurantId: restaurantId,
       viewingRestaurantForm: false,
       viewingRestaurantVisitForm: true,
     });
@@ -176,7 +177,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
         <div>
           <h4>Restaurant Details</h4>
           <RestaurantForm
-            id={guid()}
+            restaurantId={guid()}
             restaurantName={''}
             newRestaurantCategory={1}
             overallRestaurantRating={5}
@@ -235,7 +236,7 @@ function mapStateToProps(state: MemoRappModelState) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
-    onSaveRestaurant: addNewRestaurant,
+    onSaveRestaurant: saveRestaurant,
   }, dispatch);
 };
 
