@@ -198,7 +198,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
           restaurantComments={''}
           restaurantWouldVisitAgain={false}
           onSave={this.handleOnSaveRestaurantEdits}
-          onCancel={null}
+          onCancel={this.handleDismissEditRestaurantForm}
         />
       </div>
     );
@@ -220,8 +220,8 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
         restaurantComments={restaurantSummary.comments}
         restaurantWouldVisitAgain={restaurantSummary.wouldVisitAgain}
         onSave={this.handleOnSaveRestaurantEdits}
-        onCancel={null}
-      />
+        onCancel={this.handleDismissEditRestaurantForm}
+        />
     </div>
 );
   }
