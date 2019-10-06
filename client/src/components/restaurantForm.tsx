@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import uuid = require('uuid');
+import { bindActionCreators } from 'redux';
 
 export interface RestaurantFormProps {
   restaurantId: string;
@@ -33,6 +34,8 @@ export interface RestaurantFormProps {
     restaurantWouldVisitAgain: boolean,
   ) => void;
   onCancel: () => void;
+  // onSaveVisit: () => void;
+  // onCancelVisit: () => void;
 }
 
 interface RestaurantFormComponentState {
@@ -46,6 +49,7 @@ interface RestaurantFormComponentState {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
+  currentVisitId: string;
 }
 
 export class RestaurantFormComponent extends React.Component<RestaurantFormProps, RestaurantFormComponentState> {
@@ -60,6 +64,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     restaurantOutdoorSeating: false,
     restaurantComments: '',
     restaurantWouldVisitAgain: false,
+    currentVisitId: '',
   };
 
   constructor(props: RestaurantFormProps) {
@@ -74,6 +79,9 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     this.handleRestaurantCategoryChange = this.handleRestaurantCategoryChange.bind(this);
     this.handleRestaurantRatingChange = this.handleRestaurantRatingChange.bind(this);
     this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
+
+    this.handleNewVisit = this.handleNewVisit.bind(this);
+    this.handleEditVisit = this.handleEditVisit.bind(this);
 
     this.handleSave = this.handleSave.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -116,6 +124,45 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       </div>
     );
   }
+
+  handleNewVisit() {
+    console.log('handleNewVisit invoked');
+  }
+
+  handleEditVisit() {
+    console.log('handleVisitChange invoked');
+  }
+
+  getVisits(): any[] {
+    return [];
+  }
+
+  renderRestaurantAddEditVisitForm() {
+    return (
+      <div>
+        <h4>Add a visit or view an existing visit</h4>
+        <RaisedButton
+          label='New Visit'
+          onClick={this.handleNewVisit}
+          style={{
+            verticalAlign: 'top',
+            marginTop: '18px'
+          }}
+        />
+        <SelectField
+          floatingLabelText='Visits'
+          value={this.state.currentVisitId}
+          onChange={this.handleEditVisit}
+          style={{
+            verticalAlign: 'top',
+            marginLeft: '32px'
+          }}
+        >
+          {this.getVisits()}
+        </SelectField>
+      </div>
+    );
+}
 
   handleRestaurantCategoryChange(event: any, index: any, newRestaurantCategory: any) {
     this.setState(
@@ -377,6 +424,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     return (
       <div>
         {this.renderRestaurantName()}
+        {this.renderRestaurantAddEditVisitForm()}
         {this.renderRestaurantCategory()}
         {this.renderRestaurantRatings()}
         {this.renderRestaurantComments()}
@@ -389,9 +437,29 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
 function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
   return {
+    restaurantId: ownProps.restaurantId,
+    restaurantName: ownProps.restaurantName,
+    newRestaurantCategory: ownProps.newRestaurantCategory,
+    overallRestaurantRating: ownProps.overallRestaurantRating,
+    restaurantFoodRating: ownProps.restaurantFoodRating,
+    restaurantServiceRating: ownProps.restaurantServiceRating,
+    restaurantAmbienceRating: ownProps.restaurantAmbienceRating,
+    restaurantOutdoorSeating: ownProps.restaurantOutdoorSeating,
+    restaurantComments: ownProps.restaurantComments,
+    restaurantWouldVisitAgain: ownProps.restaurantWouldVisitAgain,
   };
 }
 
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+  return bindActionCreators({
+    // onCancel: ownProps.;
+    // onNewVisit: () => void;
+    // onEditVisit: () => void;
+  }, dispatch);
+};
+
+
 export const RestaurantForm = connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(RestaurantFormComponent);

@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 interface RestaurantVisitProps {
   restaurantId: string;
   restaurantVisitId: string;
+  onSaveVisit: () => void;
+  onCancel: () => void;
 }
 
 interface RestaurantVisitComponentState {
@@ -64,6 +67,30 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
     );
   }
 
+  handleSaveVisit() {
+    this.props.onSaveVisit();
+  }
+
+  handleCancel() {
+    this.props.onCancel();
+  }
+
+  renderEditingCompleteButtons() {
+    return (
+      <div>
+        <RaisedButton
+          label='Submit'
+          onClick={this.handleSaveVisit}
+        />
+        <RaisedButton
+          label='Cancel'
+          onClick={this.handleCancel}
+        />
+      </div>
+    );
+  }
+
+
   render() {
     return (
       <div>
@@ -73,17 +100,16 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
         {this.renderVisitDate()}
         <br/>
         {this.renderVisitComments()}
+        {this.renderEditingCompleteButtons()}
       </div>
     );
   }
 }
 
 function mapStateToProps(state: any, ownProps: RestaurantVisitProps) {
-  const { restaurantId, restaurantVisitId } = ownProps;
-  console.log('mapStateToProps');
-  console.log(restaurantId);
-  console.log(restaurantVisitId);
   return {
+    restaurantId: ownProps.restaurantId,
+    restaurantVisitId: ownProps.restaurantVisitId,
   };
 }
 

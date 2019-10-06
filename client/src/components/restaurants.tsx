@@ -199,6 +199,8 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
           restaurantWouldVisitAgain={false}
           onSave={this.handleOnSaveRestaurantEdits}
           onCancel={this.handleDismissEditRestaurantForm}
+          onNewVisit={this.handleNewVisit}
+          onEditVisit={this.handleEditVisit}
         />
       </div>
     );
@@ -207,29 +209,40 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   getExistingRestaurantForm(restaurantSummary: RestaurantSummary) {
     return (
       <div>
-      <h4>Restaurant Details</h4>
-      <RestaurantForm
-        restaurantId={restaurantSummary.restaurantId}
-        restaurantName={restaurantSummary.name}
-        newRestaurantCategory={restaurantSummary.category}
-        overallRestaurantRating={restaurantSummary.overallRating}
-        restaurantFoodRating={restaurantSummary.foodRating}
-        restaurantServiceRating={restaurantSummary.serviceRating}
-        restaurantAmbienceRating={restaurantSummary.ambienceRating}
-        restaurantOutdoorSeating={restaurantSummary.outdoorSeating}
-        restaurantComments={restaurantSummary.comments}
-        restaurantWouldVisitAgain={restaurantSummary.wouldVisitAgain}
-        onSave={this.handleOnSaveRestaurantEdits}
-        onCancel={this.handleDismissEditRestaurantForm}
+        <h4>Restaurant Details</h4>
+        <RestaurantForm
+          restaurantId={restaurantSummary.restaurantId}
+          restaurantName={restaurantSummary.name}
+          newRestaurantCategory={restaurantSummary.category}
+          overallRestaurantRating={restaurantSummary.overallRating}
+          restaurantFoodRating={restaurantSummary.foodRating}
+          restaurantServiceRating={restaurantSummary.serviceRating}
+          restaurantAmbienceRating={restaurantSummary.ambienceRating}
+          restaurantOutdoorSeating={restaurantSummary.outdoorSeating}
+          restaurantComments={restaurantSummary.comments}
+          restaurantWouldVisitAgain={restaurantSummary.wouldVisitAgain}
+          onSave={this.handleOnSaveRestaurantEdits}
+          onCancel={this.handleDismissEditRestaurantForm}
+          onNewVisit={this.handleNewVisit}
+          onEditVisit={this.handleEditVisit}
         />
-    </div>
-);
+      </div>
+    );
+  }
+
+  handleNewVisit() {
+    console.log('handleNewVisit');
+  }
+
+  handleEditVisit() {
+    console.log('handleEditVisit');
+  }
+
+  handleOnSaveRestaurantVisitEdits() {
+    console.log('handleOnSaveRestaurantVisitEdits');
   }
 
   getRestaurantForm() {
-
-    console.log('getRestaurantForm');
-    console.log(this.state.currentRestaurantId); // if empty, => new restaurant
 
     if (this.state.viewingRestaurantForm && !this.state.viewingRestaurantVisitForm) {
       if (this.state.currentRestaurantId === '') {
@@ -260,6 +273,8 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
           <RestaurantVisit
             restaurantId={this.state.currentRestaurantId}
             restaurantVisitId={'-1'}
+            onSaveVisit={this.handleOnSaveRestaurantVisitEdits}
+            onCancel={this.handleDismissEditRestaurantForm}
           />
         </div>
       );
