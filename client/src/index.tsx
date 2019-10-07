@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
+import { hashHistory } from 'react-router';
 
 import { createStore, applyMiddleware, compose } from 'redux';
 
