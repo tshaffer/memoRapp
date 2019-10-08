@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { 
+  hashHistory
+} from 'react-router';
+
 import { MuiThemeProvider } from 'material-ui/styles';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
-import { isNil } from 'lodash';
+// import { isNil } from 'lodash';
 
 import { RestaurantForm } from './restaurantForm';
 import { RestaurantVisit } from './restaurantVisit';
@@ -16,14 +20,13 @@ import {
   loadRestaurants,
   saveRestaurant,
 } from '../controller';
-import {
-  getRestaurantById
-} from '../selector';
+// import {
+//   getRestaurantById
+// } from '../selector';
 
 import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { guid } from '../utilities/utils';
-import { isNullOrUndefined } from 'util';
 
 export interface RestaurantsProps {
   restaurants: RestaurantsState;
@@ -93,14 +96,18 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   handleNewRestaurant() {
     console.log('handleNewRestaurant invoked');
-    this.setState({
-      currentRestaurantId: '',
-      viewingRestaurantForm: true,
-      viewingRestaurantVisitForm: false,
-    });
+    hashHistory.push('/newRestaurant');
+
+    // this.setState({
+    //   currentRestaurantId: '',
+    //   viewingRestaurantForm: true,
+    //   viewingRestaurantVisitForm: false,
+    // });
   }
 
   handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
+    // set currentRestaurantId first
+    hashHistory.push('/newRestaurant');
     this.setState(
       {
         currentRestaurantId,

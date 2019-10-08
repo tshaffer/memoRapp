@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,18 +10,51 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import uuid = require('uuid');
 import { bindActionCreators } from 'redux';
+import { getRestaurantById, getCurrentRestaurantId, getRestaurantCategory } from '../selector';
+
+import {
+  updateName,
+  updateCategory,
+  updateRating,
+  updateFoodRating,
+  updateServiceRating,
+  updateAmbienceRating,
+  updateOutdoorSeating,
+  updateComments,
+  updateWouldVisitAgain,
+} from '../controller';
+
+import {
+  getRestaurantName,
+  getRestaurantOverallRating,
+  getRestaurantFoodRating,
+  getRestaurantServiceRating,
+  getRestaurantAmbienceRating,
+  getRestaurantOutdoorSeating,
+  getRestaurantComments,
+  getRestaurantWouldVisitAgain,
+} from '../selector';
 
 export interface RestaurantFormProps {
   restaurantId: string;
   restaurantName: string;
-  newRestaurantCategory: number;
-  overallRestaurantRating: number;
+  restaurantCategory: number;
+  restaurantOverallRating: number;
   restaurantFoodRating: number;
   restaurantServiceRating: number;
   restaurantAmbienceRating: number;
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
+  onRestaurantNameChange: (name: string) => void;
+  onRestaurantCategoryChange: (category: string) => void;
+  onRestaurantRatingChange: (rating: number) => void;
+  onRestaurantFoodRatingChange: (rating: number) => void;
+  onRestaurantServiceRatingChange: (rating: number) => void;
+  onRestaurantAmbienceRatingChange: (rating: number) => void;
+  onRestaurantOutdoorSeatingChange: (outdoorSeating: boolean) => void;
+  onRestaurantCommentsChange: (comments: string) => void;
+  onRestaurantWouldVisitAgainChange: (wouldVisitAgain: boolean) => void;
   onSave: (
     restaurantId: string,
     restaurantName: string,
@@ -38,34 +72,7 @@ export interface RestaurantFormProps {
   // onCancelVisit: () => void;
 }
 
-interface RestaurantFormComponentState {
-  restaurantId: string;
-  restaurantName: string;
-  newRestaurantCategory: number;
-  overallRestaurantRating: number;
-  restaurantFoodRating: number;
-  restaurantServiceRating: number;
-  restaurantAmbienceRating: number;
-  restaurantOutdoorSeating: boolean;
-  restaurantComments: string;
-  restaurantWouldVisitAgain: boolean;
-  currentVisitId: string;
-}
-
-export class RestaurantFormComponent extends React.Component<RestaurantFormProps, RestaurantFormComponentState> {
-  state: RestaurantFormComponentState = {
-    restaurantId: '',
-    restaurantName: '',
-    newRestaurantCategory: 1,
-    overallRestaurantRating: 5,
-    restaurantFoodRating: 5,
-    restaurantServiceRating: 5,
-    restaurantAmbienceRating: 5,
-    restaurantOutdoorSeating: false,
-    restaurantComments: '',
-    restaurantWouldVisitAgain: false,
-    currentVisitId: '',
-  };
+export class RestaurantFormComponent extends React.Component<RestaurantFormProps> {
 
   constructor(props: RestaurantFormProps) {
     super(props);
@@ -87,40 +94,25 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     this.handleCancel = this.handleCancel.bind(this);
   }
 
-  componentDidMount() {
-    this.setState(
-      {
-        restaurantId: this.props.restaurantId,
-        restaurantName: this.props.restaurantName,
-        newRestaurantCategory: this.props.newRestaurantCategory,
-        overallRestaurantRating: this.props.overallRestaurantRating,
-        restaurantFoodRating: this.props.restaurantFoodRating,
-        restaurantServiceRating: this.props.restaurantServiceRating,
-        restaurantAmbienceRating: this.props.restaurantAmbienceRating,
-        restaurantOutdoorSeating: this.props.restaurantOutdoorSeating,
-        restaurantComments: this.props.restaurantComments,
-        restaurantWouldVisitAgain: this.props.restaurantWouldVisitAgain,
-      }
-    );
+  handleRestaurantNameChange(event: any) {
+    this.props.onRestaurantNameChange(event.target.value);
   }
 
-  handleRestaurantNameChange(event: any) {
-    this.setState(
-      {
-        restaurantName: event.target.value,
-      }
-    );
+  getRestaurantName() {
+    return this.props.restaurantName;
   }
 
   renderRestaurantName() {
+    this.getRestaurantName();
     return (
       <div>
         <TextField
-          id='newRestaurantName'
+          id='restaurantName'
           hintText='Name'
-          value={this.state.restaurantName}
+          value={this.getRestaurantName()}
           onChange={this.handleRestaurantNameChange}
         /> <br />
+        />
       </div>
     );
   }
@@ -137,39 +129,35 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     return [];
   }
 
-  renderRestaurantAddEditVisitForm() {
-    return (
-      <div>
-        <h4>Add a visit or view an existing visit</h4>
-        <RaisedButton
-          label='New Visit'
-          onClick={this.handleNewVisit}
-          style={{
-            verticalAlign: 'top',
-            marginTop: '18px'
-          }}
-        />
-        <SelectField
-          floatingLabelText='Visits'
-          value={this.state.currentVisitId}
-          onChange={this.handleEditVisit}
-          style={{
-            verticalAlign: 'top',
-            marginLeft: '32px'
-          }}
-        >
-          {this.getVisits()}
-        </SelectField>
-      </div>
-    );
-}
+  // renderRestaurantAddEditVisitForm() {
+  //   return (
+  //     <div>
+  //       <h4>Add a visit or view an existing visit</h4>
+  //       <RaisedButton
+  //         label='New Visit'
+  //         onClick={this.handleNewVisit}
+  //         style={{
+  //           verticalAlign: 'top',
+  //           marginTop: '18px'
+  //         }}
+  //       />
+  //       <SelectField
+  //         floatingLabelText='Visits'
+  //         value={this.props.currentRestaurantVisitId}
+  //         onChange={this.handleEditVisit}
+  //         style={{
+  //           verticalAlign: 'top',
+  //           marginLeft: '32px'
+  //         }}
+  //       >
+  //         {this.getVisits()}
+  //       </SelectField>
+  //     </div>
+  //   );
+  // }
 
   handleRestaurantCategoryChange(event: any, index: any, newRestaurantCategory: any) {
-    this.setState(
-      {
-        newRestaurantCategory,
-      }
-    );
+    this.props.onRestaurantCategoryChange(newRestaurantCategory);
   }
 
   renderRestaurantCategory() {
@@ -177,7 +165,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <SelectField
           floatingLabelText='Restaurant Category'
-          value={this.state.newRestaurantCategory}
+          value={this.props.restaurantCategory}
           onChange={this.handleRestaurantCategoryChange}
         >
           <MenuItem key={1} value={1} primaryText='Pizza' />
@@ -190,11 +178,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleRestaurantRatingChange(event: any, restaurantRating: any) {
     console.log('restaurantRating: ' + restaurantRating);
-    this.setState(
-      {
-        overallRestaurantRating: restaurantRating,
-      }
-    );
+    this.props.onRestaurantRatingChange(restaurantRating);
   }
 
   renderOverallRestaurantRating() {
@@ -202,14 +186,14 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <p>
           <span>{'Overall rating: '}</span>
-          <span>{this.state.overallRestaurantRating}</span>
+          <span>{this.props.restaurantOverallRating}</span>
           <span>{' on a scale of 0 to 10'}</span>
         </p>
         <Slider
           min={0}
           max={10}
           step={0.1}
-          value={this.state.overallRestaurantRating}
+          value={this.props.restaurantOverallRating}
           onChange={this.handleRestaurantRatingChange}>
         </Slider>
       </div>
@@ -218,11 +202,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleRestaurantFoodRatingChange(event: any, restaurantFoodRating: any) {
     console.log('restaurantFoodRating: ' + restaurantFoodRating);
-    this.setState(
-      {
-        restaurantFoodRating,
-      }
-    );
+    this.props.onRestaurantFoodRatingChange(restaurantFoodRating);
   }
 
   renderFoodRating() {
@@ -230,14 +210,14 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <p>
           <span>{'Food rating: '}</span>
-          <span>{this.state.restaurantFoodRating}</span>
+          <span>{this.props.restaurantFoodRating}</span>
           <span>{' on a scale of 0 to 10'}</span>
         </p>
         <Slider
           min={0}
           max={10}
           step={0.1}
-          value={this.state.restaurantFoodRating}
+          value={this.props.restaurantFoodRating}
           onChange={this.handleRestaurantFoodRatingChange}>
         </Slider>
       </div>
@@ -246,11 +226,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleRestaurantServiceRatingChange(event: any, restaurantServiceRating: any) {
     console.log('restaurantRating: ' + restaurantServiceRating);
-    this.setState(
-      {
-        restaurantServiceRating,
-      }
-    );
+    this.props.onRestaurantServiceRatingChange(restaurantServiceRating);
   }
 
   renderServiceRating() {
@@ -258,14 +234,14 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <p>
           <span>{'Service rating: '}</span>
-          <span>{this.state.restaurantServiceRating}</span>
+          <span>{this.props.restaurantServiceRating}</span>
           <span>{' on a scale of 0 to 10'}</span>
         </p>
         <Slider
           min={0}
           max={10}
           step={0.1}
-          value={this.state.restaurantServiceRating}
+          value={this.props.restaurantServiceRating}
           onChange={this.handleRestaurantServiceRatingChange}>
         </Slider>
       </div>
@@ -274,11 +250,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleRestaurantAmbienceRatingChange(event: any, restaurantAmbienceRating: any) {
     console.log('restaurantAmbienceRating: ' + restaurantAmbienceRating);
-    this.setState(
-      {
-        restaurantAmbienceRating,
-      }
-    );
+    this.props.onRestaurantAmbienceRatingChange(restaurantAmbienceRating);
   }
 
   renderAmbienceRating() {
@@ -286,14 +258,14 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <p>
           <span>{'Ambience rating: '}</span>
-          <span>{this.state.restaurantAmbienceRating}</span>
+          <span>{this.props.restaurantAmbienceRating}</span>
           <span>{' on a scale of 0 to 10'}</span>
         </p>
         <Slider
           min={0}
           max={10}
           step={0.1}
-          value={this.state.restaurantAmbienceRating}
+          value={this.props.restaurantAmbienceRating}
           onChange={this.handleRestaurantAmbienceRatingChange}>
         </Slider>
       </div>
@@ -302,11 +274,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleRestaurantOutdoorSeatingChange() {
     console.log('restaurantOutdoorSeatingRating');
-    this.setState(
-      {
-        restaurantOutdoorSeating: !this.state.restaurantOutdoorSeating,
-      }
-    );
+    this.props.onRestaurantOutdoorSeatingChange(!this.props.restaurantOutdoorSeating);
   }
 
   renderOutdoorSeating() {
@@ -314,7 +282,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <Checkbox
           label='Outdoor seating?'
-          checked={this.state.restaurantOutdoorSeating}
+          checked={this.props.restaurantOutdoorSeating}
           onCheck={this.handleRestaurantOutdoorSeatingChange.bind(this)}
         />
       </div>
@@ -335,11 +303,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   handleRestaurantCommentsChange(event: any) {
-    this.setState(
-      {
-        restaurantComments: event.target.value
-      }
-    );
+    this.props.onRestaurantCommentsChange(event.target.value);
   }
 
   renderRestaurantComments() {
@@ -353,7 +317,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           multiLine={true}
           rows={4}
           rowsMax={4}
-          value={this.state.restaurantComments}
+          value={this.props.restaurantComments}
           onChange={this.handleRestaurantCommentsChange}
         /><br />
       </div>
@@ -362,11 +326,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleRestaurantWouldVisitAgainChange() {
     console.log('restaurantWouldVisitAgainRating');
-    this.setState(
-      {
-        restaurantWouldVisitAgain: !this.state.restaurantWouldVisitAgain,
-      }
-    );
+    this.props.onRestaurantWouldVisitAgainChange(!this.props.restaurantWouldVisitAgain);
   }
 
   renderWouldVisitAgain() {
@@ -374,7 +334,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
       <div>
         <Checkbox
           label='Would visit again?'
-          checked={this.state.restaurantWouldVisitAgain}
+          checked={this.props.restaurantWouldVisitAgain}
           onCheck={this.handleRestaurantWouldVisitAgainChange.bind(this)}
         />
       </div>
@@ -383,21 +343,21 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleSave() {
 
-    let restaurantId = this.state.restaurantId;
+    let restaurantId = this.props.restaurantId;
     if (restaurantId === '') {
       restaurantId = uuid();
     }
     this.props.onSave(
       restaurantId,
-      this.state.restaurantName,
-      this.state.newRestaurantCategory,
-      this.state.overallRestaurantRating,
-      this.state.restaurantFoodRating,
-      this.state.restaurantServiceRating,
-      this.state.restaurantAmbienceRating,
-      this.state.restaurantOutdoorSeating,
-      this.state.restaurantComments,
-      this.state.restaurantWouldVisitAgain,
+      this.props.restaurantName,
+      this.props.restaurantCategory,
+      this.props.restaurantOverallRating,
+      this.props.restaurantFoodRating,
+      this.props.restaurantServiceRating,
+      this.props.restaurantAmbienceRating,
+      this.props.restaurantOutdoorSeating,
+      this.props.restaurantComments,
+      this.props.restaurantWouldVisitAgain,
     );
   }
 
@@ -420,38 +380,54 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
+  /*
+        {this.renderRestaurantAddEditVisitForm()}
+  */
+
   render() {
     return (
-      <div>
-        {this.renderRestaurantName()}
-        {this.renderRestaurantAddEditVisitForm()}
-        {this.renderRestaurantCategory()}
-        {this.renderRestaurantRatings()}
-        {this.renderRestaurantComments()}
-        {this.renderWouldVisitAgain()}
-        {this.renderEditingCompleteButtons()}
-      </div>
+      <MuiThemeProvider>
+        <div>
+          {this.renderRestaurantName()}
+          {this.renderRestaurantCategory()}
+          {this.renderRestaurantRatings()}
+          {this.renderRestaurantComments()}
+          {this.renderWouldVisitAgain()}
+          {this.renderEditingCompleteButtons()}
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
 
 function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
   return {
-    restaurantId: ownProps.restaurantId,
-    restaurantName: ownProps.restaurantName,
-    newRestaurantCategory: ownProps.newRestaurantCategory,
-    overallRestaurantRating: ownProps.overallRestaurantRating,
-    restaurantFoodRating: ownProps.restaurantFoodRating,
-    restaurantServiceRating: ownProps.restaurantServiceRating,
-    restaurantAmbienceRating: ownProps.restaurantAmbienceRating,
-    restaurantOutdoorSeating: ownProps.restaurantOutdoorSeating,
-    restaurantComments: ownProps.restaurantComments,
-    restaurantWouldVisitAgain: ownProps.restaurantWouldVisitAgain,
+    restaurantId: getCurrentRestaurantId(state),
+    restaurantName: getRestaurantName(state),
+    newRestaurantCategory: getRestaurantCategory(state),
+    restaurantOverallRating: getRestaurantOverallRating(state),
+    restaurantFoodRating: getRestaurantFoodRating(state),
+    restaurantServiceRating: getRestaurantServiceRating(state),
+    restaurantAmbienceRating: getRestaurantAmbienceRating(state),
+    restaurantOutdoorSeating: getRestaurantOutdoorSeating(state),
+    restaurantComments: getRestaurantComments(state),
+    restaurantWouldVisitAgain: getRestaurantWouldVisitAgain(state),
   };
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return bindActionCreators({
+    onRestaurantNameChange: updateName,
+    onRestaurantCategoryChange: updateCategory,
+    onRestaurantRatingChange: updateRating,
+    onRestaurantFoodRatingChange: updateFoodRating,
+    onRestaurantServiceRatingChange: updateServiceRating,
+    onRestaurantAmbienceRatingChange: updateAmbienceRating,
+    onRestaurantOutdoorSeatingChange: updateOutdoorSeating,
+    onRestaurantCommentsChange: updateComments,
+    onRestaurantWouldVisitAgainChange: updateWouldVisitAgain,
+
+  
     // onCancel: ownProps.;
     // onNewVisit: () => void;
     // onEditVisit: () => void;

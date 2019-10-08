@@ -43,8 +43,55 @@ export const saveRestaurant = (restaurant: RestaurantSummary) => {
   };
 };
 
-export const updateName = (restaurantId: string, restaurantName: string) => {
+export const updateName = (restaurantId: string, name: string) => {
   return (dispatch: any, getState: any): any => {
-    dispatch(updateRestaurantProperty(restaurantId, { name: restaurantName }));
+    dispatch(updateRestaurantProperty(restaurantId, { name }));
+  };
+};
+
+export const updateCategory = (restaurantId: string, category: number) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { category }));
+  };
+};
+export const updateRating = (restaurantId: string, overallRating: number) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { overallRating }));
+  };
+};
+
+export const updateFoodRating = (restaurantId: string, foodRating: number) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { foodRating }));
+  };
+};
+
+export const updateServiceRating = (restaurantId: string, serviceRating: number) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { serviceRating }));
+  };
+};
+
+export const updateAmbienceRating = (restaurantId: string, ambienceRating: number) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { ambienceRating }));
+  };
+};
+
+export const updateOutdoorSeating = (restaurantId: string, outdoorSeating: boolean) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { outdoorSeating }));
+  };
+};
+
+export const updateComments = (restaurantId: string, comments: string) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { comments }));
+  };
+};
+
+export const updateWouldVisitAgain = (restaurantId: string, wouldVisitAgain: boolean) => {
+  return (dispatch: any, getState: any): any => {
+    dispatch(updateRestaurantProperty(restaurantId, { wouldVisitAgain }));
   };
 };
