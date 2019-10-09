@@ -20,7 +20,7 @@ export const getRestaurantName = (state: MemoRappModelState): string => {
 export const getRestaurantCategory = (state: MemoRappModelState): number => {
   const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
-    return null;
+    return 0;
   }
   return restaurantState.restaurantSummary.category;
 };
@@ -28,7 +28,7 @@ export const getRestaurantCategory = (state: MemoRappModelState): number => {
 export const getRestaurantOverallRating = (state: MemoRappModelState): number => {
   const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
-    return null;
+    return 0;
   }
   return restaurantState.restaurantSummary.overallRating;
 };
@@ -36,7 +36,7 @@ export const getRestaurantOverallRating = (state: MemoRappModelState): number =>
 export const getRestaurantFoodRating = (state: MemoRappModelState): number => {
   const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
-    return null;
+    return 0;
   }
   return restaurantState.restaurantSummary.foodRating;
 };
@@ -44,7 +44,7 @@ export const getRestaurantFoodRating = (state: MemoRappModelState): number => {
 export const getRestaurantServiceRating = (state: MemoRappModelState): number => {
   const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
-    return null;
+    return 0;
   }
   return restaurantState.restaurantSummary.serviceRating;
 };
@@ -52,7 +52,7 @@ export const getRestaurantServiceRating = (state: MemoRappModelState): number =>
 export const getRestaurantAmbienceRating = (state: MemoRappModelState): number => {
   const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
-    return null;
+    return 0;
   }
   return restaurantState.restaurantSummary.ambienceRating;
 };

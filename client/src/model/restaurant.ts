@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { RestaurantSummary, RestaurantsState, RestaurantState } from '../type';
 import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './baseAction';
+import { guid } from '../utilities';
 
 // ------------------------------------
 // Constants
@@ -22,6 +23,35 @@ export interface AddRestaurantPayload {
 export interface UpdateRestaurantPropertyPayload {
   id: string;
   data: PartialRestaurantDescription;
+}
+
+export const addDefaultRestaurant = (
+):  RestaurantAction<AddRestaurantPayload> => {
+  const restaurantId: string = guid();
+  const restaurantSummary: RestaurantSummary = {
+    restaurantId,
+    name: '',
+    category: 0,
+    overallRating: 5,
+    foodRating: 5,
+    serviceRating: 5,
+    ambienceRating: 5,
+    outdoorSeating: false,
+    comments: '',
+    wouldVisitAgain: false,
+  };
+  const restaurantData: RestaurantState = {
+    restaurantSummary,
+    visits: {},
+    menuItems: {},
+  };
+  return {
+    type: ADD_RESTAURANT,
+    payload: {
+      restaurantId,
+      restaurantData,
+    },
+  };
 }
 
 export const addRestaurant = (

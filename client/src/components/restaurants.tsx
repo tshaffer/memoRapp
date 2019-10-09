@@ -17,8 +17,10 @@ import { MemoRappModelState, RestaurantState } from '../type';
 import { RestaurantSummary, RestaurantsState } from '../type';
 
 import {
+  addDefaultRestaurantData,
   loadRestaurants,
   saveRestaurant,
+  setCurrentRestaurantIdData,
 } from '../controller';
 // import {
 //   getRestaurantById
@@ -32,7 +34,8 @@ export interface RestaurantsProps {
   restaurants: RestaurantsState;
   loadRestaurants: () => void;
   onSaveRestaurant: (restaurant: RestaurantSummary) => any;
-  onAddRestaurant: () => any;
+  onAddDefaultRestaurant: () => any;
+  onAddNewRestaurant: () => any;
 }
 
 interface RestaurantsReactState {
@@ -96,6 +99,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   handleNewRestaurant() {
     console.log('handleNewRestaurant invoked');
+    this.props.onAddDefaultRestaurant();
     hashHistory.push('/newRestaurant');
 
     // this.setState({
@@ -321,6 +325,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     loadRestaurants,
     onSaveRestaurant: saveRestaurant,
+    onAddDefaultRestaurant: addDefaultRestaurantData,
   }, dispatch);
 };
 

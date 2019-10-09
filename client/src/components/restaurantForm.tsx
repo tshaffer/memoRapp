@@ -112,7 +112,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           value={this.getRestaurantName()}
           onChange={this.handleRestaurantNameChange}
         /> <br />
-        />
       </div>
     );
   }
