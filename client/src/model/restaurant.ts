@@ -100,9 +100,14 @@ export const restaurantReducer = (
     }
     case UPDATE_RESTAURANT_PROPERTY: {
       const newState: RestaurantsState = Object.assign({}, state);
-      debugger;
-      // const { id, name } = action.payload;
-      // newState[id].restaurant.name = name;
+      const id: any = (action.payload as any).id;
+      const data: any = (action.payload as any).data;
+      const restaurantSummary: RestaurantSummary = newState[id].restaurantSummary;
+      const keyName: string = Object.keys(data)[0];
+      if (data.hasOwnProperty(keyName)) {
+        const value: any = data[keyName];
+        (restaurantSummary as any)[keyName] = value;
+      }
       return newState;
     }
     default:
