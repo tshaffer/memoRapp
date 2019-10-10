@@ -89,7 +89,7 @@ const initialState: RestaurantsState = {};
 
 export const restaurantReducer = (
   state: RestaurantsState = initialState,
-  action: MemoRappModelBaseAction<PartialRestaurantDescription & AddRestaurantPayload>
+  action: MemoRappModelBaseAction<PartialRestaurantDescription & AddRestaurantPayload & UpdateRestaurantPropertyPayload>
 ): RestaurantsState => {
   switch (action.type) {
     case ADD_RESTAURANT: {
@@ -100,12 +100,12 @@ export const restaurantReducer = (
     }
     case UPDATE_RESTAURANT_PROPERTY: {
       const newState: RestaurantsState = Object.assign({}, state);
-      const id: any = (action.payload as any).id;
-      const data: any = (action.payload as any).data;
+      const id: string = action.payload.id;
+      const data: PartialRestaurantDescription = action.payload.data;
       const restaurantSummary: RestaurantSummary = newState[id].restaurantSummary;
       const keyName: string = Object.keys(data)[0];
       if (data.hasOwnProperty(keyName)) {
-        const value: any = data[keyName];
+        const value: any = (data as any)[keyName];
         (restaurantSummary as any)[keyName] = value;
       }
       return newState;
