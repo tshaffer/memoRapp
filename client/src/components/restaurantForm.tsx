@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { 
+  hashHistory
+} from 'react-router';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
@@ -67,7 +70,7 @@ export interface RestaurantFormProps {
     restaurantComments: string,
     restaurantWouldVisitAgain: boolean,
   ) => void;
-  onCancel: () => void;
+  // onCancel: () => void;
   // onSaveVisit: () => void;
   // onCancelVisit: () => void;
 }
@@ -361,7 +364,9 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   handleCancel() {
-    this.props.onCancel();
+    // this.props.onCancel();
+    hashHistory.push('/restaurants');
+
   }
 
   renderEditingCompleteButtons() {

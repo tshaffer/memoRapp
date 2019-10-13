@@ -20,19 +20,19 @@ import {
   addDefaultRestaurantData,
   loadRestaurants,
   saveRestaurant,
-  setCurrentRestaurantIdData,
 } from '../controller';
-// import {
-//   getRestaurantById
-// } from '../selector';
 
 import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { guid } from '../utilities/utils';
+import { getCurrentRestaurantId } from '../selector';
+import { setCurrentRestaurantIdData } from '../controller';
 
 export interface RestaurantsProps {
+  restaurantId: string;
   restaurants: RestaurantsState;
   loadRestaurants: () => void;
+  setCurrentRestaurantIdData: (id: string) => any;
   onSaveRestaurant: (restaurant: RestaurantSummary) => any;
   onAddDefaultRestaurant: () => any;
   onAddNewRestaurant: () => any;
@@ -63,6 +63,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   componentDidMount() {
     console.log('get all restaurants');
+    this.props.setCurrentRestaurantIdData('');
     this.props.loadRestaurants();
   }
 
@@ -101,16 +102,11 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
     console.log('handleNewRestaurant invoked');
     this.props.onAddDefaultRestaurant();
     hashHistory.push('/newRestaurant');
-
-    // this.setState({
-    //   currentRestaurantId: '',
-    //   viewingRestaurantForm: true,
-    //   viewingRestaurantVisitForm: false,
-    // });
   }
 
   handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
     // set currentRestaurantId first
+    this.props.setCurrentRestaurantIdData(currentRestaurantId);
     hashHistory.push('/newRestaurant');
     this.setState(
       {
@@ -317,6 +313,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
 function mapStateToProps(state: MemoRappModelState) {
   return {
+    restaurantId: getCurrentRestaurantId(state),
     restaurants: state.restaurants,
   };
 }
@@ -324,6 +321,7 @@ function mapStateToProps(state: MemoRappModelState) {
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     loadRestaurants,
+    setCurrentRestaurantIdData,
     onSaveRestaurant: saveRestaurant,
     onAddDefaultRestaurant: addDefaultRestaurantData,
   }, dispatch);

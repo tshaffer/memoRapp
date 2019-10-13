@@ -16,6 +16,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { rootReducer } from './model';
 
 import App from './components/app';
+import { Restaurants } from './components/restaurants';
 import { RestaurantForm } from './components/restaurantForm';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -28,6 +29,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App} />
+      <Route path='/restaurants' component={Restaurants} />
       <Route path='/newRestaurant' component={RestaurantForm} />
     </Router>
   </Provider>,
