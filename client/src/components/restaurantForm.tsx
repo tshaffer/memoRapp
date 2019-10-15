@@ -364,6 +364,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   handleCancel() {
+    // NEED TO CLEAR redux DATA Associated with form
     // this.props.onCancel();
     hashHistory.push('/restaurants');
 

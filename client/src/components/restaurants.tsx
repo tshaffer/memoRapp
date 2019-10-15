@@ -100,6 +100,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   handleNewRestaurant() {
     console.log('handleNewRestaurant invoked');
+    // duplicated call
     this.props.onAddDefaultRestaurant();
     hashHistory.push('/newRestaurant');
   }
@@ -107,7 +108,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
   handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
     // set currentRestaurantId first
     this.props.setCurrentRestaurantIdData(currentRestaurantId);
-    hashHistory.push('/newRestaurant');
+    hashHistory.push('/editRestaurant');
     this.setState(
       {
         currentRestaurantId,
