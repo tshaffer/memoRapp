@@ -407,6 +407,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
 function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
   return {
+    onSave: ownProps.onSave,
     restaurantId: getCurrentRestaurantId(state),
     restaurantName: getRestaurantName(state),
     newRestaurantCategory: getRestaurantCategory(state),
