@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
 
 import { RestaurantForm } from './restaurantForm';
 import { saveRestaurant } from '../controller/restaurant';
 
-import { getRestaurantById, getCurrentRestaurantId, getRestaurantCategory } from '../selector';
+import { getCurrentRestaurantId, getRestaurantCategory } from '../selector';
 import {
   getRestaurantName,
   getRestaurantOverallRating,
@@ -41,7 +42,8 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
   }
 
   handleOnCancelEditRestaurant() {
-    console.log('poo');
+    console.log('handleOnCancelEditRestaurant');
+    hashHistory.push('/restaurants');
   }
 
   handleOnSaveRestaurant() {

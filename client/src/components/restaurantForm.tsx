@@ -1,8 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { 
-  hashHistory
-} from 'react-router';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
@@ -13,7 +10,7 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import uuid = require('uuid');
 import { bindActionCreators } from 'redux';
-import { getRestaurantById, getCurrentRestaurantId, getRestaurantCategory } from '../selector';
+import { getCurrentRestaurantId, getRestaurantCategory } from '../selector';
 
 import {
   updateName,
@@ -70,7 +67,7 @@ export interface RestaurantFormProps {
     restaurantComments: string,
     restaurantWouldVisitAgain: boolean,
   ) => void;
-  // onCancel: () => void;
+  onCancel: () => void;
   // onSaveVisit: () => void;
   // onCancelVisit: () => void;
 }
@@ -364,10 +361,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   handleCancel() {
-    // NEED TO CLEAR redux DATA Associated with form
-    // this.props.onCancel();
-    hashHistory.push('/restaurants');
-
+    this.props.onCancel();
   }
 
   renderEditingCompleteButtons() {
@@ -408,6 +402,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
   return {
     onSave: ownProps.onSave,
+    onCancel: ownProps.onCancel,
     restaurantId: getCurrentRestaurantId(state),
     restaurantName: getRestaurantName(state),
     newRestaurantCategory: getRestaurantCategory(state),

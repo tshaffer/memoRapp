@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
 
 import {
   addDefaultRestaurantData,
@@ -55,8 +56,8 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   handleOnCancelNewRestaurant() {
-    // remove information from redux
-    console.log('poo');
+    console.log('handleOnCancelNewRestaurant');
+    hashHistory.push('/restaurants');
   }
 
   handleOnSaveRestaurant() {
