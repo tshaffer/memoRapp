@@ -62,11 +62,13 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
       comments: this.props.restaurantComments,
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
-    console.log('handleOnSaveRestaurant, type of restaurantSummary.category: ', 
-    restaurantSummary.category, typeof restaurantSummary.category);
-    console.log('handleOnSaveRestaurant, type of restaurantCategory: ', 
-      this.props.restaurantCategory, typeof this.props.restaurantCategory);
-    this.props.onSaveRestaurant(restaurantSummary);
+    const promise: Promise<any> = this.props.onSaveRestaurant(restaurantSummary);
+    console.log(promise);
+
+    promise.then( (response) => {
+      console.log('promise fulfilled: ', response);
+      hashHistory.push('/restaurants');
+    });
   }
 
   render() {

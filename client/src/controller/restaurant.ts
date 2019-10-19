@@ -30,15 +30,16 @@ export const loadRestaurants = (): any => {
 };
 
 export const saveRestaurant = (restaurant: RestaurantSummary) => {
-  return (dispatch: any, getState: any): any => {
+  return (dispatch: any, getState: any): Promise<any> => {
 
     // dispatch(addRestaurant(restaurant.name, restaurantData));
 
     const path = 'http://localhost:8000/restaurant';
-    axios.post(path, restaurant)
+    return axios.post(path, restaurant)
       .then((response) => {
         console.log('return from post');
         console.log(response);
+        return Promise.resolve(response);
       }).catch((err: any) => {
         console.log('err: ', err);
       });

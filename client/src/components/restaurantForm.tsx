@@ -163,7 +163,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   renderRestaurantCategory() {
 
     const restaurantCategories: string[] = 
-      Object.values(RestaurantCategory).filter((value) => typeof value === 'string') as string[];
+      Object.keys(RestaurantCategory).map((key) => (RestaurantCategory as any)[key]);
 
     return (
       <div>

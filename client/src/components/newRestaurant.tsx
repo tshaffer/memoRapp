@@ -76,6 +76,8 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
     this.props.onSaveRestaurant(restaurantSummary);
+
+    hashHistory.push('/restaurants');
   }
 
   render() {
