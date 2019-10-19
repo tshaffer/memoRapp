@@ -18,7 +18,7 @@ import {
 } from '../selector';
 import { RestaurantSummary } from '../type';
 
-export interface EditRestaurantsProp {
+export interface EditRestaurantsProps {
   restaurantId: string;
   restaurantName: string;
   restaurantCategory: number;
@@ -32,11 +32,11 @@ export interface EditRestaurantsProp {
   onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
 }
 
-class EditRestaurantComponent extends React.Component<EditRestaurantsProp> {
+class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
 
-  constructor(props: EditRestaurantsProp) {
+  constructor(props: EditRestaurantsProps) {
     super(props);
-    this.handleOnSaveRestaurantEdits = this.handleOnSaveRestaurantEdits.bind(this);
+    this.handleOnSaveRestaurant = this.handleOnSaveRestaurant.bind(this);
     this.handleOnCancelEditRestaurant = this.handleOnCancelEditRestaurant.bind(this);
   }
 
@@ -44,7 +44,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProp> {
     console.log('poo');
   }
 
-  handleOnSaveRestaurantEdits() {
+  handleOnSaveRestaurant() {
     console.log('handleOnSaveRestaurantEdits');
     console.log('invoke onSaveRestaurant');
 
@@ -67,7 +67,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProp> {
     return (
       <div>
         <RestaurantForm
-          onSave={this.handleOnSaveRestaurantEdits}
+          onSave={this.handleOnSaveRestaurant}
           onCancel={this.handleOnCancelEditRestaurant}
         />
       </div>
