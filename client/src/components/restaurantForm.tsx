@@ -161,6 +161,15 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   renderRestaurantCategory() {
+
+    const restaurantCategories: any[] = [];
+
+    // tslint:disable-next-line: forin
+    for (const restaurantCategoryMember in RestaurantCategory) {
+      const value: any = (RestaurantCategory as any)[restaurantCategoryMember];
+      restaurantCategories.push(value);
+    }
+
     return (
       <div>
         <SelectField
@@ -168,10 +177,11 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           value={this.props.restaurantCategory}
           onChange={this.handleRestaurantCategoryChange}
         >
-          <MenuItem key={1} value={RestaurantCategory.pizza} primaryText='Pizza' />
-          <MenuItem key={2} value={RestaurantCategory.burrito} primaryText='Burritos' />
-          <MenuItem key={3} value={RestaurantCategory.burgers} primaryText='Burgers' />
-          <MenuItem key={4} value={RestaurantCategory.other} primaryText='Other' />
+          {restaurantCategories.map( (categoryName, index) => {
+            return (
+              <MenuItem key={index} value={categoryName} primaryText={categoryName} />
+            );
+          })}
         </SelectField>
       </div>
     );
