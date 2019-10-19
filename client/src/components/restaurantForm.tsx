@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -8,9 +9,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
-import uuid = require('uuid');
-import { bindActionCreators } from 'redux';
-import { getCurrentRestaurantId, getRestaurantCategory } from '../selector';
 
 import {
   updateName,
@@ -25,7 +23,9 @@ import {
 } from '../controller';
 
 import {
+  getCurrentRestaurantId,
   getRestaurantName,
+  getRestaurantCategory,
   getRestaurantOverallRating,
   getRestaurantFoodRating,
   getRestaurantServiceRating,
@@ -342,12 +342,8 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleSave() {
 
-    let restaurantId = this.props.restaurantId;
-    if (restaurantId === '') {
-      restaurantId = uuid();
-    }
     this.props.onSave(
-      restaurantId,
+      this.props.restaurantId,
       this.props.restaurantName,
       this.props.restaurantCategory,
       this.props.restaurantOverallRating,
@@ -428,7 +424,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
     onRestaurantCommentsChange: updateComments,
     onRestaurantWouldVisitAgainChange: updateWouldVisitAgain,
 
-  
+
     // onCancel: ownProps.;
     // onNewVisit: () => void;
     // onEditVisit: () => void;
