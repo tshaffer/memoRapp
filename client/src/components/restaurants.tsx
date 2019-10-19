@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { 
+import {
   hashHistory
 } from 'react-router';
 
@@ -8,23 +8,15 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
-// import { isNil } from 'lodash';
-
-import { RestaurantForm } from './restaurantForm';
-import { RestaurantVisit } from './restaurantVisit';
 
 import { MemoRappModelState, RestaurantState } from '../type';
 import { RestaurantSummary, RestaurantsState } from '../type';
 
 import {
-  addDefaultRestaurantData,
   loadRestaurants,
-  saveRestaurant,
 } from '../controller';
 
-import { isFunction } from 'lodash';
 import { bindActionCreators } from 'redux';
-import { guid } from '../utilities/utils';
 import { getCurrentRestaurantId } from '../selector';
 import { setCurrentRestaurantIdData } from '../controller';
 
@@ -38,26 +30,12 @@ export interface RestaurantsProps {
   onAddNewRestaurant: () => any;
 }
 
-interface RestaurantsReactState {
-  viewingRestaurantForm: boolean;
-  viewingRestaurantVisitForm: boolean;
-  currentRestaurantId: string;
-}
-
-class RestaurantsComponent extends React.Component<RestaurantsProps, RestaurantsReactState> {
-
-  state: RestaurantsReactState = {
-    viewingRestaurantForm: false,
-    viewingRestaurantVisitForm: false,
-    currentRestaurantId: '-1',
-  };
+class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
   constructor(props: any) {
     super(props);
 
     this.handleNewRestaurant = this.handleNewRestaurant.bind(this);
-    this.handleOnSaveRestaurantEdits = this.handleOnSaveRestaurantEdits.bind(this);
-    this.handleDismissEditRestaurantForm = this.handleDismissEditRestaurantForm.bind(this);
     this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
   }
 
@@ -100,202 +78,45 @@ class RestaurantsComponent extends React.Component<RestaurantsProps, Restaurants
 
   handleNewRestaurant() {
     console.log('handleNewRestaurant invoked');
-    // duplicated call
-    this.props.onAddDefaultRestaurant();
     hashHistory.push('/newRestaurant');
   }
 
-  handleRestaurantChange(event: any, index: any, currentRestaurantId: string) {
-    // set currentRestaurantId first
-    this.props.setCurrentRestaurantIdData(currentRestaurantId);
+  handleRestaurantChange(event: any, index: any, restaurantId: string) {
+    this.props.setCurrentRestaurantIdData(restaurantId);
     hashHistory.push('/editRestaurant');
-    this.setState(
-      {
-        currentRestaurantId,
-        viewingRestaurantForm: true,
-        viewingRestaurantVisitForm: false
-      }
-    );
   }
 
   getRestaurantAddEditRestaurantForm() {
-    if (!this.state.viewingRestaurantForm && !this.state.viewingRestaurantVisitForm) {
-      return (
-        <div>
-          <h4>Add a new restaurant or edit an existing restaurant</h4>
-          <RaisedButton
-            label='New Restaurant'
-            onClick={this.handleNewRestaurant}
-            style={{
-              verticalAlign: 'top',
-              marginTop: '18px'
-            }}
-          />
-          <SelectField
-            floatingLabelText='Restaurants'
-            value={this.state.currentRestaurantId}
-            onChange={this.handleRestaurantChange}
-            style={{
-              verticalAlign: 'top',
-              marginLeft: '32px'
-            }}
-          >
-            {this.getRestaurants()}
-          </SelectField>
-        </div>
-      );
-    }
-    else {
-      return null;
-    }
-  }
-
-  handleDismissEditRestaurantForm() {
-    this.setState({
-      viewingRestaurantForm: false,
-      viewingRestaurantVisitForm: false,
-    });
-  }
-
-  handleOnSaveRestaurantEdits(
-    restaurantId: string,
-    restaurantName: string,
-    newRestaurantCategory: number,
-    overallRestaurantRating: number,
-    restaurantFoodRating: number,
-    restaurantServiceRating: number,
-    restaurantAmbienceRating: number,
-    restaurantOutdoorSeating: boolean,
-    restaurantComments: string,
-    restaurantWouldVisitAgain: boolean,
-  ) {
-    if (isFunction(this.props.onSaveRestaurant)) {
-      this.props.onSaveRestaurant({
-        restaurantId,
-        name: restaurantName,
-        category: newRestaurantCategory,
-        overallRating: overallRestaurantRating,
-        foodRating: restaurantFoodRating,
-        serviceRating: restaurantServiceRating,
-        ambienceRating: restaurantAmbienceRating,
-        outdoorSeating: restaurantOutdoorSeating,
-        comments: restaurantComments,
-        wouldVisitAgain: restaurantWouldVisitAgain,
-      });
-    }
-
-    this.setState({
-      currentRestaurantId: restaurantId,
-      viewingRestaurantForm: false,
-      viewingRestaurantVisitForm: true,
-    });
-  }
-
-  getNewRestaurantForm() {
     return (
       <div>
-        <RestaurantForm
-          restaurantId={guid()}
-          restaurantName={''}
-          newRestaurantCategory={1}
-          overallRestaurantRating={5}
-          restaurantFoodRating={5}
-          restaurantServiceRating={5}
-          restaurantAmbienceRating={5}
-          restaurantOutdoorSeating={false}
-          restaurantComments={''}
-          restaurantWouldVisitAgain={false}
-          onSave={this.handleOnSaveRestaurantEdits}
-          onCancel={this.handleDismissEditRestaurantForm}
-          onNewVisit={this.handleNewVisit}
-          onEditVisit={this.handleEditVisit}
+        <h4>Add a new restaurant or edit an existing restaurant</h4>
+        <RaisedButton
+          label='New Restaurant'
+          onClick={this.handleNewRestaurant}
+          style={{
+            verticalAlign: 'top',
+            marginTop: '18px'
+          }}
         />
+        <SelectField
+          floatingLabelText='Restaurants'
+          value={this.props.restaurantId}
+          onChange={this.handleRestaurantChange}
+          style={{
+            verticalAlign: 'top',
+            marginLeft: '32px'
+          }}
+        >
+          {this.getRestaurants()}
+        </SelectField>
       </div>
     );
-  }
-
-  getExistingRestaurantForm(restaurantSummary: RestaurantSummary) {
-    return (
-      <div>
-        <h4>Restaurant Details</h4>
-        <RestaurantForm
-          restaurantId={restaurantSummary.restaurantId}
-          restaurantName={restaurantSummary.name}
-          newRestaurantCategory={restaurantSummary.category}
-          overallRestaurantRating={restaurantSummary.overallRating}
-          restaurantFoodRating={restaurantSummary.foodRating}
-          restaurantServiceRating={restaurantSummary.serviceRating}
-          restaurantAmbienceRating={restaurantSummary.ambienceRating}
-          restaurantOutdoorSeating={restaurantSummary.outdoorSeating}
-          restaurantComments={restaurantSummary.comments}
-          restaurantWouldVisitAgain={restaurantSummary.wouldVisitAgain}
-          onSave={this.handleOnSaveRestaurantEdits}
-          onCancel={this.handleDismissEditRestaurantForm}
-          onNewVisit={this.handleNewVisit}
-          onEditVisit={this.handleEditVisit}
-        />
-      </div>
-    );
-  }
-
-  handleNewVisit() {
-    console.log('handleNewVisit');
-  }
-
-  handleEditVisit() {
-    console.log('handleEditVisit');
-  }
-
-  handleOnSaveRestaurantVisitEdits() {
-    console.log('handleOnSaveRestaurantVisitEdits');
-  }
-
-  getRestaurantForm() {
-
-    if (this.state.viewingRestaurantForm && !this.state.viewingRestaurantVisitForm) {
-      if (this.state.currentRestaurantId === '') {
-        return (
-          <div>
-            <h4>Restaurant Details</h4>
-            {this.getNewRestaurantForm()}
-          </div>
-        );
-      }
-      else {
-
-        console.log(this.props.restaurants);
-
-        if (this.props.restaurants.hasOwnProperty(this.state.currentRestaurantId)) {
-          const restaurantState: RestaurantState = this.props.restaurants[this.state.currentRestaurantId];
-          const restaurantSummary = restaurantState.restaurantSummary;
-          return this.getExistingRestaurantForm(restaurantSummary);
-        }
-        else {
-          debugger;
-        }
-      }
-    }
-    else if (this.state.viewingRestaurantVisitForm) {
-      return (
-        <div>
-          <RestaurantVisit
-            restaurantId={this.state.currentRestaurantId}
-            restaurantVisitId={'-1'}
-            onSaveVisit={this.handleOnSaveRestaurantVisitEdits}
-            onCancel={this.handleDismissEditRestaurantForm}
-          />
-        </div>
-      );
-    } else {
-      return null;
-    }
   }
 
   renderRestaurants() {
     return (
       <div>
         {this.getRestaurantAddEditRestaurantForm()}
-        {this.getRestaurantForm()}
       </div>
     );
   }
@@ -323,8 +144,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     loadRestaurants,
     setCurrentRestaurantIdData,
-    onSaveRestaurant: saveRestaurant,
-    onAddDefaultRestaurant: addDefaultRestaurantData,
   }, dispatch);
 };
 

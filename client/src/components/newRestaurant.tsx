@@ -51,7 +51,6 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   componentDidMount() {
-    // duplicated call
     this.props.onAddDefaultRestaurant();
   }
 
