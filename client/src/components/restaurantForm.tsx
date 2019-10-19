@@ -162,13 +162,8 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   renderRestaurantCategory() {
 
-    const restaurantCategories: any[] = [];
-
-    // tslint:disable-next-line: forin
-    for (const restaurantCategoryMember in RestaurantCategory) {
-      const value: any = (RestaurantCategory as any)[restaurantCategoryMember];
-      restaurantCategories.push(value);
-    }
+    const restaurantCategories: string[] = 
+      Object.values(RestaurantCategory).filter((value) => typeof value === 'string') as string[];
 
     return (
       <div>
