@@ -18,13 +18,13 @@ import {
 
 import { bindActionCreators } from 'redux';
 import { getCurrentRestaurantId } from '../selector';
-import { setCurrentRestaurantIdData } from '../controller';
+import { setRestaurantId } from '../controller';
 
 export interface RestaurantsProps {
   restaurantId: string;
   restaurants: RestaurantsState;
   loadRestaurants: () => void;
-  setCurrentRestaurantIdData: (id: string) => any;
+  setRestaurantId: (id: string) => any;
   onSaveRestaurant: (restaurant: RestaurantSummary) => any;
   onAddDefaultRestaurant: () => any;
   onAddNewRestaurant: () => any;
@@ -41,7 +41,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
   componentDidMount() {
     console.log('get all restaurants');
-    this.props.setCurrentRestaurantIdData('');
+    this.props.setRestaurantId('-1');
     this.props.loadRestaurants();
   }
 
@@ -82,7 +82,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
   }
 
   handleRestaurantChange(event: any, index: any, restaurantId: string) {
-    this.props.setCurrentRestaurantIdData(restaurantId);
+    this.props.setRestaurantId(restaurantId);
     hashHistory.push('/editRestaurant');
   }
 
@@ -143,7 +143,7 @@ function mapStateToProps(state: MemoRappModelState) {
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     loadRestaurants,
-    setCurrentRestaurantIdData,
+    setRestaurantId,
   }, dispatch);
 };
 

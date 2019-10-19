@@ -1,5 +1,5 @@
 import { isNil } from 'lodash';
-import { MemoRappModelState, RestaurantState, RestaurantsState } from '../type';
+import { MemoRappModelState, RestaurantState, RestaurantsState, RestaurantCategory } from '../type';
 import { getCurrentRestaurantId } from './application';
 
 export const getRestaurantById = (state: MemoRappModelState, restaurantId: string): RestaurantState => {
@@ -17,10 +17,10 @@ export const getRestaurantName = (state: MemoRappModelState): string => {
   return restaurantState.restaurantSummary.name;
 };
 
-export const getRestaurantCategory = (state: MemoRappModelState): number => {
+export const getRestaurantCategory = (state: MemoRappModelState): RestaurantCategory => {
   const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
-    return 0;
+    return RestaurantCategory.other;
   }
   return restaurantState.restaurantSummary.category;
 };

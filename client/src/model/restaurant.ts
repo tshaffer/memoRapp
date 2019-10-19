@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { RestaurantSummary, RestaurantsState, RestaurantState } from '../type';
+import { RestaurantSummary, RestaurantsState, RestaurantState, RestaurantCategory } from '../type';
 import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 import { guid } from '../utilities';
 
@@ -31,7 +31,7 @@ export const addDefaultRestaurant = (
   const restaurantSummary: RestaurantSummary = {
     restaurantId,
     name: '',
-    category: 0,
+    category: RestaurantCategory.other,
     overallRating: 5,
     foodRating: 5,
     serviceRating: 5,

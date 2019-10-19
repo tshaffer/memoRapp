@@ -34,6 +34,7 @@ import {
   getRestaurantComments,
   getRestaurantWouldVisitAgain,
 } from '../selector';
+import { RestaurantCategory } from '../type';
 
 export interface RestaurantFormProps {
   restaurantId: string;
@@ -47,7 +48,7 @@ export interface RestaurantFormProps {
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
   onRestaurantNameChange: (name: string) => void;
-  onRestaurantCategoryChange: (category: string) => void;
+  onRestaurantCategoryChange: (category: RestaurantCategory) => void;
   onRestaurantRatingChange: (rating: number) => void;
   onRestaurantFoodRatingChange: (rating: number) => void;
   onRestaurantServiceRatingChange: (rating: number) => void;
@@ -58,7 +59,7 @@ export interface RestaurantFormProps {
   onSave: (
     restaurantId: string,
     restaurantName: string,
-    newRestaurantCategory: number,
+    restaurantCategory: number,
     overallRestaurantRating: number,
     restaurantFoodRating: number,
     restaurantServiceRating: number,
@@ -155,8 +156,8 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   //   );
   // }
 
-  handleRestaurantCategoryChange(event: any, index: any, newRestaurantCategory: any) {
-    this.props.onRestaurantCategoryChange(newRestaurantCategory);
+  handleRestaurantCategoryChange(event: any, index: any, restaurantCategory: RestaurantCategory) {
+    this.props.onRestaurantCategoryChange(restaurantCategory);
   }
 
   renderRestaurantCategory() {
@@ -167,9 +168,10 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           value={this.props.restaurantCategory}
           onChange={this.handleRestaurantCategoryChange}
         >
-          <MenuItem key={1} value={1} primaryText='Pizza' />
-          <MenuItem key={2} value={2} primaryText='Burritos' />
-          <MenuItem key={3} value={3} primaryText='Burgers' />
+          <MenuItem key={1} value={RestaurantCategory.pizza} primaryText='Pizza' />
+          <MenuItem key={2} value={RestaurantCategory.burrito} primaryText='Burritos' />
+          <MenuItem key={3} value={RestaurantCategory.burgers} primaryText='Burgers' />
+          <MenuItem key={4} value={RestaurantCategory.other} primaryText='Other' />
         </SelectField>
       </div>
     );
@@ -401,7 +403,7 @@ function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
     onCancel: ownProps.onCancel,
     restaurantId: getCurrentRestaurantId(state),
     restaurantName: getRestaurantName(state),
-    newRestaurantCategory: getRestaurantCategory(state),
+    restaurantCategory: getRestaurantCategory(state),
     restaurantOverallRating: getRestaurantOverallRating(state),
     restaurantFoodRating: getRestaurantFoodRating(state),
     restaurantServiceRating: getRestaurantServiceRating(state),

@@ -4,8 +4,8 @@ import {
   addRestaurant,
   updateRestaurantProperty,
 } from '../model';
-import { RestaurantSummary, RestaurantState } from '../type';
-import { setCurrentRestaurantIdData } from './application';
+import { RestaurantSummary, RestaurantState, RestaurantCategory } from '../type';
+import { setRestaurantId } from './application';
 
 export const loadRestaurants = (): any => {
   return (dispatch: any, getState: any): any => {
@@ -51,7 +51,7 @@ export const addDefaultRestaurantData = () => {
     const result = dispatch(addDefaultRestaurantAction);
     console.log(result);
     const restaurantId: string = (result as any).payload.restaurantId;
-    dispatch(setCurrentRestaurantIdData(restaurantId));
+    dispatch(setRestaurantId(restaurantId));
   };
 };
 
@@ -66,7 +66,7 @@ export const updateName = (name: string) => {
   };
 };
 
-export const updateCategory = (category: number) => {
+export const updateCategory = (category: RestaurantCategory) => {
   return (dispatch: any, getState: any): any => {
     const restaurantId: string = getRestaurantId(getState());
     dispatch(updateRestaurantProperty(restaurantId, { category }));

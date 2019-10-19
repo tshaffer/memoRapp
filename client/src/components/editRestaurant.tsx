@@ -17,12 +17,12 @@ import {
   getRestaurantComments,
   getRestaurantWouldVisitAgain,
 } from '../selector';
-import { RestaurantSummary } from '../type';
+import { RestaurantSummary, RestaurantCategory } from '../type';
 
 export interface EditRestaurantsProps {
   restaurantId: string;
   restaurantName: string;
-  restaurantCategory: number;
+  restaurantCategory: RestaurantCategory;
   restaurantOverallRating: number;
   restaurantFoodRating: number;
   restaurantServiceRating: number;
@@ -62,6 +62,10 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
       comments: this.props.restaurantComments,
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
+    console.log('handleOnSaveRestaurant, type of restaurantSummary.category: ', 
+    restaurantSummary.category, typeof restaurantSummary.category);
+    console.log('handleOnSaveRestaurant, type of restaurantCategory: ', 
+      this.props.restaurantCategory, typeof this.props.restaurantCategory);
     this.props.onSaveRestaurant(restaurantSummary);
   }
 

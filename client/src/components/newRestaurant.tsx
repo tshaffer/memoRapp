@@ -21,14 +21,14 @@ import {
   getRestaurantWouldVisitAgain,
 } from '../selector';
 
-import { RestaurantSummary } from '../type';
+import { RestaurantSummary, RestaurantCategory } from '../type';
 
 import { RestaurantForm } from './restaurantForm';
 
 export interface NewRestaurantsProps {
   restaurantId: string;
   restaurantName: string;
-  restaurantCategory: number;
+  restaurantCategory: RestaurantCategory;
   restaurantOverallRating: number;
   restaurantFoodRating: number;
   restaurantServiceRating: number;

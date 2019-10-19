@@ -17,7 +17,7 @@ export interface RestaurantState { // BaPeUiLiveTextDataFeedsDataState
 export interface RestaurantSummary {
   restaurantId: string;
   name: string;
-  category: number; // change to string?
+  category: RestaurantCategory;
   overallRating: number;
   foodRating: number;
   serviceRating: number;
@@ -48,5 +48,12 @@ export interface RestaurantMenuItem {
 
 export interface RestaurantMenuItemMap {
   [restaurantMenuItemId: string]: RestaurantMenuItem;
+}
+
+export enum RestaurantCategory {
+  pizza = 'Pizza',
+  burrito = 'Burrito',
+  burgers = 'Burgers',
+  other = 'Other',
 }
 
