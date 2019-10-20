@@ -20,6 +20,9 @@ export interface RestaurantAction<T> extends MemoRappBaseAction {
   payload: T;
 }
 
+export interface RestaurantVisitAction<T> extends MemoRappBaseAction {
+  payload: T;
+}
 
 /** @internal */
 /** @private */

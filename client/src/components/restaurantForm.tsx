@@ -431,10 +431,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
     onRestaurantOutdoorSeatingChange: updateOutdoorSeating,
     onRestaurantCommentsChange: updateComments,
     onRestaurantWouldVisitAgainChange: updateWouldVisitAgain,
-
-
-    // onAddNewVisit: () => void;
-    // onEditVisit: () => void;
   }, dispatch);
 };
 

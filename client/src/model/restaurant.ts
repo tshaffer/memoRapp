@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { RestaurantSummary, RestaurantsState, RestaurantState, RestaurantCategory } from '../type';
-import { ActionWithPayload, MemoRappModelBaseAction, RestaurantAction } from './baseAction';
+import { MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 import { guid } from '../utilities';
 import { Action } from 'redux';
 
@@ -55,7 +55,7 @@ export const addDefaultRestaurant = (
       restaurantData,
     },
   };
-}
+};
 
 export const addRestaurant = (
   restaurantId: string,

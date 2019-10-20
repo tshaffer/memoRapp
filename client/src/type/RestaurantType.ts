@@ -1,5 +1,3 @@
-/** @internal */
-/** @private */
 export interface RestaurantsState { // BaPeUiLiveTextDataFeedsState
   restaurants: RestaurantsStateById;
   pastRestaurants: RestaurantsStateById;
@@ -15,8 +13,6 @@ export interface RestaurantState { // BaPeUiLiveTextDataFeedsDataState
   menuItems: RestaurantMenuItemMap;
 }
 
-/** @internal */
-/** @private */
 export interface RestaurantSummary {
   restaurantId: string;
   name: string;
@@ -30,20 +26,17 @@ export interface RestaurantSummary {
   wouldVisitAgain: boolean;
 }
 
-/** @internal */
-/** @private */
 export interface RestaurantVisit {
   restaurantVisitId: string;
   restaurantId: string;
   visitDate: Date;
+  comments: string;
 }
 
 export interface RestaurantVisitMap {
-  [restaurantVisitid: string]: RestaurantVisit;
+  [restaurantVisitId: string]: RestaurantVisit;
 }
 
-/** @internal */
-/** @private */
 export interface RestaurantMenuItem {
   restaurantMenuItemId: string;
   rating: number;
