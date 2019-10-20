@@ -92,6 +92,7 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
 
 
   render() {
+    console.log('RestaurantVisit render()');
     return (
       <div>
         Enter information about this restaurant visit to {this.props.restaurantId}

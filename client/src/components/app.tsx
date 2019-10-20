@@ -47,6 +47,7 @@ class App extends React.Component<any, object> {
   }
 
   render() {
+    console.log('App render()');
     return (
       <MuiThemeProvider>
         <div>

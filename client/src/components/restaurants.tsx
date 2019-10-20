@@ -57,9 +57,9 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
     const restaurantDescriptions: RestaurantSummary[] = [];
     const restaurantIds: string[] = [];
-    for (const restaurantId of Object.keys(restaurantsState)) {
-      if (restaurantsState.hasOwnProperty(restaurantId)) {
-        const restaurantDataState = restaurantsState[restaurantId];
+    for (const restaurantId of Object.keys(restaurantsState.restaurants)) {
+      if (restaurantsState.restaurants.hasOwnProperty(restaurantId)) {
+        const restaurantDataState = restaurantsState.restaurants[restaurantId];
         restaurantDescriptions.push(restaurantDataState.restaurantSummary as RestaurantSummary);
         restaurantIds.push(restaurantId);
       }
@@ -122,6 +122,7 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
   }
 
   render() {
+    console.log('Restaurants render()');
     return (
       <MuiThemeProvider>
         <div>

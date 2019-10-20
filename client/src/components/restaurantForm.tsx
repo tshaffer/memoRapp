@@ -387,6 +387,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   */
 
   render() {
+    console.log('RestaurantForm render()');
     return (
       <MuiThemeProvider>
         <div>

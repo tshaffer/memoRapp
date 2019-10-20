@@ -81,6 +81,7 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   render() {
+    console.log('NewRestaurant render()');
     return (
       <div>
         <RestaurantForm

@@ -72,6 +72,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
   }
 
   render() {
+    console.log('EditRestaurant render()');
     return (
       <div>
         <RestaurantForm

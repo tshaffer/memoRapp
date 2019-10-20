@@ -1,11 +1,14 @@
 /** @internal */
 /** @private */
 export interface RestaurantsState { // BaPeUiLiveTextDataFeedsState
+  restaurants: RestaurantsStateById;
+  pastRestaurants: RestaurantsStateById;
+}
+
+export interface RestaurantsStateById {
   [id: string]: RestaurantState;
 }
 
-/** @internal */
-/** @private */
 export interface RestaurantState { // BaPeUiLiveTextDataFeedsDataState
   restaurantSummary: RestaurantSummary;
   visits: RestaurantVisitMap;
