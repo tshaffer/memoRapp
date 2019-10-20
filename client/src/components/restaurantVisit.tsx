@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -57,7 +58,7 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
     return (
       <div>
         Comments:
-        <br/>
+        <br />
         <TextField
           multiLine={true}
           rows={4}
@@ -90,19 +91,20 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
     );
   }
 
-
   render() {
     console.log('RestaurantVisit render()');
     return (
-      <div>
-        Enter information about this restaurant visit to {this.props.restaurantId}
-        <br />
-        <br />
-        {this.renderVisitDate()}
-        <br/>
-        {this.renderVisitComments()}
-        {this.renderEditingCompleteButtons()}
-      </div>
+      <MuiThemeProvider>
+        <div>
+          Enter information about this restaurant visit to {this.props.restaurantId}
+          <br />
+          <br />
+          {this.renderVisitDate()}
+          <br />
+          {this.renderVisitComments()}
+          {this.renderEditingCompleteButtons()}
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

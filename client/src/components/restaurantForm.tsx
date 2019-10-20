@@ -69,8 +69,7 @@ export interface RestaurantFormProps {
     restaurantWouldVisitAgain: boolean,
   ) => void;
   onCancel: () => void;
-  // onSaveVisit: () => void;
-  // onCancelVisit: () => void;
+  onAddNewVisit: () => void;
 }
 
 export class RestaurantFormComponent extends React.Component<RestaurantFormProps> {
@@ -99,9 +98,81 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     this.props.onRestaurantNameChange(event.target.value);
   }
 
+  handleRestaurantCategoryChange(event: any, index: any, restaurantCategory: RestaurantCategory) {
+    this.props.onRestaurantCategoryChange(restaurantCategory);
+  }
+
   getRestaurantName() {
     return this.props.restaurantName;
   }
+
+  getVisits(): any[] {
+    return [];
+  }
+
+  handleNewVisit() {
+    console.log('handleNewVisit invoked');
+    this.props.onAddNewVisit();
+  }
+
+  handleEditVisit() {
+    console.log('handleVisitChange invoked');
+  }
+
+  handleRestaurantRatingChange(event: any, restaurantRating: any) {
+    console.log('restaurantRating: ' + restaurantRating);
+    this.props.onRestaurantRatingChange(restaurantRating);
+  }
+
+  handleRestaurantFoodRatingChange(event: any, restaurantFoodRating: any) {
+    console.log('restaurantFoodRating: ' + restaurantFoodRating);
+    this.props.onRestaurantFoodRatingChange(restaurantFoodRating);
+  }
+
+  handleRestaurantServiceRatingChange(event: any, restaurantServiceRating: any) {
+    console.log('restaurantRating: ' + restaurantServiceRating);
+    this.props.onRestaurantServiceRatingChange(restaurantServiceRating);
+  }
+
+  handleRestaurantAmbienceRatingChange(event: any, restaurantAmbienceRating: any) {
+    console.log('restaurantAmbienceRating: ' + restaurantAmbienceRating);
+    this.props.onRestaurantAmbienceRatingChange(restaurantAmbienceRating);
+  }
+
+  handleRestaurantOutdoorSeatingChange() {
+    console.log('restaurantOutdoorSeatingRating');
+    this.props.onRestaurantOutdoorSeatingChange(!this.props.restaurantOutdoorSeating);
+  }
+
+  handleRestaurantCommentsChange(event: any) {
+    this.props.onRestaurantCommentsChange(event.target.value);
+  }
+
+  handleRestaurantWouldVisitAgainChange() {
+    console.log('restaurantWouldVisitAgainRating');
+    this.props.onRestaurantWouldVisitAgainChange(!this.props.restaurantWouldVisitAgain);
+  }
+
+  handleSave() {
+
+    this.props.onSave(
+      this.props.restaurantId,
+      this.props.restaurantName,
+      this.props.restaurantCategory,
+      this.props.restaurantOverallRating,
+      this.props.restaurantFoodRating,
+      this.props.restaurantServiceRating,
+      this.props.restaurantAmbienceRating,
+      this.props.restaurantOutdoorSeating,
+      this.props.restaurantComments,
+      this.props.restaurantWouldVisitAgain,
+    );
+  }
+
+  handleCancel() {
+    this.props.onCancel();
+  }
+
 
   renderRestaurantName() {
     this.getRestaurantName();
@@ -117,47 +188,32 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  handleNewVisit() {
-    console.log('handleNewVisit invoked');
-  }
+//   <SelectField
+//   floatingLabelText='Visits'
+//   value={this.props.restaurantVisitId}
+//   onChange={this.handleEditVisit}
+//   style={{
+//     verticalAlign: 'top',
+//     marginLeft: '32px'
+//   }}
+// >
+//   {this.getVisits()}
+// </SelectField>
 
-  handleEditVisit() {
-    console.log('handleVisitChange invoked');
-  }
-
-  getVisits(): any[] {
-    return [];
-  }
-
-  // renderRestaurantAddEditVisitForm() {
-  //   return (
-  //     <div>
-  //       <h4>Add a visit or view an existing visit</h4>
-  //       <RaisedButton
-  //         label='New Visit'
-  //         onClick={this.handleNewVisit}
-  //         style={{
-  //           verticalAlign: 'top',
-  //           marginTop: '18px'
-  //         }}
-  //       />
-  //       <SelectField
-  //         floatingLabelText='Visits'
-  //         value={this.props.currentRestaurantVisitId}
-  //         onChange={this.handleEditVisit}
-  //         style={{
-  //           verticalAlign: 'top',
-  //           marginLeft: '32px'
-  //         }}
-  //       >
-  //         {this.getVisits()}
-  //       </SelectField>
-  //     </div>
-  //   );
-  // }
-
-  handleRestaurantCategoryChange(event: any, index: any, restaurantCategory: RestaurantCategory) {
-    this.props.onRestaurantCategoryChange(restaurantCategory);
+  renderRestaurantAddEditVisitForm() {
+    return (
+      <div>
+        <h4>Add a visit or view an existing visit</h4>
+        <RaisedButton
+          label='New Visit'
+          onClick={this.handleNewVisit}
+          style={{
+            verticalAlign: 'top',
+            marginTop: '18px'
+          }}
+        />
+      </div>
+    );
   }
 
   renderRestaurantCategory() {
@@ -182,11 +238,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  handleRestaurantRatingChange(event: any, restaurantRating: any) {
-    console.log('restaurantRating: ' + restaurantRating);
-    this.props.onRestaurantRatingChange(restaurantRating);
-  }
-
   renderOverallRestaurantRating() {
     return (
       <div>
@@ -204,11 +255,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
         </Slider>
       </div>
     );
-  }
-
-  handleRestaurantFoodRatingChange(event: any, restaurantFoodRating: any) {
-    console.log('restaurantFoodRating: ' + restaurantFoodRating);
-    this.props.onRestaurantFoodRatingChange(restaurantFoodRating);
   }
 
   renderFoodRating() {
@@ -230,11 +276,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  handleRestaurantServiceRatingChange(event: any, restaurantServiceRating: any) {
-    console.log('restaurantRating: ' + restaurantServiceRating);
-    this.props.onRestaurantServiceRatingChange(restaurantServiceRating);
-  }
-
   renderServiceRating() {
     return (
       <div>
@@ -254,11 +295,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  handleRestaurantAmbienceRatingChange(event: any, restaurantAmbienceRating: any) {
-    console.log('restaurantAmbienceRating: ' + restaurantAmbienceRating);
-    this.props.onRestaurantAmbienceRatingChange(restaurantAmbienceRating);
-  }
-
   renderAmbienceRating() {
     return (
       <div>
@@ -276,11 +312,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
         </Slider>
       </div>
     );
-  }
-
-  handleRestaurantOutdoorSeatingChange() {
-    console.log('restaurantOutdoorSeatingRating');
-    this.props.onRestaurantOutdoorSeatingChange(!this.props.restaurantOutdoorSeating);
   }
 
   renderOutdoorSeating() {
@@ -308,10 +339,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  handleRestaurantCommentsChange(event: any) {
-    this.props.onRestaurantCommentsChange(event.target.value);
-  }
-
   renderRestaurantComments() {
     return (
       <div>
@@ -330,11 +357,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  handleRestaurantWouldVisitAgainChange() {
-    console.log('restaurantWouldVisitAgainRating');
-    this.props.onRestaurantWouldVisitAgainChange(!this.props.restaurantWouldVisitAgain);
-  }
-
   renderWouldVisitAgain() {
     return (
       <div>
@@ -345,26 +367,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
         />
       </div>
     );
-  }
-
-  handleSave() {
-
-    this.props.onSave(
-      this.props.restaurantId,
-      this.props.restaurantName,
-      this.props.restaurantCategory,
-      this.props.restaurantOverallRating,
-      this.props.restaurantFoodRating,
-      this.props.restaurantServiceRating,
-      this.props.restaurantAmbienceRating,
-      this.props.restaurantOutdoorSeating,
-      this.props.restaurantComments,
-      this.props.restaurantWouldVisitAgain,
-    );
-  }
-
-  handleCancel() {
-    this.props.onCancel();
   }
 
   renderEditingCompleteButtons() {
@@ -382,16 +384,13 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  /*
-        {this.renderRestaurantAddEditVisitForm()}
-  */
-
   render() {
     console.log('RestaurantForm render()');
     return (
       <MuiThemeProvider>
         <div>
           {this.renderRestaurantName()}
+          {this.renderRestaurantAddEditVisitForm()}
           {this.renderRestaurantCategory()}
           {this.renderRestaurantRatings()}
           {this.renderRestaurantComments()}
@@ -407,6 +406,7 @@ function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
   return {
     onSave: ownProps.onSave,
     onCancel: ownProps.onCancel,
+    onAddNewVisit: ownProps.onAddNewVisit,
     restaurantId: getCurrentRestaurantId(state),
     restaurantName: getRestaurantName(state),
     restaurantCategory: getRestaurantCategory(state),
@@ -433,8 +433,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
     onRestaurantWouldVisitAgainChange: updateWouldVisitAgain,
 
 
-    // onCancel: ownProps.;
-    // onNewVisit: () => void;
+    // onAddNewVisit: () => void;
     // onEditVisit: () => void;
   }, dispatch);
 };

@@ -18,6 +18,7 @@ import App from './components/app';
 import { Restaurants } from './components/restaurants';
 import { NewRestaurant } from './components/newRestaurant';
 import { EditRestaurant } from './components/editRestaurant';
+import { RestaurantVisit } from './components/restaurantVisit';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -32,6 +33,7 @@ ReactDOM.render(
       <Route path='/restaurants' component={Restaurants} />
       <Route path='/newRestaurant' component={NewRestaurant} />
       <Route path='/editRestaurant' component={EditRestaurant} />
+      <Route path='/restaurantVisit' component={RestaurantVisit} />
     </Router>
   </Provider>,
   document.getElementById('content') as HTMLElement,

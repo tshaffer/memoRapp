@@ -46,6 +46,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     super(props);
     this.handleOnSaveRestaurant = this.handleOnSaveRestaurant.bind(this);
     this.handleOnCancelEditRestaurant = this.handleOnCancelEditRestaurant.bind(this);
+    this.handleAddNewVisit = this.handleAddNewVisit.bind(this);
   }
 
   componentDidMount() {
@@ -83,6 +84,11 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     });
   }
 
+  handleAddNewVisit() {
+    console.log('handleNewVisit');
+    hashHistory.push('/restaurantVisit');
+  }
+
   render() {
     console.log('EditRestaurant render()');
     return (
@@ -90,6 +96,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
         <RestaurantForm
           onSave={this.handleOnSaveRestaurant}
           onCancel={this.handleOnCancelEditRestaurant}
+          onAddNewVisit={this.handleAddNewVisit}
         />
       </div>
     );
