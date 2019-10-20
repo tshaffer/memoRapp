@@ -32,7 +32,7 @@ export interface RestaurantsProps {
 
 class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
-  constructor(props: any) {
+  constructor(props: RestaurantsProps) {
     super(props);
 
     this.handleNewRestaurant = this.handleNewRestaurant.bind(this);
@@ -40,9 +40,9 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
   }
 
   componentDidMount() {
-    console.log('get all restaurants');
+    // console.log('get all restaurants');
     this.props.setRestaurantId('-1');
-    this.props.loadRestaurants();
+    // this.props.loadRestaurants();
   }
 
   getPlaceHolderRestaurant(): any {

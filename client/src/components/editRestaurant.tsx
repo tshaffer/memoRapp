@@ -6,6 +6,11 @@ import { hashHistory } from 'react-router';
 import { RestaurantForm } from './restaurantForm';
 import { saveRestaurant } from '../controller/restaurant';
 
+import {
+  resetToSnapshot,
+  snapshotRestaurants
+} from '../model';
+
 import { getCurrentRestaurantId, getRestaurantCategory } from '../selector';
 import {
   getRestaurantName,
@@ -31,6 +36,8 @@ export interface EditRestaurantsProps {
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
   onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
+  onResetToSnapshot: () => any;
+  onSnapshotRestaurants: () => any;
 }
 
 class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
@@ -41,8 +48,13 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     this.handleOnCancelEditRestaurant = this.handleOnCancelEditRestaurant.bind(this);
   }
 
+  componentDidMount() {
+    this.props.onSnapshotRestaurants();
+  }
+
   handleOnCancelEditRestaurant() {
     console.log('handleOnCancelEditRestaurant');
+    this.props.onResetToSnapshot();
     hashHistory.push('/restaurants');
   }
 
@@ -65,7 +77,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     const promise: Promise<any> = this.props.onSaveRestaurant(restaurantSummary);
     console.log(promise);
 
-    promise.then( (response) => {
+    promise.then((response) => {
       console.log('promise fulfilled: ', response);
       hashHistory.push('/restaurants');
     });
@@ -102,6 +114,8 @@ function mapStateToProps(state: any) {
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     onSaveRestaurant: saveRestaurant,
+    onResetToSnapshot: resetToSnapshot,
+    onSnapshotRestaurants: snapshotRestaurants,
   }, dispatch);
 };
 

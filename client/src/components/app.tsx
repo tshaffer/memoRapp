@@ -7,7 +7,14 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-class App extends React.Component<any, object> {
+import { loadRestaurants } from '../controller';
+import { bindActionCreators } from 'redux';
+
+export interface AppProps {
+  loadRestaurants: () => void;
+}
+
+class App extends React.Component<AppProps> {
 
   state: any = {
     mrCategory: 1,
@@ -21,6 +28,10 @@ class App extends React.Component<any, object> {
     super(props);
 
     this.handleMRCategoryChange = this.handleMRCategoryChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.loadRestaurants();
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
@@ -65,4 +76,10 @@ function mapStateToProps(state: any) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: any) => {
+  return bindActionCreators({
+    loadRestaurants,
+  }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

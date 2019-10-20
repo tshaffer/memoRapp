@@ -9,6 +9,11 @@ import {
 } from '../controller';
 
 import {
+  resetToSnapshot,
+  snapshotRestaurants
+} from '../model';
+
+import {
   getCurrentRestaurantId,
   getRestaurantName,
   getRestaurantCategory,
@@ -38,12 +43,14 @@ export interface NewRestaurantsProps {
   restaurantWouldVisitAgain: boolean;
   onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
   onAddDefaultRestaurant: () => any;
+  onResetToSnapshot: () => any;
+  onSnapshotRestaurants: () => any;
 }
 
 class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
 
   constructor(props: NewRestaurantsProps) {
-    
+
     super(props);
 
     this.handleOnSaveRestaurant = this.handleOnSaveRestaurant.bind(this);
@@ -51,11 +58,13 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   componentDidMount() {
+    this.props.onSnapshotRestaurants();
     this.props.onAddDefaultRestaurant();
   }
 
   handleOnCancelNewRestaurant() {
     console.log('handleOnCancelNewRestaurant');
+    this.props.onResetToSnapshot();
     hashHistory.push('/restaurants');
   }
 
@@ -112,6 +121,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return bindActionCreators({
     onAddDefaultRestaurant: addDefaultRestaurantData,
     onSaveRestaurant: saveRestaurant,
+    onResetToSnapshot: resetToSnapshot,
+    onSnapshotRestaurants: snapshotRestaurants,
   }, dispatch);
 };
 
