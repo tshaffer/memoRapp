@@ -7,8 +7,6 @@ import { guid } from '../utilities';
 // ------------------------------------
 export const ADD_RESTAURANT_VISIT = 'ADD_RESTAURANT_VISIT';
 export const UPDATE_RESTAURANT_VISIT_PROPERTY = 'UPDATE_RESTAURANT_VISIT_PROPERTY';
-export const SNAPSHOT_RESTAURANT_VISITS = 'SNAPSHOT_RESTAURANT_VISITS';
-export const RESET_RESTAURANT_VISITS_TO_SNAPSHOT = 'RESET_RESTAURANT_VISITS_TO_SNAPSHOT';
 
 // ------------------------------------
 // Actions

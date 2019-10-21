@@ -30,9 +30,7 @@ export interface EditRestaurantsProps {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
-  // onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
-  onResetToSnapshot: () => any;
-  onSnapshotRestaurants: () => any;
+  onSaveRestaurant: (restaurant: Restaurant) => any;
 }
 
 class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
@@ -44,13 +42,8 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     this.handleAddNewVisit = this.handleAddNewVisit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.onSnapshotRestaurants();
-  }
-
   handleOnCancelEditRestaurant() {
     console.log('handleOnCancelEditRestaurant');
-    this.props.onResetToSnapshot();
     hashHistory.push('/restaurants');
   }
 
@@ -58,7 +51,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     console.log('handleOnSaveRestaurantEdits');
     console.log('invoke onSaveRestaurant');
 
-    const restaurantSummary: Restaurant = {
+    const restaurant: Restaurant = {
       restaurantId: this.props.restaurantId,
       name: this.props.restaurantName,
       category: this.props.restaurantCategory,
@@ -70,13 +63,13 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
       comments: this.props.restaurantComments,
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
-    // const promise: Promise<any> = this.props.onSaveRestaurant(restaurantSummary);
-    // console.log(promise);
+    const promise: Promise<any> = this.props.onSaveRestaurant(restaurant);
+    console.log(promise);
 
-    // promise.then((response) => {
-    //   console.log('promise fulfilled: ', response);
-    //   hashHistory.push('/restaurants');
-    // });
+    promise.then((response) => {
+      console.log('promise fulfilled: ', response);
+      hashHistory.push('/restaurants');
+    });
   }
 
   handleAddNewVisit() {
@@ -115,7 +108,7 @@ function mapStateToProps(state: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
-    // onSaveRestaurant: saveRestaurant,
+    onSaveRestaurant: saveRestaurant,
   }, dispatch);
 };
 

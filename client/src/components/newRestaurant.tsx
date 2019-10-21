@@ -36,10 +36,8 @@ export interface NewRestaurantsProps {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
-  // onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
+  onSaveRestaurant: (restaurant: Restaurant) => any;
   onAddDefaultRestaurant: () => any;
-  onResetToSnapshot: () => any;
-  onSnapshotRestaurants: () => any;
 }
 
 class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
@@ -53,13 +51,11 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   componentDidMount() {
-    this.props.onSnapshotRestaurants();
     this.props.onAddDefaultRestaurant();
   }
 
   handleOnCancelNewRestaurant() {
     console.log('handleOnCancelNewRestaurant');
-    this.props.onResetToSnapshot();
     hashHistory.push('/restaurants');
   }
 
@@ -79,7 +75,7 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
       comments: this.props.restaurantComments,
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
-    // this.props.onSaveRestaurant(restaurantSummary);
+    this.props.onSaveRestaurant(restaurant);
 
     hashHistory.push('/restaurants');
   }
@@ -115,9 +111,7 @@ function mapStateToProps(state: any) {
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return bindActionCreators({
     onAddDefaultRestaurant: addDefaultRestaurantData,
-    // onSaveRestaurant: saveRestaurant,
-    // onResetToSnapshot: resetToSnapshot,
-    // onSnapshotRestaurants: snapshotRestaurants,
+    onSaveRestaurant: saveRestaurant,
   }, dispatch);
 };
 

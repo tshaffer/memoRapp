@@ -25,7 +25,7 @@ export interface RestaurantsProps {
   restaurants: RestaurantsState;
   loadRestaurants: () => void;
   setRestaurantId: (id: string) => any;
-  // onSaveRestaurant: (restaurant: RestaurantSummary) => any;
+  onSaveRestaurant: (restaurant: Restaurant) => any;
   onAddDefaultRestaurant: () => any;
   onAddNewRestaurant: () => any;
 }

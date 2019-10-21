@@ -9,8 +9,6 @@ import { Action } from 'redux';
 // ------------------------------------
 export const ADD_RESTAURANT = 'ADD_RESTAURANT';
 export const UPDATE_RESTAURANT_PROPERTY = 'UPDATE_RESTAURANT_PROPERTY';
-export const SNAPSHOT_RESTAURANTS = 'SNAPSHOT_RESTAURANTS';
-export const RESET_TO_SNAPSHOT = 'RESET_TO_SNAPSHOT';
 
 // ------------------------------------
 // Actions

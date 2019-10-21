@@ -25,18 +25,16 @@ export const loadRestaurants = (): any => {
 };
 
 export const saveRestaurant = (restaurant: any) => {
-  return (dispatch: any, getState: any) => {
-  // return (dispatch: any, getState: any): Promise<any> => {
-
-  //   const path = 'http://localhost:8000/restaurant';
-  //   return axios.post(path, restaurant)
-  //     .then((response) => {
-  //       console.log('return from post');
-  //       console.log(response);
-  //       return Promise.resolve(response);
-  //     }).catch((err: any) => {
-  //       console.log('err: ', err);
-  //     });
+  return (dispatch: any, getState: any): Promise<any> => {
+    const path = 'http://localhost:8000/restaurant';
+    return axios.post(path, restaurant)
+      .then((response) => {
+        console.log('return from post');
+        console.log(response);
+        return Promise.resolve(response);
+      }).catch((err: any) => {
+        console.log('err: ', err);
+      });
   };
 };
 
