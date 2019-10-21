@@ -1,19 +1,10 @@
-export interface RestaurantsState { // BaPeUiLiveTextDataFeedsState
-  restaurants: RestaurantsStateById;
-  pastRestaurants: RestaurantsStateById;
+export interface RestaurantsState {
+  restaurants: RestaurantsMap;
+  restaurantVisits: RestaurantVisitsMap;
+  restaurantMenuItems: RestaurantMenuItemMap;
 }
 
-export interface RestaurantsStateById {
-  [id: string]: RestaurantState;
-}
-
-export interface RestaurantState { // BaPeUiLiveTextDataFeedsDataState
-  restaurantSummary: RestaurantSummary;
-  visits: RestaurantVisitMap;
-  menuItems: RestaurantMenuItemMap;
-}
-
-export interface RestaurantSummary {
+export interface Restaurant {
   restaurantId: string;
   name: string;
   category: RestaurantCategory;
@@ -33,17 +24,22 @@ export interface RestaurantVisit {
   comments: string;
 }
 
-export interface RestaurantVisitMap {
-  [restaurantVisitId: string]: RestaurantVisit;
-}
-
 export interface RestaurantMenuItem {
   restaurantMenuItemId: string;
+  restaurantId: string;
   rating: number;
 }
 
+export interface RestaurantsMap {
+  [id: string]: Restaurant;
+}
+
+export interface RestaurantVisitsMap {
+  [id: string]: RestaurantVisit;
+}
+
 export interface RestaurantMenuItemMap {
-  [restaurantMenuItemId: string]: RestaurantMenuItem;
+  [id: string]: RestaurantMenuItem;
 }
 
 export enum RestaurantCategory {

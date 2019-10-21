@@ -9,8 +9,8 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 
-import { MemoRappModelState, RestaurantState } from '../type';
-import { RestaurantSummary, RestaurantsState } from '../type';
+import { MemoRappModelState } from '../type';
+import { Restaurant, RestaurantsState } from '../type';
 
 import {
   loadRestaurants,
@@ -25,7 +25,7 @@ export interface RestaurantsProps {
   restaurants: RestaurantsState;
   loadRestaurants: () => void;
   setRestaurantId: (id: string) => any;
-  onSaveRestaurant: (restaurant: RestaurantSummary) => any;
+  // onSaveRestaurant: (restaurant: RestaurantSummary) => any;
   onAddDefaultRestaurant: () => any;
   onAddNewRestaurant: () => any;
 }
@@ -55,17 +55,17 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
 
     const restaurantsState: RestaurantsState = this.props.restaurants;
 
-    const restaurantDescriptions: RestaurantSummary[] = [];
+    const restaurantDescriptions: Restaurant[] = [];
     const restaurantIds: string[] = [];
     for (const restaurantId of Object.keys(restaurantsState.restaurants)) {
       if (restaurantsState.restaurants.hasOwnProperty(restaurantId)) {
         const restaurantDataState = restaurantsState.restaurants[restaurantId];
-        restaurantDescriptions.push(restaurantDataState.restaurantSummary as RestaurantSummary);
+        restaurantDescriptions.push(restaurantDataState);
         restaurantIds.push(restaurantId);
       }
     }
 
-    const restaurants = restaurantDescriptions.map((restaurantDescription: RestaurantSummary, index: number) => {
+    const restaurants = restaurantDescriptions.map((restaurantDescription: Restaurant, index: number) => {
       return (
         <MenuItem key={index} value={restaurantIds[index]} primaryText={restaurantDescription.name} />
       );

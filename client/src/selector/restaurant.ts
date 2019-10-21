@@ -1,8 +1,8 @@
 import { isNil } from 'lodash';
-import { MemoRappModelState, RestaurantState, RestaurantCategory } from '../type';
+import { MemoRappModelState, Restaurant, RestaurantCategory } from '../type';
 import { getCurrentRestaurantId } from './application';
 
-export const getRestaurantById = (state: MemoRappModelState, restaurantId: string): RestaurantState => {
+export const getRestaurantById = (state: MemoRappModelState, restaurantId: string): Restaurant => {
   return state.restaurants.restaurants[restaurantId];
 };
 
@@ -10,73 +10,73 @@ export const getRestaurantById = (state: MemoRappModelState, restaurantId: strin
 // Selectors
 // ------------------------------------
 export const getRestaurantName = (state: MemoRappModelState): string => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return '';
   }
-  return restaurantState.restaurantSummary.name;
+  return restaurantState.name;
 };
 
 export const getRestaurantCategory = (state: MemoRappModelState): RestaurantCategory => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return RestaurantCategory.other;
   }
-  return restaurantState.restaurantSummary.category;
+  return restaurantState.category;
 };
 
 export const getRestaurantOverallRating = (state: MemoRappModelState): number => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return 0;
   }
-  return restaurantState.restaurantSummary.overallRating;
+  return restaurantState.overallRating;
 };
 
 export const getRestaurantFoodRating = (state: MemoRappModelState): number => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return 0;
   }
-  return restaurantState.restaurantSummary.foodRating;
+  return restaurantState.foodRating;
 };
 
 export const getRestaurantServiceRating = (state: MemoRappModelState): number => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return 0;
   }
-  return restaurantState.restaurantSummary.serviceRating;
+  return restaurantState.serviceRating;
 };
 
 export const getRestaurantAmbienceRating = (state: MemoRappModelState): number => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return 0;
   }
-  return restaurantState.restaurantSummary.ambienceRating;
+  return restaurantState.ambienceRating;
 };
 
 export const getRestaurantOutdoorSeating = (state: MemoRappModelState): boolean => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return false;
   }
-  return restaurantState.restaurantSummary.outdoorSeating;
+  return restaurantState.outdoorSeating;
 };
 
 export const getRestaurantComments = (state: MemoRappModelState): string => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return '';
   }
-  return restaurantState.restaurantSummary.comments;
+  return restaurantState.comments;
 };
 
 export const getRestaurantWouldVisitAgain = (state: MemoRappModelState): boolean => {
-  const restaurantState: RestaurantState = getRestaurantById(state, getCurrentRestaurantId(state));
+  const restaurantState: Restaurant = getRestaurantById(state, getCurrentRestaurantId(state));
   if (isNil(restaurantState)) {
     return false;
   }
-  return restaurantState.restaurantSummary.wouldVisitAgain;
+  return restaurantState.wouldVisitAgain;
 };

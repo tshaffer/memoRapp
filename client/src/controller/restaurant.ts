@@ -4,7 +4,7 @@ import {
   addRestaurant,
   updateRestaurantProperty,
 } from '../model';
-import { RestaurantSummary, RestaurantState, RestaurantCategory } from '../type';
+import { RestaurantCategory, Restaurant } from '../type';
 import { setRestaurantId } from './application';
 
 export const loadRestaurants = (): any => {
@@ -14,14 +14,9 @@ export const loadRestaurants = (): any => {
       .then((response) => {
         console.log('loadRestaurants');
         console.log(response);
-        const restaurantDescriptions: RestaurantSummary[] = response.data as RestaurantSummary[];
-        for (const restaurantDescription of restaurantDescriptions) {
-          const restaurantData: RestaurantState = {
-            restaurantSummary: restaurantDescription,
-            visits: {},
-            menuItems: {},
-          };
-          dispatch(addRestaurant(restaurantDescription.restaurantId, restaurantData));
+        const restaurants: any[] = response.data as Restaurant[];
+        for (const restaurant of restaurants) {
+          dispatch(addRestaurant(restaurant.restaurantId, restaurant));
         }
       }).catch((err: Error) => {
         console.log(err);
@@ -29,20 +24,19 @@ export const loadRestaurants = (): any => {
   };
 };
 
-export const saveRestaurant = (restaurant: RestaurantSummary) => {
-  return (dispatch: any, getState: any): Promise<any> => {
+export const saveRestaurant = (restaurant: any) => {
+  return (dispatch: any, getState: any) => {
+  // return (dispatch: any, getState: any): Promise<any> => {
 
-    // dispatch(addRestaurant(restaurant.name, restaurantData));
-
-    const path = 'http://localhost:8000/restaurant';
-    return axios.post(path, restaurant)
-      .then((response) => {
-        console.log('return from post');
-        console.log(response);
-        return Promise.resolve(response);
-      }).catch((err: any) => {
-        console.log('err: ', err);
-      });
+  //   const path = 'http://localhost:8000/restaurant';
+  //   return axios.post(path, restaurant)
+  //     .then((response) => {
+  //       console.log('return from post');
+  //       console.log(response);
+  //       return Promise.resolve(response);
+  //     }).catch((err: any) => {
+  //       console.log('err: ', err);
+  //     });
   };
 };
 

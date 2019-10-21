@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { RestaurantSummary, RestaurantsState, RestaurantState, RestaurantCategory } from '../type';
+import { RestaurantsState, RestaurantCategory, Restaurant } from '../type';
 import { MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 import { guid } from '../utilities';
 import { Action } from 'redux';
@@ -16,11 +16,11 @@ export const RESET_TO_SNAPSHOT = 'RESET_TO_SNAPSHOT';
 // Actions
 // ------------------------------------
 
-export type PartialRestaurantDescription = Partial<RestaurantSummary>;
+export type PartialRestaurantDescription = Partial<Restaurant>;
 
 export interface AddRestaurantPayload {
   restaurantId: string;
-  restaurantData: RestaurantState;
+  restaurant: Restaurant;
 }
 
 export interface UpdateRestaurantPropertyPayload {
@@ -31,7 +31,7 @@ export interface UpdateRestaurantPropertyPayload {
 export const addDefaultRestaurant = (
 ):  RestaurantAction<AddRestaurantPayload> => {
   const restaurantId: string = guid();
-  const restaurantSummary: RestaurantSummary = {
+  const restaurant: Restaurant = {
     restaurantId,
     name: '',
     category: RestaurantCategory.other,
@@ -43,37 +43,32 @@ export const addDefaultRestaurant = (
     comments: '',
     wouldVisitAgain: false,
   };
-  const restaurantData: RestaurantState = {
-    restaurantSummary,
-    visits: {},
-    menuItems: {},
-  };
   return {
     type: ADD_RESTAURANT,
     payload: {
       restaurantId,
-      restaurantData,
+      restaurant,
     },
   };
 };
 
 export const addRestaurant = (
   restaurantId: string,
-  restaurantData: RestaurantState
+  restaurant: Restaurant
 ): RestaurantAction<AddRestaurantPayload> => {
 
   return {
     type: ADD_RESTAURANT,
     payload: {
       restaurantId,
-      restaurantData,
+      restaurant,
     },
   };
 };
 
 export const updateRestaurantProperty = (
   id: string,
-  data: Partial<RestaurantSummary>
+  data: Partial<Restaurant>
 ): RestaurantAction<UpdateRestaurantPropertyPayload> => {
   return {
     type: UPDATE_RESTAURANT_PROPERTY,
@@ -84,25 +79,14 @@ export const updateRestaurantProperty = (
   };
 };
 
-export const snapshotRestaurants = (): Action => {
-  return {
-    type: SNAPSHOT_RESTAURANTS,
-  };
-};
-
-export const resetToSnapshot = (): Action => {
-  return {
-    type: RESET_TO_SNAPSHOT,
-  };
-};
-
 // ------------------------------------
 // Reducer
 // ------------------------------------
 
 const initialState: RestaurantsState = {
   restaurants: {},
-  pastRestaurants: {},
+  restaurantVisits: {},
+  restaurantMenuItems: {},
 };
 
 export const restaurantReducer = (
@@ -112,31 +96,20 @@ export const restaurantReducer = (
   switch (action.type) {
     case ADD_RESTAURANT: {
       const newState = cloneDeep(state);
-      const { restaurantId, restaurantData } = action.payload;
-      newState.restaurants[restaurantId] = restaurantData;
+      const { restaurantId, restaurant } = action.payload;
+      newState.restaurants[restaurantId] = restaurant;
       return newState;
     }
     case UPDATE_RESTAURANT_PROPERTY: {
       const newState: RestaurantsState = Object.assign({}, state);
       const id: string = action.payload.id;
       const data: PartialRestaurantDescription = action.payload.data;
-      const restaurantSummary: RestaurantSummary = newState.restaurants[id].restaurantSummary;
+      const restaurant: Restaurant = newState.restaurants[id];
       const keyName: string = Object.keys(data)[0];
       if (data.hasOwnProperty(keyName)) {
         const value: any = (data as any)[keyName];
-        (restaurantSummary as any)[keyName] = value;
+        (restaurant as any)[keyName] = value;
       }
-      return newState;
-    }
-    case SNAPSHOT_RESTAURANTS: {
-      const newState = cloneDeep(state);
-      newState.pastRestaurants = cloneDeep(state.restaurants);
-      return newState;
-    }
-    case RESET_TO_SNAPSHOT: {
-      const newState = cloneDeep(state);
-      newState.restaurants = state.pastRestaurants;
-      newState.pastRestaurants = {};
       return newState;
     }
     default:

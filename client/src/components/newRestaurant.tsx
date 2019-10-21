@@ -9,11 +9,6 @@ import {
 } from '../controller';
 
 import {
-  resetToSnapshot,
-  snapshotRestaurants
-} from '../model';
-
-import {
   getCurrentRestaurantId,
   getRestaurantName,
   getRestaurantCategory,
@@ -26,7 +21,7 @@ import {
   getRestaurantWouldVisitAgain,
 } from '../selector';
 
-import { RestaurantSummary, RestaurantCategory } from '../type';
+import { Restaurant, RestaurantCategory } from '../type';
 
 import { RestaurantForm } from './restaurantForm';
 
@@ -41,7 +36,7 @@ export interface NewRestaurantsProps {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
-  onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
+  // onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
   onAddDefaultRestaurant: () => any;
   onResetToSnapshot: () => any;
   onSnapshotRestaurants: () => any;
@@ -72,7 +67,7 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
     console.log('handleOnSaveRestaurantEdits');
     console.log('invoke onSaveRestaurant');
 
-    const restaurantSummary: RestaurantSummary = {
+    const restaurant: Restaurant = {
       restaurantId: this.props.restaurantId,
       name: this.props.restaurantName,
       category: this.props.restaurantCategory,
@@ -84,7 +79,7 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
       comments: this.props.restaurantComments,
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
-    this.props.onSaveRestaurant(restaurantSummary);
+    // this.props.onSaveRestaurant(restaurantSummary);
 
     hashHistory.push('/restaurants');
   }
@@ -120,9 +115,9 @@ function mapStateToProps(state: any) {
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return bindActionCreators({
     onAddDefaultRestaurant: addDefaultRestaurantData,
-    onSaveRestaurant: saveRestaurant,
-    onResetToSnapshot: resetToSnapshot,
-    onSnapshotRestaurants: snapshotRestaurants,
+    // onSaveRestaurant: saveRestaurant,
+    // onResetToSnapshot: resetToSnapshot,
+    // onSnapshotRestaurants: snapshotRestaurants,
   }, dispatch);
 };
 

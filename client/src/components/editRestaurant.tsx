@@ -6,11 +6,6 @@ import { hashHistory } from 'react-router';
 import { RestaurantForm } from './restaurantForm';
 import { saveRestaurant } from '../controller/restaurant';
 
-import {
-  resetToSnapshot,
-  snapshotRestaurants
-} from '../model';
-
 import { getCurrentRestaurantId, getRestaurantCategory } from '../selector';
 import {
   getRestaurantName,
@@ -22,7 +17,7 @@ import {
   getRestaurantComments,
   getRestaurantWouldVisitAgain,
 } from '../selector';
-import { RestaurantSummary, RestaurantCategory } from '../type';
+import { RestaurantCategory, Restaurant } from '../type';
 
 export interface EditRestaurantsProps {
   restaurantId: string;
@@ -35,7 +30,7 @@ export interface EditRestaurantsProps {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
-  onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
+  // onSaveRestaurant: (restaurantSummary: RestaurantSummary) => any;
   onResetToSnapshot: () => any;
   onSnapshotRestaurants: () => any;
 }
@@ -63,7 +58,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     console.log('handleOnSaveRestaurantEdits');
     console.log('invoke onSaveRestaurant');
 
-    const restaurantSummary: RestaurantSummary = {
+    const restaurantSummary: Restaurant = {
       restaurantId: this.props.restaurantId,
       name: this.props.restaurantName,
       category: this.props.restaurantCategory,
@@ -75,13 +70,13 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
       comments: this.props.restaurantComments,
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
-    const promise: Promise<any> = this.props.onSaveRestaurant(restaurantSummary);
-    console.log(promise);
+    // const promise: Promise<any> = this.props.onSaveRestaurant(restaurantSummary);
+    // console.log(promise);
 
-    promise.then((response) => {
-      console.log('promise fulfilled: ', response);
-      hashHistory.push('/restaurants');
-    });
+    // promise.then((response) => {
+    //   console.log('promise fulfilled: ', response);
+    //   hashHistory.push('/restaurants');
+    // });
   }
 
   handleAddNewVisit() {
@@ -120,9 +115,7 @@ function mapStateToProps(state: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
-    onSaveRestaurant: saveRestaurant,
-    onResetToSnapshot: resetToSnapshot,
-    onSnapshotRestaurants: snapshotRestaurants,
+    // onSaveRestaurant: saveRestaurant,
   }, dispatch);
 };
 
