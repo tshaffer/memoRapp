@@ -1,8 +1,7 @@
 import { cloneDeep } from 'lodash';
-import { RestaurantsState, RestaurantCategory, Restaurant } from '../type';
+import { RestaurantsState, RestaurantCategory, Restaurant, RestaurantsMap } from '../type';
 import { MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 import { guid } from '../utilities';
-import { Action } from 'redux';
 
 // ------------------------------------
 // Constants
@@ -81,28 +80,24 @@ export const updateRestaurantProperty = (
 // Reducer
 // ------------------------------------
 
-const initialState: RestaurantsState = {
-  restaurants: {},
-  restaurantVisits: {},
-  restaurantMenuItems: {},
-};
+const initialState: RestaurantsMap = {};
 
 export const restaurantReducer = (
-  state: RestaurantsState = initialState,
+  state: RestaurantsMap = initialState,
   action: MemoRappModelBaseAction<PartialRestaurantDescription & AddRestaurantPayload & UpdateRestaurantPropertyPayload>
-): RestaurantsState => {
+): RestaurantsMap => {
   switch (action.type) {
     case ADD_RESTAURANT: {
       const newState = cloneDeep(state);
       const { restaurantId, restaurant } = action.payload;
-      newState.restaurants[restaurantId] = restaurant;
+      newState[restaurantId] = restaurant;
       return newState;
     }
     case UPDATE_RESTAURANT_PROPERTY: {
-      const newState: RestaurantsState = Object.assign({}, state);
+      const newState: RestaurantsMap = Object.assign({}, state);
       const id: string = action.payload.id;
       const data: PartialRestaurantDescription = action.payload.data;
-      const restaurant: Restaurant = newState.restaurants[id];
+      const restaurant: Restaurant = newState[id];
       const keyName: string = Object.keys(data)[0];
       if (data.hasOwnProperty(keyName)) {
         const value: any = (data as any)[keyName];

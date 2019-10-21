@@ -15,8 +15,9 @@ export const UPDATE_RESTAURANT_VISIT_PROPERTY = 'UPDATE_RESTAURANT_VISIT_PROPERT
 export type PartialRestaurantVisitDescription = Partial<RestaurantVisit>;
 
 export interface AddRestaurantVisitPayload {
+  restaurantVisitId: string;
   restaurantId: string;
-  restaurantVisitData: RestaurantVisit;
+  restaurantVisit: RestaurantVisit;
 }
 
 export interface UpdateRestaurantVisitPropertyPayload {
@@ -24,10 +25,11 @@ export interface UpdateRestaurantVisitPropertyPayload {
   data: PartialRestaurantVisitDescription;
 }
 
-export const addDefaultRestaurantVisit = (restaurantId: string,
+export const addDefaultRestaurantVisit = (
+  restaurantId: string,
 ): RestaurantVisitAction<AddRestaurantVisitPayload> => {
   const restaurantVisitId: string = guid();
-  const restaurantVisitData: RestaurantVisit = {
+  const restaurantVisit: RestaurantVisit = {
     restaurantId,
     restaurantVisitId,
     visitDate: new Date(),
@@ -36,25 +38,24 @@ export const addDefaultRestaurantVisit = (restaurantId: string,
   return {
     type: ADD_RESTAURANT_VISIT,
     payload: {
+      restaurantVisitId,
       restaurantId,
-      restaurantVisitData,
+      restaurantVisit,
     },
   };
 };
 
 export const addRestaurantVisit = (
+  restaurantVisitId: string,
+  restaurantId: string,
   restaurantVisit: RestaurantVisit,
 ): RestaurantVisitAction<AddRestaurantVisitPayload> => {
   return {
     type: ADD_RESTAURANT_VISIT,
     payload: {
-      restaurantId: restaurantVisit.restaurantId,
-      restaurantVisitData: {
-        restaurantId: restaurantVisit.restaurantId,
-        restaurantVisitId: restaurantVisit.restaurantVisitId,
-        visitDate: restaurantVisit.visitDate,
-        comments: restaurantVisit.comments,
-      }
+      restaurantVisitId,
+      restaurantId,
+      restaurantVisit,
     },
   };
 };
@@ -63,3 +64,11 @@ export const addRestaurantVisit = (
 // Reducer
 // ------------------------------------
 
+const initialState: any = {};
+
+export const restaurantVisitReducer = (
+  state: any = initialState,
+  action: any
+): any => {
+  return state;
+};
