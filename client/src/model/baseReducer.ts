@@ -12,6 +12,7 @@ import {
 } from './application';
 
 import restaurantStateReducer from './restaurantState';
+import { restaurantVisitReducer } from './restaurantVisit';
 
 import {
   mtbTrailReducer
@@ -23,6 +24,7 @@ import {
 export const rootReducer = combineReducers<MemoRappModelState>({
   application: applicationReducer,
   restaurants: restaurantStateReducer,
+  restaurantVisits: restaurantVisitReducer,
   mtbTrails: mtbTrailReducer,
 });
 

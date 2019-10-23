@@ -113,3 +113,4 @@ export const updateWouldVisitAgain = (wouldVisitAgain: boolean) => {
     dispatch(updateRestaurantProperty(restaurantId, { wouldVisitAgain }));
   };
 };
+

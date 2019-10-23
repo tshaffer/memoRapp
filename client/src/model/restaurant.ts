@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { RestaurantsState, RestaurantCategory, Restaurant, RestaurantsMap } from '../type';
+import { RestaurantCategory, Restaurant, RestaurantsMap } from '../type';
 import { MemoRappModelBaseAction, RestaurantAction } from './baseAction';
 import { guid } from '../utilities';
 

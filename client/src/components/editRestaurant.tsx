@@ -74,7 +74,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
 
   handleAddNewVisit() {
     console.log('handleNewVisit');
-    hashHistory.push('/restaurantVisit');
+    hashHistory.push('/newRestaurantVisit');
   }
 
   render() {

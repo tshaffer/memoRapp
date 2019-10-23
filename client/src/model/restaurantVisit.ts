@@ -1,5 +1,6 @@
-import { RestaurantVisit } from '../type';
-import { RestaurantVisitAction } from './baseAction';
+import { cloneDeep } from 'lodash';
+import { RestaurantVisit, RestaurantVisitsMap } from '../type';
+import { MemoRappModelBaseAction, RestaurantVisitAction } from './baseAction';
 import { guid } from '../utilities';
 
 // ------------------------------------
@@ -16,12 +17,11 @@ export type PartialRestaurantVisitDescription = Partial<RestaurantVisit>;
 
 export interface AddRestaurantVisitPayload {
   restaurantVisitId: string;
-  restaurantId: string;
   restaurantVisit: RestaurantVisit;
 }
 
 export interface UpdateRestaurantVisitPropertyPayload {
-  id: string;
+  restaurantVisitId: string;
   data: PartialRestaurantVisitDescription;
 }
 
@@ -39,7 +39,6 @@ export const addDefaultRestaurantVisit = (
     type: ADD_RESTAURANT_VISIT,
     payload: {
       restaurantVisitId,
-      restaurantId,
       restaurantVisit,
     },
   };
@@ -54,8 +53,20 @@ export const addRestaurantVisit = (
     type: ADD_RESTAURANT_VISIT,
     payload: {
       restaurantVisitId,
-      restaurantId,
       restaurantVisit,
+    },
+  };
+};
+
+export const updateRestaurantVisitProperty = (
+  restaurantVisitId: string,
+  data: Partial<RestaurantVisit>
+): RestaurantVisitAction<UpdateRestaurantVisitPropertyPayload> => {
+  return {
+    type: UPDATE_RESTAURANT_VISIT_PROPERTY,
+    payload: {
+      restaurantVisitId,
+      data,
     },
   };
 };
@@ -64,11 +75,33 @@ export const addRestaurantVisit = (
 // Reducer
 // ------------------------------------
 
-const initialState: any = {};
+const initialState: RestaurantVisitsMap = {};
 
 export const restaurantVisitReducer = (
-  state: any = initialState,
-  action: any
-): any => {
-  return state;
+  state: RestaurantVisitsMap = initialState,
+  action: MemoRappModelBaseAction<
+    PartialRestaurantVisitDescription & AddRestaurantVisitPayload & UpdateRestaurantVisitPropertyPayload>
+): RestaurantVisitsMap => {
+  switch (action.type) {
+    case ADD_RESTAURANT_VISIT: {
+      const newState = cloneDeep(state);
+      const { restaurantVisitId, restaurantVisit } = action.payload;
+      newState[restaurantVisitId] = restaurantVisit;
+      return newState;
+    }
+    case UPDATE_RESTAURANT_VISIT_PROPERTY: {
+      const newState: RestaurantVisitsMap = Object.assign({}, state);
+      const restaurantVisitId: string = action.payload.restaurantVisitId;
+      const data: PartialRestaurantVisitDescription = action.payload.data;
+      const restaurantVisit: RestaurantVisit = newState[restaurantVisitId];
+      const keyName: string = Object.keys(data)[0];
+      if (data.hasOwnProperty(keyName)) {
+        const value: any = (data as any)[keyName];
+        (restaurantVisit as any)[keyName] = value;
+      }
+      return newState;
+    }
+    default:
+      return state;
+  }
 };

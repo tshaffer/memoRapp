@@ -5,41 +5,43 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { getCurrentRestaurantId, getCurrentRestaurantVisitId, getRestaurantVisitDate, getRestaurantVisitComments } from '../selector';
+import { bindActionCreators } from 'redux';
+
+import {
+  updateRestaurantVisitComments,
+  updateRestaurantVisitDate,
+} from '../controller';
 
 interface RestaurantVisitProps {
   restaurantId: string;
   restaurantVisitId: string;
-  onSaveVisit: () => void;
+  restaurantVisitDate: Date;
+  restaurantVisitComments: string;
+  onRestaurantVisitCommentsChange: (comments: string) => void;
+  onRestaurantVisitDateChange: (date: Date) => void;
+  onSave: () => void;
   onCancel: () => void;
 }
 
-interface RestaurantVisitComponentState {
-  visitDate: Date;
-  comments: string;
-}
-
-class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, RestaurantVisitComponentState> {
-
-  state: RestaurantVisitComponentState = {
-    visitDate: null,
-    comments: '',
-  };
-  initialState: RestaurantVisitComponentState;
+export class RestaurantVisitFormComponent extends React.Component<RestaurantVisitProps> {
 
   constructor(props: RestaurantVisitProps) {
     super(props);
+
+    this.handleRestaurantVisitCommentsChange = this.handleRestaurantVisitCommentsChange.bind(this);
+    this.handleRestaurantVisitDateChange = this.handleRestaurantVisitDateChange.bind(this);
+
+    this.handleSaveVisit = this.handleSaveVisit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({
-      visitDate: new Date(),
-    });
+  handleRestaurantVisitCommentsChange(event: any) {
+    this.props.onRestaurantVisitCommentsChange(event.target.value);
   }
 
-  handleSetVisitDate = (event: any, date: Date) => {
-    this.setState({
-      visitDate: date,
-    });
+  handleRestaurantVisitDateChange = (event: any, date: Date) => {
+    this.props.onRestaurantVisitDateChange(date);
   }
 
   renderVisitDate() {
@@ -47,8 +49,8 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
       <div>
         Visit Date
         <DatePicker
-          value={this.state.visitDate}
-          onChange={this.handleSetVisitDate}
+          value={this.props.restaurantVisitDate}
+          onChange={this.handleRestaurantVisitDateChange}
         />
       </div>
     );
@@ -60,6 +62,10 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
         Comments:
         <br />
         <TextField
+          id='restaurantVisitComments'
+          hintText='Enter comments here....'
+          value={this.props.restaurantVisitComments}
+          onChange={this.handleRestaurantVisitCommentsChange}
           multiLine={true}
           rows={4}
           rowsMax={4}
@@ -69,7 +75,7 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
   }
 
   handleSaveVisit() {
-    this.props.onSaveVisit();
+    this.props.onSave();
   }
 
   handleCancel() {
@@ -110,14 +116,27 @@ class RestaurantVisitComponent extends React.Component<RestaurantVisitProps, Res
 }
 
 function mapStateToProps(state: any, ownProps: RestaurantVisitProps) {
+  const restaurantVisitId = getCurrentRestaurantVisitId(state);
   return {
-    restaurantId: ownProps.restaurantId,
-    restaurantVisitId: ownProps.restaurantVisitId,
+    onSave: ownProps.onSave,
+    onCancel: ownProps.onCancel,
+    restaurantId: getCurrentRestaurantId(state),
+    restaurantVisitId,
+    restaurantVisitDate: getRestaurantVisitDate(state, restaurantVisitId),
+    restaurantVisitComments: getRestaurantVisitComments(state, restaurantVisitId),
   };
 }
 
-export const RestaurantVisit = connect(
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+  return bindActionCreators({
+    onRestaurantVisitCommentsChange: updateRestaurantVisitComments,
+    onRestaurantVisitDateChange: updateRestaurantVisitDate,
+  }, dispatch);
+};
+
+export const RestaurantVisitForm = connect(
   mapStateToProps,
-)(RestaurantVisitComponent);
+  mapDispatchToProps,
+)(RestaurantVisitFormComponent);
 
 
