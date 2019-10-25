@@ -13,7 +13,7 @@ import {
   updateRestaurantVisitDate,
 } from '../controller';
 
-interface RestaurantVisitProps {
+interface RestaurantVisitFormProps {
   restaurantId: string;
   restaurantVisitId: string;
   restaurantVisitDate: Date;
@@ -24,9 +24,9 @@ interface RestaurantVisitProps {
   onCancel: () => void;
 }
 
-export class RestaurantVisitFormComponent extends React.Component<RestaurantVisitProps> {
+export class RestaurantVisitFormComponent extends React.Component<RestaurantVisitFormProps> {
 
-  constructor(props: RestaurantVisitProps) {
+  constructor(props: RestaurantVisitFormProps) {
     super(props);
 
     this.handleRestaurantVisitCommentsChange = this.handleRestaurantVisitCommentsChange.bind(this);
@@ -115,7 +115,7 @@ export class RestaurantVisitFormComponent extends React.Component<RestaurantVisi
   }
 }
 
-function mapStateToProps(state: any, ownProps: RestaurantVisitProps) {
+function mapStateToProps(state: any, ownProps: RestaurantVisitFormProps) {
   const restaurantVisitId = getCurrentRestaurantVisitId(state);
   return {
     onSave: ownProps.onSave,

@@ -17,7 +17,7 @@ import {
 
 import { RestaurantVisit } from '../type';
 
-import { RestaurantVisitForm } from './restaurantVisit';
+import { RestaurantVisitForm } from './restaurantVisitForm';
 
 export interface NewRestaurantVisitProps {
   restaurantVisitId: string;
