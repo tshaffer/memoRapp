@@ -1,6 +1,25 @@
 import axios from 'axios';
 import { setRestaurantVisitId } from './application';
-import { addDefaultRestaurantVisit, updateRestaurantVisitProperty } from '../model';
+import { addDefaultRestaurantVisit, updateRestaurantVisitProperty, addRestaurantVisit } from '../model';
+import { RestaurantVisit } from '../type';
+
+export const loadRestaurantVisits = (): any => {
+  return (dispatch: any, getState: any): any => {
+    const path = 'http://localhost:8000/getAllRestaurantVisits';
+    axios.get(path)
+      .then((response) => {
+        console.log('loadRestaurantVisits');
+        console.log(response);
+        const restaurantVisits: any[] = response.data as RestaurantVisit[];
+        for (const restaurantVisit of restaurantVisits) {
+          dispatch(
+            addRestaurantVisit(restaurantVisit.restaurantVisitId, restaurantVisit.restaurantId, restaurantVisit));
+        }
+      }).catch((err: Error) => {
+        console.log(err);
+      });
+  };
+};
 
 export const saveRestaurantVisit = (restaurantVisit: any) => {
   return (dispatch: any, getState: any): any => {

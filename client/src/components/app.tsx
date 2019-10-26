@@ -7,11 +7,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { loadRestaurants } from '../controller';
+import { loadRestaurants, loadRestaurantVisits } from '../controller';
 import { bindActionCreators } from 'redux';
 
 export interface AppProps {
   loadRestaurants: () => void;
+  loadRestaurantVisits: () => void;
 }
 
 class App extends React.Component<AppProps> {
@@ -32,6 +33,7 @@ class App extends React.Component<AppProps> {
 
   componentDidMount() {
     this.props.loadRestaurants();
+    this.props.loadRestaurantVisits();
   }
 
   handleMRCategoryChange(event: any, index: any, mrCategory: any) {
@@ -79,6 +81,7 @@ function mapStateToProps(state: any) {
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     loadRestaurants,
+    loadRestaurantVisits,
   }, dispatch);
 };
 
