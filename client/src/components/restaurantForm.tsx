@@ -33,8 +33,11 @@ import {
   getRestaurantOutdoorSeating,
   getRestaurantComments,
   getRestaurantWouldVisitAgain,
+  getRestaurantVisits,
+  getRestaurantVisitsByRestaurant,
 } from '../selector';
-import { RestaurantCategory } from '../type';
+import { RestaurantCategory, RestaurantsState, RestaurantVisitsMap, RestaurantVisit, Restaurant } from '../type';
+import { isDate, isString } from 'util';
 
 export interface RestaurantFormProps {
   restaurantId: string;
@@ -47,6 +50,7 @@ export interface RestaurantFormProps {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
+  restaurantVisits: RestaurantVisitsMap;
   onRestaurantNameChange: (name: string) => void;
   onRestaurantCategoryChange: (category: RestaurantCategory) => void;
   onRestaurantRatingChange: (rating: number) => void;
@@ -88,6 +92,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     this.handleRestaurantFoodRatingChange = this.handleRestaurantFoodRatingChange.bind(this);
 
     this.handleNewVisit = this.handleNewVisit.bind(this);
+    this.handleRestaurantVisitChange = this.handleRestaurantVisitChange.bind(this);
     this.handleEditVisit = this.handleEditVisit.bind(this);
 
     this.handleSave = this.handleSave.bind(this);
@@ -106,13 +111,48 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     return this.props.restaurantName;
   }
 
-  getVisits(): any[] {
-    return [];
+  getRestaurantVisits(): any {
+
+    const restaurantVisitDescriptions: RestaurantVisit[] = [];
+    const restaurantVisitIds: string[] = [];
+
+    const restaurantVisitsMap: RestaurantVisitsMap = this.props.restaurantVisits;
+    for (const restaurantVisitId in restaurantVisitsMap) {
+      if (restaurantVisitsMap.hasOwnProperty(restaurantVisitId)) {
+        const restaurantVisit: RestaurantVisit = restaurantVisitsMap[restaurantVisitId];
+        restaurantVisitDescriptions.push(restaurantVisit);
+        restaurantVisitIds.push(restaurantVisitId);
+      }
+    }
+
+    const restaurantVisits =
+      restaurantVisitDescriptions.map((restaurantVisitDescription: RestaurantVisit, index: number) => {
+        
+        let dateString: string = '';
+        if (isString(restaurantVisitDescription.visitDate)) {
+          const date = new Date(restaurantVisitDescription.visitDate);
+          dateString = date.toDateString();
+        }
+        
+        return (
+          <MenuItem
+            key={index}
+            value={restaurantVisitIds[index]}
+            primaryText={dateString}
+          />
+        );
+      });
+
+    return restaurantVisits;
   }
 
   handleNewVisit() {
     console.log('handleNewVisit invoked');
     this.props.onAddNewVisit();
+  }
+
+  handleRestaurantVisitChange() {
+    console.log('handleRestaurantVisitChange invoked');
   }
 
   handleEditVisit() {
@@ -188,17 +228,33 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-//   <SelectField
-//   floatingLabelText='Visits'
-//   value={this.props.restaurantVisitId}
-//   onChange={this.handleEditVisit}
-//   style={{
-//     verticalAlign: 'top',
-//     marginLeft: '32px'
-//   }}
-// >
-//   {this.getVisits()}
-// </SelectField>
+  //   <SelectField
+  //   floatingLabelText='Visits'
+  //   value={this.props.restaurantVisitId}
+  //   onChange={this.handleEditVisit}
+  //   style={{
+  //     verticalAlign: 'top',
+  //     marginLeft: '32px'
+  //   }}
+  // >
+  //   {this.getVisits()}
+  // </SelectField>
+
+  renderRestaurantVisits() {
+    return (
+      <SelectField
+        floatingLabelText='Visit Date'
+        value={this.props.restaurantId}
+        onChange={this.handleRestaurantVisitChange}
+        style={{
+          verticalAlign: 'top',
+          marginLeft: '32px'
+        }}
+      >
+        {this.getRestaurantVisits()}
+      </SelectField>
+    );
+  }
 
   renderRestaurantAddEditVisitForm() {
     return (
@@ -212,13 +268,14 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
             marginTop: '18px'
           }}
         />
+        {this.renderRestaurantVisits()}
       </div>
     );
   }
 
   renderRestaurantCategory() {
 
-    const restaurantCategories: string[] = 
+    const restaurantCategories: string[] =
       Object.keys(RestaurantCategory).map((key) => (RestaurantCategory as any)[key]);
 
     return (
@@ -228,7 +285,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           value={this.props.restaurantCategory}
           onChange={this.handleRestaurantCategoryChange}
         >
-          {restaurantCategories.map( (categoryName, index) => {
+          {restaurantCategories.map((categoryName, index) => {
             return (
               <MenuItem key={index} value={categoryName} primaryText={categoryName} />
             );
@@ -403,11 +460,12 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 }
 
 function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
+  const restaurantId: string = getCurrentRestaurantId(state);
   return {
     onSave: ownProps.onSave,
     onCancel: ownProps.onCancel,
     onAddNewVisit: ownProps.onAddNewVisit,
-    restaurantId: getCurrentRestaurantId(state),
+    restaurantId,
     restaurantName: getRestaurantName(state),
     restaurantCategory: getRestaurantCategory(state),
     restaurantOverallRating: getRestaurantOverallRating(state),
@@ -417,6 +475,7 @@ function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
     restaurantOutdoorSeating: getRestaurantOutdoorSeating(state),
     restaurantComments: getRestaurantComments(state),
     restaurantWouldVisitAgain: getRestaurantWouldVisitAgain(state),
+    restaurantVisits: getRestaurantVisitsByRestaurant(state, restaurantId),
   };
 }
 
