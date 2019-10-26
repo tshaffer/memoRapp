@@ -6,18 +6,17 @@ export const saveRestaurantVisit = (restaurantVisit: any) => {
   return (dispatch: any, getState: any): any => {
     console.log('save restaurantVisit');
     console.log(restaurantVisit);
-    // return (dispatch: any, getState: any): Promise<any> => {
-    // const path = 'http://localhost:8000/restaurant';
-    // return axios.post(path, restaurantVisit)
-    //   .then((response) => {
-    //     console.log('return from post');
-    //     console.log(response);
-    //     return Promise.resolve(response);
-    //   }).catch((err: any) => {
-    //     console.log('err: ', err);
-    //   });
+    const path = 'http://localhost:8000/restaurantVisit';
+    return axios.post(path, restaurantVisit)
+      .then((response) => {
+        console.log('return from post');
+        console.log(response);
+        return Promise.resolve(response);
+      }).catch((err: any) => {
+        console.log('err: ', err);
+      });
   }
-};
+}
 
 export const addDefaultRestaurantVisitData = (restaurantId: string) => {
   return (dispatch: any): any => {
