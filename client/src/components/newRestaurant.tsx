@@ -55,13 +55,10 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   handleOnCancelNewRestaurant() {
-    console.log('handleOnCancelNewRestaurant');
     hashHistory.push('/restaurants');
   }
 
   handleOnSaveRestaurant() {
-    console.log('handleOnSaveRestaurantEdits');
-    console.log('invoke onSaveRestaurant');
 
     const restaurant: Restaurant = {
       restaurantId: this.props.restaurantId,
@@ -81,7 +78,6 @@ class NewRestaurantComponent extends React.Component<NewRestaurantsProps> {
   }
 
   render() {
-    console.log('NewRestaurant render()');
     return (
       <div>
         <RestaurantForm

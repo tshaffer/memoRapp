@@ -1,8 +1,8 @@
 import { isNil } from 'lodash';
 import { MemoRappModelState, RestaurantVisit, RestaurantsState, RestaurantVisitsMap } from '../type';
 
-export const getRestaurantVisitById = (state: MemoRappModelState, restaurantId: string): RestaurantVisit => {
-  return state.restaurants.restaurantVisits[restaurantId];
+export const getRestaurantVisitById = (state: MemoRappModelState, restaurantVisitId: string): RestaurantVisit => {
+  return state.restaurants.restaurantVisits[restaurantVisitId];
 };
 
 // ------------------------------------

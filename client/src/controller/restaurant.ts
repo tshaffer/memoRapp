@@ -12,8 +12,6 @@ export const loadRestaurants = (): any => {
     const path = 'http://localhost:8000/getAllRestaurants';
     axios.get(path)
       .then((response) => {
-        console.log('loadRestaurants');
-        console.log(response);
         const restaurants: any[] = response.data as Restaurant[];
         for (const restaurant of restaurants) {
           dispatch(addRestaurant(restaurant.restaurantId, restaurant));
@@ -29,8 +27,6 @@ export const saveRestaurant = (restaurant: any) => {
     const path = 'http://localhost:8000/restaurant';
     return axios.post(path, restaurant)
       .then((response) => {
-        console.log('return from post');
-        console.log(response);
         return Promise.resolve(response);
       }).catch((err: any) => {
         console.log('err: ', err);
@@ -42,7 +38,6 @@ export const addDefaultRestaurantData = () => {
   return (dispatch: any): any => {
     const addDefaultRestaurantAction = addDefaultRestaurant();
     const result = dispatch(addDefaultRestaurantAction);
-    console.log(result);
     const restaurantId: string = (result as any).payload.restaurantId;
     dispatch(setRestaurantId(restaurantId));
   };

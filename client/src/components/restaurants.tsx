@@ -40,7 +40,6 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
   }
 
   componentDidMount() {
-    // console.log('get all restaurants');
     this.props.setRestaurantId('-1');
     // this.props.loadRestaurants();
   }
@@ -77,10 +76,11 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
   }
 
   handleNewRestaurant() {
-    console.log('handleNewRestaurant invoked');
     hashHistory.push('/newRestaurant');
   }
 
+  // TEDTODO - when the restaurant changes, the restaurant visit id should get set
+  // to the id of the first visit for the selected restaurant
   handleRestaurantChange(event: any, index: any, restaurantId: string) {
     this.props.setRestaurantId(restaurantId);
     hashHistory.push('/editRestaurant');
@@ -122,7 +122,6 @@ class RestaurantsComponent extends React.Component<RestaurantsProps> {
   }
 
   render() {
-    console.log('Restaurants render()');
     return (
       <MuiThemeProvider>
         <div>

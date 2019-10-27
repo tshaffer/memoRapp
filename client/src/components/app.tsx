@@ -60,7 +60,6 @@ class App extends React.Component<AppProps> {
   }
 
   render() {
-    console.log('App render()');
     return (
       <MuiThemeProvider>
         <div>

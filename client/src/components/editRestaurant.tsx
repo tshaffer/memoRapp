@@ -1,3 +1,5 @@
+import { isNil, isArray } from 'lodash';
+
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -5,8 +7,9 @@ import { hashHistory } from 'react-router';
 
 import { RestaurantForm } from './restaurantForm';
 import { saveRestaurant } from '../controller/restaurant';
+import { setRestaurantVisitId } from '../controller';
 
-import { getCurrentRestaurantId, getRestaurantCategory } from '../selector';
+import { getCurrentRestaurantId, getRestaurantCategory, getRestaurantById, getRestaurantVisitsByRestaurant } from '../selector';
 import {
   getRestaurantName,
   getRestaurantOverallRating,
@@ -17,9 +20,10 @@ import {
   getRestaurantComments,
   getRestaurantWouldVisitAgain,
 } from '../selector';
-import { RestaurantCategory, Restaurant } from '../type';
+import { RestaurantCategory, Restaurant, RestaurantVisit } from '../type';
 
 export interface EditRestaurantsProps {
+  restaurant: Restaurant;
   restaurantId: string;
   restaurantName: string;
   restaurantCategory: RestaurantCategory;
@@ -30,7 +34,9 @@ export interface EditRestaurantsProps {
   restaurantOutdoorSeating: boolean;
   restaurantComments: string;
   restaurantWouldVisitAgain: boolean;
+  restaurantVisits: RestaurantVisit[];
   onSaveRestaurant: (restaurant: Restaurant) => any;
+  setRestaurantVisitId: (restaurantId: string) => any;
 }
 
 class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
@@ -42,15 +48,18 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     this.handleAddNewVisit = this.handleAddNewVisit.bind(this);
   }
 
+  componentDidMount() {
+    if (isArray(this.props.restaurantVisits) && this.props.restaurantVisits.length > 0) {
+      this.props.setRestaurantVisitId(this.props.restaurantVisits[0].restaurantVisitId);
+    }
+  }
+
   handleOnCancelEditRestaurant() {
-    console.log('handleOnCancelEditRestaurant');
+
     hashHistory.push('/restaurants');
   }
 
   handleOnSaveRestaurant() {
-    console.log('handleOnSaveRestaurantEdits');
-    console.log('invoke onSaveRestaurant');
-
     const restaurant: Restaurant = {
       restaurantId: this.props.restaurantId,
       name: this.props.restaurantName,
@@ -64,21 +73,16 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
       wouldVisitAgain: this.props.restaurantWouldVisitAgain,
     };
     const promise: Promise<any> = this.props.onSaveRestaurant(restaurant);
-    console.log(promise);
-
     promise.then((response) => {
-      console.log('promise fulfilled: ', response);
       hashHistory.push('/restaurants');
     });
   }
 
   handleAddNewVisit() {
-    console.log('handleNewVisit');
     hashHistory.push('/newRestaurantVisit');
   }
 
   render() {
-    console.log('EditRestaurant render()');
     return (
       <div>
         <RestaurantForm
@@ -92,8 +96,10 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
 }
 
 function mapStateToProps(state: any) {
+  const restaurantId = getCurrentRestaurantId(state);
   return {
-    restaurantId: getCurrentRestaurantId(state),
+    restaurantId,
+    restaurant: getRestaurantById(state, restaurantId),
     restaurantName: getRestaurantName(state),
     restaurantCategory: getRestaurantCategory(state),
     restaurantOverallRating: getRestaurantOverallRating(state),
@@ -103,12 +109,14 @@ function mapStateToProps(state: any) {
     restaurantOutdoorSeating: getRestaurantOutdoorSeating(state),
     restaurantComments: getRestaurantComments(state),
     restaurantWouldVisitAgain: getRestaurantWouldVisitAgain(state),
+    restaurantVisits: getRestaurantVisitsByRestaurant(state, restaurantId),
   };
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     onSaveRestaurant: saveRestaurant,
+    setRestaurantVisitId,
   }, dispatch);
 };
 

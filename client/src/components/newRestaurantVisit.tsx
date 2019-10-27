@@ -44,13 +44,10 @@ export class NewRestaurantVisitComponent extends React.Component<any> {
   }
 
   handleOnCancelNewRestaurantVisit() {
-    console.log('handleOnCancelNewRestaurantVisit');
     hashHistory.push('/restaurants');
   }
 
   handleOnSaveRestaurantVisit() {
-    console.log('handleOnSaveRestaurantVisit');
-    console.log('invoke onSaveRestaurantVisit');
 
     const restaurantVisit: RestaurantVisit = {
       restaurantVisitId: this.props.restaurantVisitId,
@@ -63,7 +60,6 @@ export class NewRestaurantVisitComponent extends React.Component<any> {
   }
 
   render() {
-    console.log('NewRestaurantVisit render()');
     return (
       <div>
         <RestaurantVisitForm

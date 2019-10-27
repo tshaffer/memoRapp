@@ -98,7 +98,6 @@ export class RestaurantVisitFormComponent extends React.Component<RestaurantVisi
   }
 
   render() {
-    console.log('RestaurantVisit render()');
     return (
       <MuiThemeProvider>
         <div>
