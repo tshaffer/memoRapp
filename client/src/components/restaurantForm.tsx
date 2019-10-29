@@ -77,6 +77,7 @@ export interface RestaurantFormProps {
   ) => void;
   onCancel: () => void;
   onAddNewVisit: () => void;
+  onEditVisit: () => void;
   setRestaurantVisitId: (id: string) => any;
 }
 
@@ -133,6 +134,9 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           const date = new Date(restaurantVisitDescription.visitDate);
           dateString = date.toDateString();
         }
+        else {
+          dateString = restaurantVisitDescription.visitDate.toDateString();
+        }
         
         return (
           <MenuItem
@@ -156,6 +160,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
   handleEditVisit() {
     console.log('handleEditVisit invoked');
+    this.props.onEditVisit();
   }
 
   handleRestaurantRatingChange(event: any, restaurantRating: any) {
@@ -221,18 +226,6 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
     );
   }
 
-  //   <SelectField
-  //   floatingLabelText='Visits'
-  //   value={this.props.restaurantVisitId}
-  //   onChange={this.handleEditVisit}
-  //   style={{
-  //     verticalAlign: 'top',
-  //     marginLeft: '32px'
-  //   }}
-  // >
-  //   {this.getVisits()}
-  // </SelectField>
-
   renderRestaurantVisits() {
     return (
       <SelectField
@@ -262,6 +255,14 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           }}
         />
         {this.renderRestaurantVisits()}
+        <RaisedButton
+          label='Edit Visit'
+          onClick={this.handleEditVisit}
+          style={{
+            verticalAlign: 'top',
+            marginTop: '18px'
+          }}
+        />
       </div>
     );
   }
@@ -457,6 +458,7 @@ function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
     onSave: ownProps.onSave,
     onCancel: ownProps.onCancel,
     onAddNewVisit: ownProps.onAddNewVisit,
+    onEditVisit: ownProps.onEditVisit,
     restaurantId,
     restaurantVisitId: getCurrentRestaurantVisitId(state),
     restaurantName: getRestaurantName(state),

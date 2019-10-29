@@ -10,6 +10,12 @@ export const loadRestaurantVisits = (): any => {
       .then((response) => {
         const restaurantVisits: any[] = response.data as RestaurantVisit[];
         for (const restaurantVisit of restaurantVisits) {
+          const visitDate = new Date(restaurantVisit.visitDate);
+          console.log('visitDate');
+          console.log(visitDate);
+          console.log('comments');
+          console.log(restaurantVisit.comments);
+          restaurantVisit.visitDate = visitDate;
           dispatch(
             addRestaurantVisit(restaurantVisit.restaurantVisitId, restaurantVisit.restaurantId, restaurantVisit));
         }

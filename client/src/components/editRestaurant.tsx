@@ -82,6 +82,10 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     hashHistory.push('/newRestaurantVisit');
   }
 
+  handleEditVisit() {
+    hashHistory.push('/editRestaurantVisit');
+  }
+  
   render() {
     return (
       <div>
@@ -89,6 +93,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
           onSave={this.handleOnSaveRestaurant}
           onCancel={this.handleOnCancelEditRestaurant}
           onAddNewVisit={this.handleAddNewVisit}
+          onEditVisit={this.handleEditVisit}
         />
       </div>
     );
