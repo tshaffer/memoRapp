@@ -38,7 +38,7 @@ export class EditRestaurantVisitComponent extends React.Component<any> {
   }
 
   handleOnCancelEditRestaurantVisit() {
-    hashHistory.push('/restaurants');
+    hashHistory.push('/editRestaurant');
   }
 
   handleOnSaveRestaurantVisit() {
@@ -50,7 +50,7 @@ export class EditRestaurantVisitComponent extends React.Component<any> {
       comments: this.props.restaurantVisitComments,
     }
     this.props.onSaveRestaurantVisit(restaurantVisit);
-    hashHistory.push('/restaurants');
+    hashHistory.push('/editRestaurant');
   }
 
   render() {
