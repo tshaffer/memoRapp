@@ -54,6 +54,7 @@ export interface RestaurantFormProps {
   restaurantVisitId: string;
   // restaurantVisits: RestaurantVisitsMap;
   restaurantVisits: RestaurantVisit[];
+  displayAddEditVisitFormPrompts: boolean;
   onRestaurantNameChange: (name: string) => void;
   onRestaurantCategoryChange: (category: RestaurantCategory) => void;
   onRestaurantRatingChange: (rating: number) => void;
@@ -128,7 +129,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
 
     const restaurantVisits =
       restaurantVisitDescriptions.map((restaurantVisitDescription: RestaurantVisit, index: number) => {
-        
+
         let dateString: string = '';
         if (isString(restaurantVisitDescription.visitDate)) {
           const date = new Date(restaurantVisitDescription.visitDate);
@@ -137,7 +138,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
         else {
           dateString = restaurantVisitDescription.visitDate.toDateString();
         }
-        
+
         return (
           <MenuItem
             key={index}
@@ -243,6 +244,9 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
   }
 
   renderRestaurantAddEditVisitForm() {
+    if (!this.props.displayAddEditVisitFormPrompts) {
+      return null;
+    }
     return (
       <div>
         <h4>Add a visit or view an existing visit</h4>
@@ -471,6 +475,7 @@ function mapStateToProps(state: any, ownProps: RestaurantFormProps) {
     restaurantComments: getRestaurantComments(state),
     restaurantWouldVisitAgain: getRestaurantWouldVisitAgain(state),
     restaurantVisits: getRestaurantVisitsByRestaurant(state, restaurantId),
+    displayAddEditVisitFormPrompts: ownProps.displayAddEditVisitFormPrompts,
   };
 }
 
