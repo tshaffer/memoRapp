@@ -67,7 +67,7 @@ export class RestaurantVisitFormComponent extends React.Component<RestaurantVisi
           value={this.props.restaurantVisitComments}
           onChange={this.handleRestaurantVisitCommentsChange}
           multiLine={true}
-          rows={4}
+          rows={1}
           rowsMax={4}
         />
       </div>

@@ -403,7 +403,7 @@ export class RestaurantFormComponent extends React.Component<RestaurantFormProps
           id='restaurantComments'
           hintText='Enter comments here....'
           multiLine={true}
-          rows={4}
+          rows={1}
           rowsMax={4}
           value={this.props.restaurantComments}
           onChange={this.handleRestaurantCommentsChange}

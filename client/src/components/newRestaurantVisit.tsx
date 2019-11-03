@@ -54,9 +54,10 @@ export class NewRestaurantVisitComponent extends React.Component<any> {
       restaurantId: this.props.restaurantId,
       visitDate: this.props.restaurantVisitDate,
       comments: this.props.restaurantVisitComments,
-    }
+    };
     this.props.onSaveRestaurantVisit(restaurantVisit);
-    hashHistory.push('/editRestaurant');
+    // hashHistory.push('/editRestaurant');
+    hashHistory.push('/restaurants');
   }
 
   render() {
