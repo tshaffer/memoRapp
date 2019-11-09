@@ -7,9 +7,11 @@ import {
 import { RestaurantCategory, Restaurant } from '../type';
 import { setRestaurantId } from './application';
 
+const serverUrl = 'http://localhost:8000';
+// const serverUrl = 'https://desolate-lake-74291.herokuapp.com';
 export const loadRestaurants = (): any => {
   return (dispatch: any, getState: any): any => {
-    const path = 'http://localhost:8000/getAllRestaurants';
+    const path = serverUrl + '/getAllRestaurants';
     axios.get(path)
       .then((response) => {
         const restaurants: any[] = response.data as Restaurant[];
@@ -24,7 +26,7 @@ export const loadRestaurants = (): any => {
 
 export const saveRestaurant = (restaurant: any) => {
   return (dispatch: any, getState: any): Promise<any> => {
-    const path = 'http://localhost:8000/restaurant';
+    const path = serverUrl + '/restaurant';
     return axios.post(path, restaurant)
       .then((response) => {
         return Promise.resolve(response);

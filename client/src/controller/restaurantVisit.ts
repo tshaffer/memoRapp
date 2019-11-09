@@ -3,9 +3,12 @@ import { setRestaurantVisitId } from './application';
 import { addDefaultRestaurantVisit, updateRestaurantVisitProperty, addRestaurantVisit } from '../model';
 import { RestaurantVisit } from '../type';
 
+const serverUrl = 'http://localhost:8000';
+// const serverUrl = 'https://desolate-lake-74291.herokuapp.com';
+
 export const loadRestaurantVisits = (): any => {
   return (dispatch: any, getState: any): any => {
-    const path = 'http://localhost:8000/getAllRestaurantVisits';
+    const path = serverUrl + '/getAllRestaurantVisits';
     axios.get(path)
       .then((response) => {
         const restaurantVisits: any[] = response.data as RestaurantVisit[];
@@ -27,7 +30,7 @@ export const loadRestaurantVisits = (): any => {
 
 export const saveRestaurantVisit = (restaurantVisit: any) => {
   return (dispatch: any, getState: any): any => {
-    const path = 'http://localhost:8000/restaurantVisit';
+    const path = serverUrl + '/restaurantVisit';
     return axios.post(path, restaurantVisit)
       .then((response) => {
         return Promise.resolve(response);
