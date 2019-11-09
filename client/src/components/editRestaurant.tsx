@@ -90,6 +90,7 @@ class EditRestaurantComponent extends React.Component<EditRestaurantsProps> {
     return (
       <div>
         <RestaurantForm
+          displayAddEditVisitFormPrompts={true}
           onSave={this.handleOnSaveRestaurant}
           onCancel={this.handleOnCancelEditRestaurant}
           onAddNewVisit={this.handleAddNewVisit}
